@@ -7,7 +7,7 @@
 // submits a dispute. The caller does that.
 import type { ArtifactRecord, ArtifactType, DisputeBundle } from './aep.ts';
 import { verifyChain } from './aep.ts';
-import { hashPrefix, looksLikePan, money, panShaped, truncate } from './text.ts';
+import { hashPrefix, looksLikePan, money, panShaped, SEP_CLASS, truncate } from './text.ts';
 
 // Clear text values the merchant (or its evidence custodian) holds outside the
 // chain. AEP 8.2.1 calls this the raw plane. The chain itself only has hashes,
@@ -283,9 +283,15 @@ export function renderStripeEvidence(bundle: DisputeBundle, raw: RawPlane = {}, 
   // prefix plus Luhn on the whole value). Where a real tracking number (8
   // characters or more) shows up inside other text it is swapped for a word
   // before the wider test, never deleted, so it cannot hide digits around it.
+  // Only a copy that stands alone is swapped: one glued to other digits, or
+  // split from them by a separator, stays, so a tracking value that happens to
+  // sit inside a card number cannot hide it.
   const tracking = evidence.shipping_tracking_number;
   if (tracking && panShaped(tracking.replace(/\D/g, ''))) throw new RenderRefused('a value in shipping_tracking_number looks like a full card number');
-  const mask = (s: string) => (tracking && tracking.length >= 8 ? s.split(tracking).join(' [tracking] ') : s);
+  const alone = tracking && tracking.length >= 8
+    ? new RegExp('(?<![\\p{L}\\p{N}])(?<!\\d' + SEP_CLASS + '{1,5})' + tracking.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '(?![\\p{L}\\p{N}])(?!' + SEP_CLASS + '{1,5}\\d)', 'gu')
+    : null;
+  const mask = (s: string) => (alone ? s.replace(alone, ' [tracking] ') : s);
   for (const [name, text] of [...Object.entries(evidence), ...Object.entries(documents)]) {
     if (name === 'shipping_tracking_number') continue;
     if (text && looksLikePan(mask(text))) throw new RenderRefused('a value in ' + name + ' looks like a full card number');

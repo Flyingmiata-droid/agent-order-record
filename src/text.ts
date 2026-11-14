@@ -59,11 +59,21 @@ export function panShaped(digits: string): boolean {
 // 1. Any unbroken run of 13 to 19 digits that passes Luhn, even glued to letters.
 // 2. Inside a longer unbroken run, any 15 or 16 digit window with a card brand
 //    prefix that passes Luhn (a card number next to other digits).
-// 3. Digit groups split by spaces, tabs, line breaks, dots, slashes or hyphens
-//    (up to three between groups) that add up to 13 to 19 digits and pass Luhn,
+// 3. Digit groups split by spaces, tabs, line breaks, dots, slashes, hyphens,
+//    commas, underscores or colons (up to five between groups) that add up to
+//    13 to 19 digits and pass Luhn,
 //    where every group but the last has four digits or more. That keeps dates
 //    and IP addresses out.
-export function looksLikePan(text: string): boolean {
+// Text is folded first: NFKC turns fullwidth digits and odd hyphens and spaces
+// into plain ones, and zero-width characters are dropped.
+const ZERO_WIDTH = /[\u200b-\u200d\u2060\ufeff\u00ad]/g;
+const SEP = '[ \\t\\r\\n\\u00a0\\u2000-\\u200a\\u202f\\u3000.\\/,_:\\u2010-\\u2015\\u2212-]';
+export const SEP_CLASS = SEP;
+const SEP_RUN = new RegExp(SEP + '+');
+const GROUPS = new RegExp('\\d+(?:' + SEP + '{1,5}\\d+)+', 'g');
+
+export function looksLikePan(raw: string): boolean {
+  const text = raw.normalize('NFKC').replace(ZERO_WIDTH, '');
   for (const m of text.matchAll(/\d{13,}/g)) {
     const d = m[0];
     if (d.length <= 19) { if (luhn(d)) return true; continue; }
@@ -72,9 +82,8 @@ export function looksLikePan(text: string): boolean {
       if (cardPrefix(w) && luhn(w)) return true;
     }
   }
-  const sep = /[ \t\r\n\u00a0.\/-]+/;
-  for (const m of text.matchAll(/\d+(?:[ \t\r\n\u00a0.\/-]{1,3}\d+)+/g)) {
-    const groups = m[0].split(sep);
+  for (const m of text.matchAll(GROUPS)) {
+    const groups = m[0].split(SEP_RUN);
     for (let i = 0; i < groups.length; i++) {
       let digits = '';
       for (let j = i; j < groups.length; j++) {

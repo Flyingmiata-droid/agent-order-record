@@ -32,7 +32,7 @@ The example takes AEP's own test vector b, checks the chain, and prints the Stri
 
 Read 2026-10-15. The Stripe and Braintree cells below were read again on 2026-11-14.
 
-Two of the 16 gateways give the merchant a named field for the agent: Stripe (PaymentIntent.agent_details, preview API) and Braintree (transaction.facilitator_details). None documents an agent field on the dispute object or the evidence form: 14 were read and say nothing, and for 2 (Worldpay, Authorize.net) the dispute docs could not be read. No fraud rule engine documents an agent attribute either. NMI, Authorize.net, Elavon and Helcim have no doc on agent orders at all.
+Two of the 16 gateways give the merchant a named field for the agent: Stripe (PaymentIntent.agent_details, preview API) and Braintree (transaction.facilitator_details). None documents an agent field on the dispute object or the evidence form: 14 were read and none has one (PayPal only says its Seller Protection extends to agentic transactions), and for 2 (Worldpay, Authorize.net) the dispute docs could not be read. No fraud rule engine documents an agent attribute either. NMI, Authorize.net, Elavon and Helcim have no doc on agent orders at all.
 
 So today the agent signal dies between the payment and the dispute.
 
@@ -60,7 +60,7 @@ AEP Appendix C gives one text limit for Stripe, about 150,000 characters combine
 
 Every scorecard cell comes from a vendor's own docs, API reference, changelog, terms or press release. A SILENT cell means the pages named say nothing. It does not mean the vendor has nothing.
 
-The first pass over the rows was done with AI help, and so was much of the code. The tests are the claim: 36 of them, run against AEP's conformance vectors and Stripe's published field list.
+The first pass over the rows was done with AI help, and so was much of the code. The tests are the claim: 38 of them, run against AEP's conformance vectors and Stripe's published field list.
 
 The scorecard is a month old outside Stripe and Braintree. A re-check on 2026-11-14 flagged about a third of the source pages as changed since the 2026-11-09 snapshot, and a few as unreachable. The count moves from run to run because some sites rate limit. Those cells have not been re-read yet.
 

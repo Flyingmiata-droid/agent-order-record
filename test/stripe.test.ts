@@ -156,6 +156,29 @@ test('a short or card shaped tracking number cannot hide a card number', () => {
   void key;
 });
 
+test('card numbers split by commas, underscores, colons, wide gaps, odd hyphens or hidden characters are caught', () => {
+  for (const s of [
+    'Card 4242,4242,4242,4242', 'Card 4242_4242_4242_4242', '4242:4242:4242:4242', '4242     4242     4242     4242',
+    '\uff14\uff12\uff14\uff12\uff14\uff12\uff14\uff12\uff14\uff12\uff14\uff12\uff14\uff12\uff14\uff12',
+    '4242\u20114242\u20114242\u20114242', '4242\u200b4242\u200b4242\u200b4242', '4242, 4242, 4242, 4242',
+  ]) assert.equal(looksLikePan(s), true, JSON.stringify(s));
+  for (const s of [
+    'Total 1,234.56 USD, 2 items', 'shipped 2026_11_14 at 10:50:12', 'ref 1234, 5678, 9012',
+  ]) assert.equal(looksLikePan(s), false, JSON.stringify(s));
+});
+
+test('a tracking value that sits inside a card number does not hide it', () => {
+  const { b } = bundle();
+  const f = b.artifacts.find((a) => (a.hash_input.payload as Record<string, unknown>).tracking_number !== undefined)!;
+  const p = f.hash_input.payload as Record<string, unknown>;
+  p.tracking_number = '42424242';
+  assert.throws(() => renderStripeEvidence(b, { ...RAW, customer_name: '4242424242424242' }, { reverify: false }), /customer_name looks like/);
+  p.tracking_number = '4242 4242';
+  assert.throws(() => renderStripeEvidence(b, { ...RAW, customer_name: '4242 4242 4242 4242' }, { reverify: false }), /customer_name looks like/);
+  p.tracking_number = '9400111899223197428490';
+  assert.doesNotThrow(() => renderStripeEvidence(b, { ...RAW, customer_name: 'Pat Doe' }, { reverify: false }));
+});
+
 test('refuses an empty bundle, a count mismatch and a verification block that contradicts itself', () => {
   const { b, key } = bundle();
   assert.throws(() => renderStripeEvidence({ ...b, artifacts: [] }, RAW, { publicKeyBase64: key }), /no artifacts/);
