@@ -1,0 +1,15 @@
+{
+  "name": "agent-order-record",
+  "version": "0.0.1",
+  "private": true,
+  "description": "Card rail last mile for agent placed orders: gateway scorecard as data, AEP chain check, Stripe dispute evidence renderer. Prototype.",
+  "license": "Apache-2.0",
+  "type": "module",
+  "engines": { "node": ">=22.18" },
+  "scripts": {
+    "test": "node --test \"test/*.test.ts\"",
+    "example": "node examples/stripe-evidence.ts",
+    "build:scorecard": "node scripts/build-scorecard.ts",
+    "recheck": "node scripts/recheck.ts"
+  }
+}

@@ -1,0 +1,16 @@
+agent-order-record
+Copyright 2026 Nick Kaufman
+
+Licensed under the Apache License, Version 2.0. See LICENSE.
+
+Third party files under test/fixtures:
+
+test/fixtures/aep: conformance vectors and test key, byte for byte, from the A-Comm Evidence
+Protocol (AEP) specification, vectors/v1.0.3-rc.2.
+Copyright 2025-2026 A-Comm Technologies, Inc. Apache License, Version 2.0.
+https://github.com/A-Comm-Tech/a-comm-evidence-protocol
+
+test/fixtures/stripe/evidence-param.json: trimmed from Stripe's OpenAPI file,
+openapi/spec3.json. Copyright (c) 2011- Stripe, Inc. MIT License, text in
+test/fixtures/stripe/LICENSE.
+https://github.com/stripe/openapi

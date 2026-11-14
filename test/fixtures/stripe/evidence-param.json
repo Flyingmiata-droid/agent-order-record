@@ -1,0 +1,539 @@
+{
+ "source": "github.com/stripe/openapi, openapi/spec3.json (MIT). Trimmed to the evidence parameter of POST /v1/disputes/{dispute} plus the list of file fields on the dispute_evidence object.",
+ "api_version": "2026-09-30.endive",
+ "read": "2026-11-09",
+ "file_fields": [
+  "cancellation_policy",
+  "customer_communication",
+  "customer_signature",
+  "duplicate_charge_documentation",
+  "receipt",
+  "refund_policy",
+  "service_documentation",
+  "shipping_documentation",
+  "uncategorized_file"
+ ],
+ "evidence_param": {
+  "description": "Evidence to upload, to respond to a dispute. Updating any field in the hash will submit all fields in the hash for review. The combined character count of all fields is limited to 150,000.",
+  "properties": {
+   "access_activity_log": {
+    "maxLength": 20000,
+    "type": "string"
+   },
+   "billing_address": {
+    "maxLength": 5000,
+    "type": "string"
+   },
+   "cancellation_policy": {
+    "type": "string"
+   },
+   "cancellation_policy_disclosure": {
+    "maxLength": 20000,
+    "type": "string"
+   },
+   "cancellation_rebuttal": {
+    "maxLength": 20000,
+    "type": "string"
+   },
+   "customer_communication": {
+    "type": "string"
+   },
+   "customer_email_address": {
+    "maxLength": 5000,
+    "type": "string"
+   },
+   "customer_name": {
+    "maxLength": 5000,
+    "type": "string"
+   },
+   "customer_purchase_ip": {
+    "maxLength": 5000,
+    "type": "string"
+   },
+   "customer_signature": {
+    "type": "string"
+   },
+   "duplicate_charge_documentation": {
+    "type": "string"
+   },
+   "duplicate_charge_explanation": {
+    "maxLength": 20000,
+    "type": "string"
+   },
+   "duplicate_charge_id": {
+    "maxLength": 5000,
+    "type": "string"
+   },
+   "enhanced_evidence": {
+    "anyOf": [
+     {
+      "properties": {
+       "mastercard_compliance": {
+        "properties": {
+         "fee_acknowledged": {
+          "type": "boolean"
+         }
+        },
+        "title": "mastercard_compliance",
+        "type": "object"
+       },
+       "visa_compelling_evidence_3": {
+        "properties": {
+         "disputed_transaction": {
+          "properties": {
+           "customer_account_id": {
+            "anyOf": [
+             {
+              "maxLength": 5000,
+              "type": "string"
+             },
+             {
+              "enum": [
+               ""
+              ],
+              "type": "string"
+             }
+            ]
+           },
+           "customer_device_fingerprint": {
+            "anyOf": [
+             {
+              "maxLength": 5000,
+              "type": "string"
+             },
+             {
+              "enum": [
+               ""
+              ],
+              "type": "string"
+             }
+            ]
+           },
+           "customer_device_id": {
+            "anyOf": [
+             {
+              "maxLength": 5000,
+              "type": "string"
+             },
+             {
+              "enum": [
+               ""
+              ],
+              "type": "string"
+             }
+            ]
+           },
+           "customer_email_address": {
+            "anyOf": [
+             {
+              "maxLength": 5000,
+              "type": "string"
+             },
+             {
+              "enum": [
+               ""
+              ],
+              "type": "string"
+             }
+            ]
+           },
+           "customer_purchase_ip": {
+            "anyOf": [
+             {
+              "maxLength": 5000,
+              "type": "string"
+             },
+             {
+              "enum": [
+               ""
+              ],
+              "type": "string"
+             }
+            ]
+           },
+           "merchandise_or_services": {
+            "enum": [
+             "merchandise",
+             "services"
+            ],
+            "type": "string"
+           },
+           "product_description": {
+            "anyOf": [
+             {
+              "maxLength": 5000,
+              "type": "string"
+             },
+             {
+              "enum": [
+               ""
+              ],
+              "type": "string"
+             }
+            ]
+           },
+           "shipping_address": {
+            "properties": {
+             "city": {
+              "anyOf": [
+               {
+                "maxLength": 5000,
+                "type": "string"
+               },
+               {
+                "enum": [
+                 ""
+                ],
+                "type": "string"
+               }
+              ]
+             },
+             "country": {
+              "anyOf": [
+               {
+                "maxLength": 5000,
+                "type": "string"
+               },
+               {
+                "enum": [
+                 ""
+                ],
+                "type": "string"
+               }
+              ]
+             },
+             "line1": {
+              "anyOf": [
+               {
+                "maxLength": 5000,
+                "type": "string"
+               },
+               {
+                "enum": [
+                 ""
+                ],
+                "type": "string"
+               }
+              ]
+             },
+             "line2": {
+              "anyOf": [
+               {
+                "maxLength": 5000,
+                "type": "string"
+               },
+               {
+                "enum": [
+                 ""
+                ],
+                "type": "string"
+               }
+              ]
+             },
+             "postal_code": {
+              "anyOf": [
+               {
+                "maxLength": 5000,
+                "type": "string"
+               },
+               {
+                "enum": [
+                 ""
+                ],
+                "type": "string"
+               }
+              ]
+             },
+             "state": {
+              "anyOf": [
+               {
+                "maxLength": 5000,
+                "type": "string"
+               },
+               {
+                "enum": [
+                 ""
+                ],
+                "type": "string"
+               }
+              ]
+             }
+            },
+            "title": "shipping_address",
+            "type": "object"
+           }
+          },
+          "title": "visa_compelling_evidence3_disputed_transaction",
+          "type": "object"
+         },
+         "prior_undisputed_transactions": {
+          "items": {
+           "properties": {
+            "charge": {
+             "maxLength": 5000,
+             "type": "string"
+            },
+            "customer_account_id": {
+             "anyOf": [
+              {
+               "maxLength": 5000,
+               "type": "string"
+              },
+              {
+               "enum": [
+                ""
+               ],
+               "type": "string"
+              }
+             ]
+            },
+            "customer_device_fingerprint": {
+             "anyOf": [
+              {
+               "maxLength": 5000,
+               "type": "string"
+              },
+              {
+               "enum": [
+                ""
+               ],
+               "type": "string"
+              }
+             ]
+            },
+            "customer_device_id": {
+             "anyOf": [
+              {
+               "maxLength": 5000,
+               "type": "string"
+              },
+              {
+               "enum": [
+                ""
+               ],
+               "type": "string"
+              }
+             ]
+            },
+            "customer_email_address": {
+             "anyOf": [
+              {
+               "maxLength": 5000,
+               "type": "string"
+              },
+              {
+               "enum": [
+                ""
+               ],
+               "type": "string"
+              }
+             ]
+            },
+            "customer_purchase_ip": {
+             "anyOf": [
+              {
+               "maxLength": 5000,
+               "type": "string"
+              },
+              {
+               "enum": [
+                ""
+               ],
+               "type": "string"
+              }
+             ]
+            },
+            "product_description": {
+             "anyOf": [
+              {
+               "maxLength": 5000,
+               "type": "string"
+              },
+              {
+               "enum": [
+                ""
+               ],
+               "type": "string"
+              }
+             ]
+            },
+            "shipping_address": {
+             "properties": {
+              "city": {
+               "anyOf": [
+                {
+                 "maxLength": 5000,
+                 "type": "string"
+                },
+                {
+                 "enum": [
+                  ""
+                 ],
+                 "type": "string"
+                }
+               ]
+              },
+              "country": {
+               "anyOf": [
+                {
+                 "maxLength": 5000,
+                 "type": "string"
+                },
+                {
+                 "enum": [
+                  ""
+                 ],
+                 "type": "string"
+                }
+               ]
+              },
+              "line1": {
+               "anyOf": [
+                {
+                 "maxLength": 5000,
+                 "type": "string"
+                },
+                {
+                 "enum": [
+                  ""
+                 ],
+                 "type": "string"
+                }
+               ]
+              },
+              "line2": {
+               "anyOf": [
+                {
+                 "maxLength": 5000,
+                 "type": "string"
+                },
+                {
+                 "enum": [
+                  ""
+                 ],
+                 "type": "string"
+                }
+               ]
+              },
+              "postal_code": {
+               "anyOf": [
+                {
+                 "maxLength": 5000,
+                 "type": "string"
+                },
+                {
+                 "enum": [
+                  ""
+                 ],
+                 "type": "string"
+                }
+               ]
+              },
+              "state": {
+               "anyOf": [
+                {
+                 "maxLength": 5000,
+                 "type": "string"
+                },
+                {
+                 "enum": [
+                  ""
+                 ],
+                 "type": "string"
+                }
+               ]
+              }
+             },
+             "title": "shipping_address",
+             "type": "object"
+            }
+           },
+           "required": [
+            "charge"
+           ],
+           "title": "visa_compelling_evidence3_prior_undisputed_transaction",
+           "type": "object"
+          },
+          "type": "array"
+         }
+        },
+        "title": "visa_compelling_evidence3",
+        "type": "object"
+       },
+       "visa_compliance": {
+        "properties": {
+         "fee_acknowledged": {
+          "type": "boolean"
+         }
+        },
+        "title": "visa_compliance",
+        "type": "object"
+       }
+      },
+      "title": "enhanced_evidence",
+      "type": "object"
+     },
+     {
+      "enum": [
+       ""
+      ],
+      "type": "string"
+     }
+    ]
+   },
+   "product_description": {
+    "maxLength": 20000,
+    "type": "string"
+   },
+   "receipt": {
+    "type": "string"
+   },
+   "refund_policy": {
+    "type": "string"
+   },
+   "refund_policy_disclosure": {
+    "maxLength": 20000,
+    "type": "string"
+   },
+   "refund_refusal_explanation": {
+    "maxLength": 20000,
+    "type": "string"
+   },
+   "service_date": {
+    "maxLength": 5000,
+    "type": "string"
+   },
+   "service_documentation": {
+    "type": "string"
+   },
+   "shipping_address": {
+    "maxLength": 5000,
+    "type": "string"
+   },
+   "shipping_carrier": {
+    "maxLength": 5000,
+    "type": "string"
+   },
+   "shipping_date": {
+    "maxLength": 5000,
+    "type": "string"
+   },
+   "shipping_documentation": {
+    "type": "string"
+   },
+   "shipping_tracking_number": {
+    "maxLength": 5000,
+    "type": "string"
+   },
+   "uncategorized_file": {
+    "type": "string"
+   },
+   "uncategorized_text": {
+    "maxLength": 20000,
+    "type": "string"
+   }
+  },
+  "title": "dispute_evidence_params",
+  "type": "object"
+ }
+}

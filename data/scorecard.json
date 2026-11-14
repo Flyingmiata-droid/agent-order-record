@@ -1,0 +1,1065 @@
+{
+  "title": "Gateway readiness scorecard, agent placed card orders",
+  "read_date": "2026-10-15",
+  "built_from": "SCORECARD.md",
+  "codes": {
+    "YES": "documented, field or sentence quoted",
+    "PART": "documented in part",
+    "NO": "doc says it does not",
+    "SILENT": "relevant doc read, nothing on it",
+    "ASK": "no relevant doc found or reachable",
+    "ANN": "announced only, no live product or doc"
+  },
+  "columns": {
+    "accepts": "Accepts agent orders",
+    "api_field": "Agent field in API",
+    "reporting": "Shows in reporting",
+    "disputes": "Reaches disputes",
+    "risk_rules": "Risk rules read it",
+    "token_scope": "Token scoped to merchant",
+    "refunds": "Refund guidance"
+  },
+  "gateways": [
+    {
+      "id": "stripe",
+      "name": "Stripe",
+      "cells": {
+        "accepts": {
+          "code": "YES",
+          "note": "(private preview; SPT, ACP, UCP)",
+          "detail": "Accepts: Shared Payment Tokens, private preview. \"Shared payment tokens (SPTs) grant sellers scoped access to customers' payment methods for agent-initiated purchases.\" https://docs.stripe.com/agentic-commerce/concepts/shared-payment-tokens (undated, read 2026-10-15). Protocols UCP and ACP, https://docs.stripe.com/agentic-commerce. Custom path may use Mastercard Agent Pay and Visa Intelligent Commerce tokens, https://docs.stripe.com/agentic-commerce/sellers/custom.",
+          "sources": [
+            {
+              "url": "https://docs.stripe.com/agentic-commerce/concepts/shared-payment-tokens"
+            },
+            {
+              "url": "https://docs.stripe.com/agentic-commerce"
+            },
+            {
+              "url": "https://docs.stripe.com/agentic-commerce/sellers/custom"
+            }
+          ]
+        },
+        "api_field": {
+          "code": "YES",
+          "note": "PaymentIntent.agent_details",
+          "detail": "API field: PaymentIntent.agent_details (object, nullable), with agent_details.name and agent_details.network_business_profile. https://docs.stripe.com/api/payment_intents/object?api-version=2026-09-30.preview. Listed as \"Agent details (Private preview)\" at CheckoutSessions.PaymentIntent.agent_details on https://docs.stripe.com/agentic-commerce/sellers/use-cases/retail (re-read by hand 2026-10-15). SharedPaymentGrantedToken carries agent_details, usage_limits and risk_details.insights (bot, card_testing, stolen_card, fraudulent_dispute, card_issuer_decline), https://docs.stripe.com/api/shared-payment/granted-token/object.",
+          "sources": [
+            {
+              "url": "https://docs.stripe.com/api/payment_intents/object?api-version=2026-09-30.preview"
+            },
+            {
+              "url": "https://docs.stripe.com/agentic-commerce/sellers/use-cases/retail"
+            },
+            {
+              "url": "https://docs.stripe.com/api/shared-payment/granted-token/object"
+            }
+          ]
+        },
+        "reporting": {
+          "code": "YES",
+          "note": "Dashboard tag and filter",
+          "detail": "Reporting: \"View orders on the Transactions page in the Dashboard, where they're tagged with the originating agent. You can also filter transactions by agent names.\" (retail page, re-read by hand.)",
+          "sources": []
+        },
+        "disputes": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "Disputes: Dispute object has no agent field, https://docs.stripe.com/api/disputes/object. Manage page says only \"manage refunds and disputes with your existing Stripe workflows.\" Agent Services terms (modified 2026-04-20): \"an Agentic Seller is solely responsible for Agentic Customers' claims relating to Agentic Seller's goods and services,\" https://stripe.com/legal/ssa-service-terms.",
+          "sources": [
+            {
+              "url": "https://docs.stripe.com/api/disputes/object"
+            },
+            {
+              "url": "https://stripe.com/legal/ssa-service-terms"
+            }
+          ]
+        },
+        "risk_rules": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "Risk rules: Radar supported attributes list has no agent attribute, https://docs.stripe.com/radar/rules/supported-attributes.",
+          "sources": [
+            {
+              "url": "https://docs.stripe.com/radar/rules/supported-attributes"
+            }
+          ]
+        },
+        "token_scope": {
+          "code": "YES",
+          "note": "",
+          "detail": "Token scope: \"Shared Payment Tokens are uniquely granted to your seller account\" with usage_limits (currency, max_amount, expires_at).",
+          "sources": []
+        },
+        "refunds": {
+          "code": "YES",
+          "note": "(no change)",
+          "detail": "Refunds: \"your existing refund flow works without changes for agentic checkouts,\" https://docs.stripe.com/agentic-commerce/sellers/manage.",
+          "sources": [
+            {
+              "url": "https://docs.stripe.com/agentic-commerce/sellers/manage"
+            }
+          ]
+        }
+      },
+      "row_notes": "",
+      "row_sources": []
+    },
+    {
+      "id": "braintree",
+      "name": "Braintree (PayPal)",
+      "cells": {
+        "accepts": {
+          "code": "YES",
+          "note": "(ACP, UCP)",
+          "detail": "Accepts: Agent Ready, ACP via delegated payment tokens, UCP via the Google Pay handler. https://docs.paypal.ai/growth/agentic-commerce/agent-ready/overview (undated, read 2026-10-15).",
+          "sources": [
+            {
+              "url": "https://docs.paypal.ai/growth/agentic-commerce/agent-ready/overview"
+            }
+          ]
+        },
+        "api_field": {
+          "code": "YES",
+          "note": "response only, facilitator_details",
+          "detail": "API field: transaction.facilitator_details.oauth_application_name (\"ChatGPT\") and oauth_application_client_id in the transaction response. https://developer.paypal.com/agent-ready/agentic-commerce-protocol (re-read by hand 2026-10-15). Reference: https://developer.paypal.com/braintree/docs/reference/response/transaction. UCP path: no agent field documented.",
+          "sources": [
+            {
+              "url": "https://developer.paypal.com/agent-ready/agentic-commerce-protocol"
+            },
+            {
+              "url": "https://developer.paypal.com/braintree/docs/reference/response/transaction"
+            }
+          ]
+        },
+        "reporting": {
+          "code": "YES",
+          "note": "Control Panel filter",
+          "detail": "Reporting: \"Use the search filter for facilitator_details.oauth_application_name\" in the Control Panel; GraphQL search on facilitatorOAuthApplicationClientId.",
+          "sources": []
+        },
+        "disputes": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "Disputes: Dispute object has no facilitator field, https://developer.paypal.com/braintree/docs/reference/response/dispute.",
+          "sources": [
+            {
+              "url": "https://developer.paypal.com/braintree/docs/reference/response/dispute"
+            }
+          ]
+        },
+        "risk_rules": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "Risk rules: Fraud Protection Advanced lists custom fields and predefined features, none named facilitator or agent, https://developer.paypal.com/braintree/articles/guides/fraud-tools/premium/fraud-protection-advanced.",
+          "sources": [
+            {
+              "url": "https://developer.paypal.com/braintree/articles/guides/fraud-tools/premium/fraud-protection-advanced"
+            }
+          ]
+        },
+        "token_scope": {
+          "code": "YES",
+          "note": "",
+          "detail": "Token scope: \"It's bound to your merchant ID and includes amount and time restrictions that you can configure.\" Validation errors 91565, 915266, 915267. UCP nonce single use, 3 hour expiry.",
+          "sources": []
+        },
+        "refunds": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "Refunds: silent.",
+          "sources": []
+        }
+      },
+      "row_notes": "",
+      "row_sources": []
+    },
+    {
+      "id": "adyen",
+      "name": "Adyen",
+      "cells": {
+        "accepts": {
+          "code": "YES",
+          "note": "(limited, enterprise US; UCP, AP2, ACP)",
+          "detail": "Accepts: \"Adyen Agentic is in limited availability for enterprise merchants operating in the U.S.\" UCP, AP2, ACP. https://www.adyen.com/press-and-media/adyen-agentic (2026-06-16). Docs: https://docs.adyen.com/online-payments/agentic-commerce/agentic-checkout-integration.",
+          "sources": [
+            {
+              "url": "https://www.adyen.com/press-and-media/adyen-agentic",
+              "page_date": "2026-06-16"
+            },
+            {
+              "url": "https://docs.adyen.com/online-payments/agentic-commerce/agentic-checkout-integration"
+            }
+          ]
+        },
+        "api_field": {
+          "code": "PART",
+          "note": "request side, shoppingPlatform and metadata",
+          "detail": "API field: Agentic Cart API shoppingPlatform (\"Agent platform identifier, for example, openai, google, meta\"), https://docs.adyen.com/online-payments/agentic-commerce/merchant/agentic-cart-api-integration (modified 2025-12-23). UCP path: optional metadata.agentProtocol, agentSessionId, agentPlatform, https://docs.adyen.com/online-payments/agentic-commerce/merchant/google-agentic-commerce (modified 2026-10-15). No agent flag in the /payments response.",
+          "sources": [
+            {
+              "url": "https://docs.adyen.com/online-payments/agentic-commerce/merchant/agentic-cart-api-integration",
+              "page_date": "2025-12-23"
+            },
+            {
+              "url": "https://docs.adyen.com/online-payments/agentic-commerce/merchant/google-agentic-commerce",
+              "page_date": "2026-10-15"
+            }
+          ]
+        },
+        "reporting": {
+          "code": "PART",
+          "note": "webhooks only",
+          "detail": "Reporting: AUTHORISATION webhook carries sessionId and shoppingPlatform in additionalData; additionalData.agentic.sessionId. Customer Area and reports: silent.",
+          "sources": []
+        },
+        "disputes": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "Disputes: silent on every page read. UCP PAN_ONLY: \"Liability shift is not available.\"",
+          "sources": []
+        },
+        "risk_rules": {
+          "code": "SILENT",
+          "note": "(custom fields possible)",
+          "detail": "Risk rules: no Adyen agent field; merchant can pass its own additionalData.riskdata.<name> into custom rules, https://docs.adyen.com/risk-management/configure-custom-risk-rules.",
+          "sources": [
+            {
+              "url": "https://docs.adyen.com/risk-management/configure-custom-risk-rules"
+            }
+          ]
+        },
+        "token_scope": {
+          "code": "YES",
+          "note": "",
+          "detail": "Token scope: ACP delegate_payment allowance (merchant_id, checkout_session_id, max_amount, currency, expires_at, one_time), token \"bound to one merchant account,\" https://docs.adyen.com/online-payments/agentic-commerce/agent-platform/agentic-payments-acp (modified 2026-03-06).",
+          "sources": [
+            {
+              "url": "https://docs.adyen.com/online-payments/agentic-commerce/agent-platform/agentic-payments-acp",
+              "page_date": "2026-03-06"
+            }
+          ]
+        },
+        "refunds": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "Refunds: silent.",
+          "sources": []
+        }
+      },
+      "row_notes": "",
+      "row_sources": []
+    },
+    {
+      "id": "worldpay",
+      "name": "Worldpay",
+      "cells": {
+        "accepts": {
+          "code": "YES",
+          "note": "(ACP live, UCP soon)",
+          "detail": "Accepts: ACP live. Release note 2026-02-18: \"Delegate tokens are now supported. Used as part of the Agentic Commerce Protocol (ACP) flow.\" https://docs.worldpay.com/access/products/releases. \"We are an approved payment partner for OpenAI's Instant Checkout,\" https://docs.worldpay.com/access/products/ai/acp. UCP and agentic tokens: coming soon.",
+          "sources": [
+            {
+              "url": "https://docs.worldpay.com/access/products/releases"
+            },
+            {
+              "url": "https://docs.worldpay.com/access/products/ai/acp"
+            }
+          ]
+        },
+        "api_field": {
+          "code": "PART",
+          "note": "request side, paymentInstrument.type delegate",
+          "detail": "API field: request side, instruction.paymentInstrument.type \"delegate\" with sessionHref, https://docs.worldpay.com/access/products/payments/enable-features/acp-delegate-token (updated 2026-10-09). Delegate token allowance and risk_signals at https://docs.worldpay.com/access/products/sessions/openapi/delegate-payment/delegatepayment.md. Response side: payment response schema has no delegate or agent term.",
+          "sources": [
+            {
+              "url": "https://docs.worldpay.com/access/products/payments/enable-features/acp-delegate-token",
+              "page_date": "2026-10-09"
+            },
+            {
+              "url": "https://docs.worldpay.com/access/products/sessions/openapi/delegate-payment/delegatepayment.md"
+            }
+          ]
+        },
+        "reporting": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "Reporting: query payments page gives no field detail. Silent.",
+          "sources": []
+        },
+        "disputes": {
+          "code": "ASK",
+          "note": "",
+          "detail": "Disputes: disputes doc did not load; ACP pages say nothing. ASK.",
+          "sources": []
+        },
+        "risk_rules": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "Risk rules: fraud assessment page has no agent condition. Delegate flow: \"3DS, SCA exemptions, and Worldpay token creation are not available.\"",
+          "sources": []
+        },
+        "token_scope": {
+          "code": "PART",
+          "note": "",
+          "detail": "Token scope: allowance.merchant_id required, reason one_time; \"We validate the payment allowances specified by OpenAI before processing the payment.\" Merchant sees no scope data in the response.",
+          "sources": []
+        },
+        "refunds": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "Refunds: silent.",
+          "sources": []
+        }
+      },
+      "row_notes": "",
+      "row_sources": []
+    },
+    {
+      "id": "checkout-com",
+      "name": "Checkout.com",
+      "cells": {
+        "accepts": {
+          "code": "YES",
+          "note": "(ACP, UCP; networks press only)",
+          "detail": "Accepts: ACP (press 2025-11-25, https://www.checkout.com/newsroom/checkout-adopts-acp-backed-by-openai-to-power-agentic-commerce-for-enterprise-merchants) and UCP, docs https://www.checkout.com/docs/payments/accept-payments/accept-a-payment-via-agentic-commerce. Visa and Mastercard programs: blog only.",
+          "sources": [
+            {
+              "url": "https://www.checkout.com/newsroom/checkout-adopts-acp-backed-by-openai-to-power-agentic-commerce-for-enterprise-merchants"
+            },
+            {
+              "url": "https://www.checkout.com/docs/payments/accept-payments/accept-a-payment-via-agentic-commerce"
+            }
+          ]
+        },
+        "api_field": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "API field: token arrives with provider \"checkout\", managed_by \"agentic_platform_psp\"; merchant sends source.type token, merchant_initiated false. No agent indicator field, https://www.checkout.com/docs/payments/accept-payments/accept-a-payment-via-agentic-commerce/accept-a-payment-via-chatgpt (updated 2026-09-09).",
+          "sources": [
+            {
+              "url": "https://www.checkout.com/docs/payments/accept-payments/accept-a-payment-via-agentic-commerce/accept-a-payment-via-chatgpt",
+              "page_date": "2026-09-09"
+            }
+          ]
+        },
+        "reporting": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "Reporting, risk rules (https://www.checkout.com/docs/risk-management/fraud-detection/rule-categories, 2026-05-13), token scope, refunds: silent.",
+          "sources": [
+            {
+              "url": "https://www.checkout.com/docs/risk-management/fraud-detection/rule-categories"
+            }
+          ]
+        },
+        "disputes": {
+          "code": "SILENT",
+          "note": "(blog only)",
+          "detail": "Disputes: blog only, \"Checkout.com can provide issuers with the original consent record,\" https://www.checkout.com/blog/how-checkout-is-thinking-about-agentic-commerce (2025-09-02). Nothing in docs.",
+          "sources": [
+            {
+              "url": "https://www.checkout.com/blog/how-checkout-is-thinking-about-agentic-commerce",
+              "page_date": "2025-09-02"
+            }
+          ]
+        },
+        "risk_rules": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "Reporting, risk rules (https://www.checkout.com/docs/risk-management/fraud-detection/rule-categories, 2026-05-13), token scope, refunds: silent.",
+          "sources": [
+            {
+              "url": "https://www.checkout.com/docs/risk-management/fraud-detection/rule-categories"
+            }
+          ]
+        },
+        "token_scope": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "Reporting, risk rules (https://www.checkout.com/docs/risk-management/fraud-detection/rule-categories, 2026-05-13), token scope, refunds: silent.",
+          "sources": [
+            {
+              "url": "https://www.checkout.com/docs/risk-management/fraud-detection/rule-categories"
+            }
+          ]
+        },
+        "refunds": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "Reporting, risk rules (https://www.checkout.com/docs/risk-management/fraud-detection/rule-categories, 2026-05-13), token scope, refunds: silent.",
+          "sources": [
+            {
+              "url": "https://www.checkout.com/docs/risk-management/fraud-detection/rule-categories"
+            }
+          ]
+        }
+      },
+      "row_notes": "",
+      "row_sources": []
+    },
+    {
+      "id": "shopify-payments",
+      "name": "Shopify Payments",
+      "cells": {
+        "accepts": {
+          "code": "YES",
+          "note": "(live; UCP, Shop Pay)",
+          "detail": "Accepts: live. \"Starting this week, millions of merchants can sell to ChatGPT users via Agentic Storefronts,\" https://www.shopify.com/news/agentic-commerce-momentum (2026-03-24). UCP spec 2026-08-25, Shop Pay handler.",
+          "sources": [
+            {
+              "url": "https://www.shopify.com/news/agentic-commerce-momentum",
+              "page_date": "2026-03-24"
+            }
+          ]
+        },
+        "api_field": {
+          "code": "SILENT",
+          "note": "(channel attribution, field unnamed)",
+          "detail": "API field: \"Orders from AI channels display in your Shopify admin with channel or referrer attribution so that you know where the order originated from,\" https://help.shopify.com/en/manual/online-sales-channels/agentic-storefronts. No Admin API field named. Staff on https://community.shopify.dev/t/ai-agent-initiated-orders-api/29140 (2026-02-06): agents \"will be treated as unique sales channels,\" no field given.",
+          "sources": [
+            {
+              "url": "https://help.shopify.com/en/manual/online-sales-channels/agentic-storefronts"
+            },
+            {
+              "url": "https://community.shopify.dev/t/ai-agent-initiated-orders-api/29140",
+              "page_date": "2026-02-06"
+            }
+          ]
+        },
+        "reporting": {
+          "code": "PART",
+          "note": "admin channel view",
+          "detail": "Reporting: Agentic Storefronts admin page, https://shopify.dev/changelog/a-new-home-for-agentic-storefronts-in-your-admin (2026-05-11).",
+          "sources": [
+            {
+              "url": "https://shopify.dev/changelog/a-new-home-for-agentic-storefronts-in-your-admin",
+              "page_date": "2026-05-11"
+            }
+          ]
+        },
+        "disputes": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "Disputes: Supplemental Terms (2026-01-12) silent on chargebacks; \"You remain the seller of record,\" https://www.shopify.com/legal/agentic-storefronts-supplemental-terms.",
+          "sources": [
+            {
+              "url": "https://www.shopify.com/legal/agentic-storefronts-supplemental-terms"
+            }
+          ]
+        },
+        "risk_rules": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "Risk rules: silent.",
+          "sources": []
+        },
+        "token_scope": {
+          "code": "PART",
+          "note": "",
+          "detail": "Token scope: Shop Tokens single use, checkout scoped (Path A) or buyer and platform scoped (Path B), https://shopify.dev/docs/agents/carts-and-checkout/shop-pay-handler. Not scoped to one agent.",
+          "sources": [
+            {
+              "url": "https://shopify.dev/docs/agents/carts-and-checkout/shop-pay-handler"
+            }
+          ]
+        },
+        "refunds": {
+          "code": "PART",
+          "note": "(fee terms only)",
+          "detail": "Refunds: fee terms only (6.1).",
+          "sources": []
+        }
+      },
+      "row_notes": "",
+      "row_sources": []
+    },
+    {
+      "id": "square",
+      "name": "Square",
+      "cells": {
+        "accepts": {
+          "code": "YES",
+          "note": "(live; Order by Cash App, UCP)",
+          "detail": "Accepts: live for US food and beverage sellers with Square Online Ordering. \"Eligible sellers are opted in with no additional work, setup, or fees required,\" https://squareup.com/us/en/press/claude-chatgpt-integrations (2026-07-01). Ask Maps via Order by Cash App, https://squareup.com/us/en/press/ask-maps (2026-08-06).",
+          "sources": [
+            {
+              "url": "https://squareup.com/us/en/press/claude-chatgpt-integrations",
+              "page_date": "2026-07-01"
+            },
+            {
+              "url": "https://squareup.com/us/en/press/ask-maps",
+              "page_date": "2026-08-06"
+            }
+          ]
+        },
+        "api_field": {
+          "code": "SILENT",
+          "note": "(OrderSource.name, value unnamed)",
+          "detail": "API field: OrderSource.name only, no agent value documented, https://developer.squareup.com/reference/square/objects/OrderSource.",
+          "sources": [
+            {
+              "url": "https://developer.squareup.com/reference/square/objects/OrderSource"
+            }
+          ]
+        },
+        "reporting": {
+          "code": "PART",
+          "note": "source visible",
+          "detail": "Reporting: \"The source of the order is visible in Square's reporting\" (press 2026-07-01); orders \"tagged by source,\" Dashboard > Online Channels > AI assistants, https://squareup.com/us/en/ai/agentic-commerce.",
+          "sources": [
+            {
+              "url": "https://squareup.com/us/en/ai/agentic-commerce"
+            }
+          ]
+        },
+        "disputes": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "Disputes, risk rules, token scope, refunds: silent. \"Agentic orders are routed through the same Square systems as any online order.\"",
+          "sources": []
+        },
+        "risk_rules": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "Disputes, risk rules, token scope, refunds: silent. \"Agentic orders are routed through the same Square systems as any online order.\"",
+          "sources": []
+        },
+        "token_scope": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "Disputes, risk rules, token scope, refunds: silent. \"Agentic orders are routed through the same Square systems as any online order.\"",
+          "sources": []
+        },
+        "refunds": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "Disputes, risk rules, token scope, refunds: silent. \"Agentic orders are routed through the same Square systems as any online order.\"",
+          "sources": []
+        }
+      },
+      "row_notes": "",
+      "row_sources": []
+    },
+    {
+      "id": "paypal",
+      "name": "PayPal (wallet, Orders v2)",
+      "cells": {
+        "accepts": {
+          "code": "YES",
+          "note": "(ACP via Braintree only; UCP via Orders v2)",
+          "detail": "Accepts: ACP guide \"walks you through configuring Braintree as your payment provider,\" https://developer.paypal.com/agent-ready/agentic-commerce-protocol. Orders v2 path is UCP with PayPal (Google Pay credential), https://developer.paypal.com/agent-ready/overview.",
+          "sources": [
+            {
+              "url": "https://developer.paypal.com/agent-ready/agentic-commerce-protocol"
+            },
+            {
+              "url": "https://developer.paypal.com/agent-ready/overview"
+            }
+          ]
+        },
+        "api_field": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "API field: Orders v2 schema has no agentic or facilitator field; stored_credential.payment_initiator is CUSTOMER or MERCHANT only, https://developer.paypal.com/api/orders/v2/schema.json.",
+          "sources": [
+            {
+              "url": "https://developer.paypal.com/api/orders/v2/schema.json"
+            }
+          ]
+        },
+        "reporting": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "Reporting: Payments v2 and Customer Disputes v1 schemas have no agent field.",
+          "sources": []
+        },
+        "disputes": {
+          "code": "PART",
+          "note": "(Seller Protection sentence)",
+          "detail": "Disputes: \"Seller and Purchase Protection, fraud tools, chargeback coverage, and identity services now extend to agentic transactions,\" https://paypal.ai/agent-ready. Footnote limits Seller Protection to unauthorized and item not received. Nothing on the indicator reaching the dispute.",
+          "sources": [
+            {
+              "url": "https://paypal.ai/agent-ready"
+            }
+          ]
+        },
+        "risk_rules": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "Risk rules, token scope, refunds: silent.",
+          "sources": []
+        },
+        "token_scope": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "Risk rules, token scope, refunds: silent.",
+          "sources": []
+        },
+        "refunds": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "Risk rules, token scope, refunds: silent.",
+          "sources": []
+        }
+      },
+      "row_notes": "Merchant-set marker (added 2026-11-11, from a GitHub comment on paypal/agent-toolkit 113, checked against the schema): a merchant can put its own agent marker in purchase_units[].custom_id or a capture's invoice_id, and the Disputes v1 dispute object returns disputed_transactions[] as transaction_info with custom (free text, max 2000) and invoice_number (max 127, pattern A-Z a-z 0-9 : - |). Neither field is listed as required, so the schema does not promise they come back. https://developer.paypal.com/api/customer-disputes/v1/schema.json (read 2026-11-11). This is a merchant workaround, not a PayPal agent field, so the SILENT cells stand.",
+      "row_sources": [
+        {
+          "url": "https://developer.paypal.com/api/customer-disputes/v1/schema.json",
+          "page_date": "2026-11-11"
+        }
+      ]
+    },
+    {
+      "id": "cybersource",
+      "name": "Cybersource (Visa)",
+      "cells": {
+        "accepts": {
+          "code": "YES",
+          "note": "pilot, agent side only",
+          "detail": "Accepts: Intelligent Commerce REST guide, pilot (revision 25.09.01). Agent side API: /acp/v1/tokens, /instructions, /credentials, /confirmations. https://developer.cas.cybersource.com/docs/cybs/en-us/visa-agentic-platform/developer/all/rest/intelligent-commerce.html. Not a merchant side flag on the Payments API.",
+          "sources": [
+            {
+              "url": "https://developer.cas.cybersource.com/docs/cybs/en-us/visa-agentic-platform/developer/all/rest/intelligent-commerce.html"
+            }
+          ]
+        },
+        "api_field": {
+          "code": "SILENT",
+          "note": "(no merchant indicator)",
+          "detail": "API field: nearest are assuranceData[].verificationType and paymentOptions.dynamicDataType (\"TAVV\"). No agent identity field. Payments API field index and release notes 2026-07-02 to 2026-08-28: no agent field.",
+          "sources": []
+        },
+        "reporting": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "Reporting, disputes (only an undefined products[].policies.disputePolicy), risk rules (agent side mandates[].declineThreshold only), token scope, refunds: silent.",
+          "sources": []
+        },
+        "disputes": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "Reporting, disputes (only an undefined products[].policies.disputePolicy), risk rules (agent side mandates[].declineThreshold only), token scope, refunds: silent.",
+          "sources": []
+        },
+        "risk_rules": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "Reporting, disputes (only an undefined products[].policies.disputePolicy), risk rules (agent side mandates[].declineThreshold only), token scope, refunds: silent.",
+          "sources": []
+        },
+        "token_scope": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "Reporting, disputes (only an undefined products[].policies.disputePolicy), risk rules (agent side mandates[].declineThreshold only), token scope, refunds: silent.",
+          "sources": []
+        },
+        "refunds": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "Reporting, disputes (only an undefined products[].policies.disputePolicy), risk rules (agent side mandates[].declineThreshold only), token scope, refunds: silent.",
+          "sources": []
+        }
+      },
+      "row_notes": "",
+      "row_sources": []
+    },
+    {
+      "id": "nuvei",
+      "name": "Nuvei",
+      "cells": {
+        "accepts": {
+          "code": "ANN",
+          "note": "(TAP pilot, H2 2026 target)",
+          "detail": "Accepts: announced. TAP support and Agent Enabler pilot (2025-10-14); live proof of concept with Visa, \"targeting initial availability in the second half of 2026,\" https://www.nuvei.com/posts/nuvei-completes-first-party-in-agent-payment-with-visa-unveils-merchant-led-agentic-payments-strategy (2026-07-02).",
+          "sources": [
+            {
+              "url": "https://www.nuvei.com/posts/nuvei-completes-first-party-in-agent-payment-with-visa-unveils-merchant-led-agentic-payments-strategy",
+              "page_date": "2026-07-02"
+            }
+          ]
+        },
+        "api_field": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "API field: REST reference and release notes through 26.S10 (2026-10-13) have no agent entry, https://docs.nuvei.com/api/main/indexMain_v1_0.html.",
+          "sources": [
+            {
+              "url": "https://docs.nuvei.com/api/main/indexMain_v1_0.html"
+            }
+          ]
+        },
+        "reporting": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "",
+          "sources": []
+        },
+        "disputes": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "",
+          "sources": []
+        },
+        "risk_rules": {
+          "code": "ANN",
+          "note": "(KYA scoring)",
+          "detail": "Risk rules: \"the KYA registry and agent risk scoring\" announced for H2 2026. Everything else silent.",
+          "sources": []
+        },
+        "token_scope": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "",
+          "sources": []
+        },
+        "refunds": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "",
+          "sources": []
+        }
+      },
+      "row_notes": "",
+      "row_sources": []
+    },
+    {
+      "id": "fiserv",
+      "name": "Fiserv (Commerce Hub, Clover, CardPointe)",
+      "cells": {
+        "accepts": {
+          "code": "ANN",
+          "note": "(TAP, Agent Pay, early adopter program)",
+          "detail": "Accepts: announced. \"Fiserv will deploy Visa's Trusted Agent Protocol\" and Mastercard Agent Pay Acceptance Framework (Business Wire 2025-12-22). Sales sheet lists ACP, AP2, TAP, Agent Pay and an early adopter program. No live date.",
+          "sources": []
+        },
+        "api_field": {
+          "code": "ASK",
+          "note": "",
+          "detail": "API field: developer.fiserv.com and developer.cardpointe.com searches found nothing; Commerce Hub docs did not render. ASK.",
+          "sources": []
+        },
+        "reporting": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "Reporting: \"Use existing merchant accounts for consolidated settlement and reporting, just as you are used to\" (sales sheet). Everything else silent.",
+          "sources": []
+        },
+        "disputes": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "",
+          "sources": []
+        },
+        "risk_rules": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "",
+          "sources": []
+        },
+        "token_scope": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "",
+          "sources": []
+        },
+        "refunds": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "",
+          "sources": []
+        }
+      },
+      "row_notes": "",
+      "row_sources": []
+    },
+    {
+      "id": "global-payments",
+      "name": "Global Payments (Heartland, Genius)",
+      "cells": {
+        "accepts": {
+          "code": "ANN",
+          "note": "(building ACP, UCP)",
+          "detail": "Accepts: \"We're building support for emerging standards, including OpenAI's ACP and Google's UCP,\" https://www.globalpayments.com/agentic-commerce. Worldpay (acquired 2026-01-12) is the only GP platform with agentic docs. Nothing for Heartland.",
+          "sources": [
+            {
+              "url": "https://www.globalpayments.com/agentic-commerce"
+            }
+          ]
+        },
+        "api_field": {
+          "code": "ASK",
+          "note": "",
+          "detail": "",
+          "sources": []
+        },
+        "reporting": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "Reporting: \"See who, or what, is behind every transaction, with visibility into agent identity, permissions and bot activity\" (same page, no screen or field named). Everything else silent or ASK.",
+          "sources": []
+        },
+        "disputes": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "",
+          "sources": []
+        },
+        "risk_rules": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "",
+          "sources": []
+        },
+        "token_scope": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "",
+          "sources": []
+        },
+        "refunds": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "",
+          "sources": []
+        }
+      },
+      "row_notes": "",
+      "row_sources": []
+    },
+    {
+      "id": "nmi",
+      "name": "NMI",
+      "cells": {
+        "accepts": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "",
+          "sources": []
+        },
+        "api_field": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "",
+          "sources": []
+        },
+        "reporting": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "",
+          "sources": []
+        },
+        "disputes": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "",
+          "sources": []
+        },
+        "risk_rules": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "",
+          "sources": []
+        },
+        "token_scope": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "",
+          "sources": []
+        },
+        "refunds": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "",
+          "sources": []
+        }
+      },
+      "row_notes": "No doc says NMI accepts agent placed orders or names a protocol. Blogs only: https://www.nmi.com/blog/human-not-present-agentic-commerce-network-tokens-and-payments/ (2026-07-15), https://www.nmi.com/blog/prediction-network-tokens-will-take-center-stage-while-agentic-commerce-tests-the-industry/ (2026-07-14). The only agent named item is the developer MCP variable NMI_AGENT_ID, https://docs.nmi.com/docs/mcp. All seven cells silent. NMI is the gateway that published the five questions every merchant should ask on its own blog (2026-09-28, link not pinned here); it has not answered them for itself.",
+      "row_sources": [
+        {
+          "url": "https://www.nmi.com/blog/human-not-present-agentic-commerce-network-tokens-and-payments/",
+          "page_date": "2026-07-15"
+        },
+        {
+          "url": "https://www.nmi.com/blog/prediction-network-tokens-will-take-center-stage-while-agentic-commerce-tests-the-industry/",
+          "page_date": "2026-07-14"
+        },
+        {
+          "url": "https://docs.nmi.com/docs/mcp"
+        }
+      ]
+    },
+    {
+      "id": "authorize-net",
+      "name": "Authorize.net (Visa)",
+      "cells": {
+        "accepts": {
+          "code": "ASK",
+          "note": "",
+          "detail": "",
+          "sources": []
+        },
+        "api_field": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "",
+          "sources": []
+        },
+        "reporting": {
+          "code": "ASK",
+          "note": "",
+          "detail": "",
+          "sources": []
+        },
+        "disputes": {
+          "code": "ASK",
+          "note": "",
+          "detail": "",
+          "sources": []
+        },
+        "risk_rules": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "",
+          "sources": []
+        },
+        "token_scope": {
+          "code": "ASK",
+          "note": "",
+          "detail": "",
+          "sources": []
+        },
+        "refunds": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "",
+          "sources": []
+        }
+      },
+      "row_notes": "No page says it accepts agent placed orders. API reference has no agent field (nearest: authorizationIndicator, deprecated authenticationIndicator), https://developer.authorize.net/api/reference/index.html. API change log last entry 2019-09-03. Visa's 2026-04-08 Intelligent Commerce Connect release does not name Authorize.net.",
+      "row_sources": [
+        {
+          "url": "https://developer.authorize.net/api/reference/index.html"
+        }
+      ]
+    },
+    {
+      "id": "elavon",
+      "name": "Elavon",
+      "cells": {
+        "accepts": {
+          "code": "ASK",
+          "note": "",
+          "detail": "",
+          "sources": []
+        },
+        "api_field": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "",
+          "sources": []
+        },
+        "reporting": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "",
+          "sources": []
+        },
+        "disputes": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "",
+          "sources": []
+        },
+        "risk_rules": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "",
+          "sources": []
+        },
+        "token_scope": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "",
+          "sources": []
+        },
+        "refunds": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "",
+          "sources": []
+        }
+      },
+      "row_notes": "No announcement in 30 company news items (2022 to 2026-09-29). Elavon Payment Gateway OpenAPI spec (version 2026-07-21): zero hits for agentic, Agent Pay, Intelligent Commerce, Trusted Agent; credential on file enums are subscription, unscheduledCardholderInitiated, unscheduledMerchantInitiated. https://developer.elavon.com/products/elavon-payment-gateway/v1/api-reference.",
+      "row_sources": [
+        {
+          "url": "https://developer.elavon.com/products/elavon-payment-gateway/v1/api-reference"
+        }
+      ]
+    },
+    {
+      "id": "helcim",
+      "name": "Helcim",
+      "cells": {
+        "accepts": {
+          "code": "ASK",
+          "note": "",
+          "detail": "",
+          "sources": []
+        },
+        "api_field": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "",
+          "sources": []
+        },
+        "reporting": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "",
+          "sources": []
+        },
+        "disputes": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "",
+          "sources": []
+        },
+        "risk_rules": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "",
+          "sources": []
+        },
+        "token_scope": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "",
+          "sources": []
+        },
+        "refunds": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "",
+          "sources": []
+        }
+      },
+      "row_notes": "No announcement (2025 and 2026 list, latest 2026-09-08). 150 devdocs pages read; purchase endpoint (updated 2026-04-20) has no agent, channel or initiator field, https://devdocs.helcim.com/reference/purchase. Changelog latest 2026-07-30.",
+      "row_sources": [
+        {
+          "url": "https://devdocs.helcim.com/reference/purchase"
+        }
+      ]
+    }
+  ],
+  "source_gaps": [
+    "stripe.reporting",
+    "stripe.token_scope",
+    "braintree.reporting",
+    "braintree.token_scope",
+    "adyen.reporting",
+    "worldpay.token_scope",
+    "shopify-payments.refunds"
+  ]
+}
