@@ -6,6 +6,10 @@ It does not define a new evidence format. It reads an AEP DisputeBundle.
 
 This is a prototype. It has not been run against a Stripe account, live or test. Nothing here sends, submits or decides a dispute.
 
+## What this is not
+
+It does not capture anything at checkout. Hosted services already do that part. Evidora records the step where a person sets up the agent, and Chargeflow fights chargebacks for merchants. If you want that, use one of them. This repo is the free part next to them: what each gateway carries, read from its own docs and dated, plus code that turns a bundle into dispute fields.
+
 ## What is here
 
 A gateway scorecard, as data. SCORECARD.md is the readable copy and data/scorecard.json is the same thing for code: 16 gateways, 7 questions each. A YES or PART cell quotes the vendor page it came from, with the date. Seven of them still need the exact page pinned and are listed under source_gaps. For SILENT and ASK cells, the row detail in SCORECARD.md names the pages that were read. The questions are plain ones. Does the gateway accept agent orders? Does the merchant get an agent field in the API? Does it show in reporting? Does it reach the dispute? Do risk rules read it? Is the token scoped to one merchant? Is there refund guidance?
