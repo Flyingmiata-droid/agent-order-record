@@ -18,7 +18,7 @@ A re-check script. scripts/recheck.ts fetches every source page again, hashes th
 
 An AEP chain check. src/aep.ts and src/jcs.ts do canonical JSON, the SHA-256 chain and Ed25519 signatures. They pass AEP conformance vectors a, b and h byte for byte.
 
-A Stripe evidence renderer. src/stripe.ts takes a DisputeBundle and returns the ten text fields for Stripe dispute evidence, plus page text for the three file fields. It refuses a bundle whose verification failed, is cached or contradicts itself, an empty bundle, a chain whose hashes no longer match, and any output that looks like it holds a card number. Signatures are checked again only when you pass the public key. Without the key you get a warning, not a refusal.
+A Stripe evidence renderer. src/stripe.ts takes a DisputeBundle and returns the ten text fields for Stripe dispute evidence, plus page text for the three file fields. It refuses a bundle whose verification failed, is cached or contradicts itself, an empty bundle, a chain whose hashes no longer match (unless you pass reverify: false, which gives a warning instead), and any output that looks like it holds a card number. Signatures are checked again only when you pass the public key. Without the key you get a warning, not a refusal.
 
 A Visa CE 3.0 check. src/ce3.ts takes the disputed order and the prior orders and answers yes or no, with the reason. Device and IP values count only when they belong to the cardholder. On an agent order they often belong to the AI platform, and then they say nothing about the buyer.
 
@@ -36,7 +36,7 @@ The example takes AEP's own test vector b, checks the chain, and prints the Stri
 
 Read 2026-10-15. The Stripe and Braintree cells below were read again on 2026-11-14.
 
-Two of the 16 gateways give the merchant a named field for the agent: Stripe (PaymentIntent.agent_details, preview API) and Braintree (transaction.facilitator_details). None documents an agent field on the dispute object or the evidence form: 14 were read and none has one (PayPal only says its Seller Protection extends to agentic transactions), and for 2 (Worldpay, Authorize.net) the dispute docs could not be read. No fraud rule engine documents an agent attribute either. NMI, Authorize.net, Elavon and Helcim have no doc on agent orders at all.
+Two of the 16 gateways give the merchant a named field for the agent: Stripe (PaymentIntent.agent_details, preview API) and Braintree (transaction.facilitator_details, a general third party field that its ACP page fills with ChatGPT). None documents an agent field on the dispute object or the evidence form: 14 were read and none has one (PayPal only says its Seller Protection extends to agentic transactions), and for 2 (Worldpay, Authorize.net) the dispute docs could not be read. No fraud rule engine documents an agent attribute either. NMI, Authorize.net, Elavon and Helcim have no doc saying they accept agent orders (NMI has blog posts only).
 
 So today the agent signal dies between the payment and the dispute.
 
@@ -58,7 +58,7 @@ Bad input types (a number where text belongs, a missing block) throw a plain err
 
 ## One thing found while building
 
-AEP Appendix C gives one text limit for Stripe, about 150,000 characters combined. That is right. But Stripe also caps each field: 20,000 on the long text fields (product_description, access_activity_log, uncategorized_text) and 5,000 on the short ones. Read 2026-11-09 in Stripe's OpenAPI file, API version 2026-09-30.endive. The renderer cuts each field to its own cap on a word boundary.
+AEP Appendix C gives one text limit for Stripe, about 150,000 characters combined. That is right. But Stripe also caps each field: 20,000 on the long text fields (product_description, access_activity_log, uncategorized_text) and 5,000 on the short ones. Read 2026-11-09 in Stripe's OpenAPI file, API version 2026-09-30.endive. The renderer cuts each field to its own cap on a word boundary. That same API version also rejects evidence over the card network's page limit (error dispute_evidence_page_limit_exceeded, Stripe changelog 2026-09-30.endive). The renderer does not estimate pages yet.
 
 ## Where the facts come from
 

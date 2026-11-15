@@ -35,7 +35,7 @@ Two gateways give the merchant a named field. Stripe (PaymentIntent.agent_detail
 
 No merchant fraud rule reads agent data anywhere. Stripe Radar attributes, Braintree Fraud Protection Advanced, Adyen custom risk fields, Checkout.com rule categories, Worldpay fraud assessment: none has an agent attribute. Adyen and Checkout.com let the merchant pass its own custom flag into rules, which is a workaround, not a feature.
 
-The small merchant gateways are silent or absent. NMI, Authorize.net, Elavon, Helcim: no doc, no field, no announcement with a date. These are the gateways the merchants who will get the first "my agent did it" chargebacks actually use.
+The small merchant gateways are silent or absent. NMI, Authorize.net, Elavon, Helcim: no doc saying they accept agent orders, no field, no announcement with a date (NMI has blog posts only). These are the gateways the merchants who will get the first "my agent did it" chargebacks actually use.
 
 ## Row detail
 
