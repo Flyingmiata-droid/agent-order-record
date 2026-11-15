@@ -43,13 +43,13 @@
         "api_field": {
           "code": "YES",
           "note": "PaymentIntent.agent_details",
-          "detail": "API field: PaymentIntent.agent_details (object, nullable), with agent_details.name and agent_details.network_business_profile. https://docs.stripe.com/api/payment_intents/object?api-version=2026-09-30.preview. Listed as \"Agent details (Private preview)\" at CheckoutSessions.PaymentIntent.agent_details on https://docs.stripe.com/agentic-commerce/sellers/use-cases/retail (re-read by hand 2026-10-15). SharedPaymentGrantedToken carries agent_details, usage_limits and risk_details.insights (bot, card_testing, stolen_card, fraudulent_dispute, card_issuer_decline), https://docs.stripe.com/api/shared-payment/granted-token/object.",
+          "detail": "API field: PaymentIntent.agent_details (object, nullable), with agent_details.name and agent_details.network_business_profile. https://docs.stripe.com/api/payment_intents/object?api-version=2026-09-30.preview. Listed as \"Agent details (Private preview)\" at CheckoutSessions.PaymentIntent.agent_details on https://docs.stripe.com/agentic-commerce/sellers/use-cases/retail/checkout (re-read by hand 2026-11-15; the field table moved there from the retail overview page). SharedPaymentGrantedToken carries agent_details, usage_limits and risk_details.insights (bot, card_testing, stolen_card, fraudulent_dispute, card_issuer_decline), https://docs.stripe.com/api/shared-payment/granted-token/object.",
           "sources": [
             {
               "url": "https://docs.stripe.com/api/payment_intents/object?api-version=2026-09-30.preview"
             },
             {
-              "url": "https://docs.stripe.com/agentic-commerce/sellers/use-cases/retail"
+              "url": "https://docs.stripe.com/agentic-commerce/sellers/use-cases/retail/checkout"
             },
             {
               "url": "https://docs.stripe.com/api/shared-payment/granted-token/object"
@@ -59,16 +59,23 @@
         "reporting": {
           "code": "YES",
           "note": "Dashboard tag and filter",
-          "detail": "Reporting: \"View orders on the Transactions page in the Dashboard, where they're tagged with the originating agent. You can also filter transactions by agent names.\" (retail page, re-read by hand.)",
-          "sources": []
+          "detail": "Reporting: \"View orders on the Transactions page in the Dashboard, where they're tagged with the originating agent. You can also filter transactions by agent names.\" https://docs.stripe.com/agentic-commerce/sellers/use-cases/retail/checkout (re-read by hand 2026-11-15).",
+          "sources": [
+            {
+              "url": "https://docs.stripe.com/agentic-commerce/sellers/use-cases/retail/checkout"
+            }
+          ]
         },
         "disputes": {
           "code": "SILENT",
           "note": "",
-          "detail": "Disputes: Dispute object has no agent field, https://docs.stripe.com/api/disputes/object. Manage page says only \"manage refunds and disputes with your existing Stripe workflows.\" Agent Services terms (modified 2026-04-20): \"an Agentic Seller is solely responsible for Agentic Customers' claims relating to Agentic Seller's goods and services,\" https://stripe.com/legal/ssa-service-terms.",
+          "detail": "Disputes: Dispute object has no agent field, https://docs.stripe.com/api/disputes/object. The Handle orders page says \"Manage refunds and disputes on the Transactions page\" and points dispute responses to the general dispute guide, https://docs.stripe.com/agentic-commerce/sellers/use-cases/retail/checkout/orders (undated, read 2026-11-15). Agent Services terms (modified 2026-04-20): \"an Agentic Seller is solely responsible for Agentic Customers' claims relating to Agentic Seller's goods and services,\" https://stripe.com/legal/ssa-service-terms.",
           "sources": [
             {
               "url": "https://docs.stripe.com/api/disputes/object"
+            },
+            {
+              "url": "https://docs.stripe.com/agentic-commerce/sellers/use-cases/retail/checkout/orders"
             },
             {
               "url": "https://stripe.com/legal/ssa-service-terms"
@@ -1054,7 +1061,6 @@
     }
   ],
   "source_gaps": [
-    "stripe.reporting",
     "stripe.token_scope",
     "braintree.reporting",
     "braintree.token_scope",

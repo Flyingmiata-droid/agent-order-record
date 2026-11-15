@@ -12,7 +12,7 @@ It does not capture anything at checkout. Hosted services already do that part. 
 
 ## What is here
 
-A gateway scorecard, as data. SCORECARD.md is the readable copy and data/scorecard.json is the same thing for code: 16 gateways, 7 questions each. A YES or PART cell quotes the vendor page it came from, with the date. Seven of them still need the exact page pinned and are listed under source_gaps. For SILENT and ASK cells, the row detail in SCORECARD.md names the pages that were read. The questions are plain ones. Does the gateway accept agent orders? Does the merchant get an agent field in the API? Does it show in reporting? Does it reach the dispute? Do risk rules read it? Is the token scoped to one merchant? Is there refund guidance?
+A gateway scorecard, as data. SCORECARD.md is the readable copy and data/scorecard.json is the same thing for code: 16 gateways, 7 questions each. A YES or PART cell quotes the vendor page it came from, with the date. Six of them still need the exact page pinned and are listed under source_gaps. For SILENT and ASK cells, the row detail in SCORECARD.md names the pages that were read. The questions are plain ones. Does the gateway accept agent orders? Does the merchant get an agent field in the API? Does it show in reporting? Does it reach the dispute? Do risk rules read it? Is the token scoped to one merchant? Is there refund guidance?
 
 A re-check script. scripts/recheck.ts fetches every source page again, hashes the text and lists the cells that lean on a page that changed. It never edits a cell. A person re-reads the page.
 
