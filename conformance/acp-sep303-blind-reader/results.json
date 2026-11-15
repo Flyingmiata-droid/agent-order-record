@@ -1,0 +1,375 @@
+{
+  "D0": {
+    "eligible": true,
+    "per_line": [
+      {
+        "line_id": "line_item_123",
+        "outcome": "uphold",
+        "amount": 0,
+        "rule": "5_default",
+        "finding": null
+      }
+    ]
+  },
+  "D1a": {
+    "eligible": false,
+    "not_eligible": "authorization_chain_broken"
+  },
+  "D1b": {
+    "eligible": false,
+    "not_eligible": "authorization_chain_broken"
+  },
+  "D1c": {
+    "eligible": false,
+    "not_eligible": "authorization_chain_broken"
+  },
+  "D1d": {
+    "eligible": false,
+    "not_eligible": "authorization_chain_broken"
+  },
+  "D2": {
+    "eligible": false,
+    "not_eligible": "receipt_status"
+  },
+  "D3a": {
+    "eligible": true,
+    "per_line": [
+      {
+        "line_id": "line_item_123",
+        "outcome": "uphold",
+        "amount": 0,
+        "rule": "5_default",
+        "finding": null
+      }
+    ]
+  },
+  "D3b": {
+    "eligible": false,
+    "not_eligible": "outside_window"
+  },
+  "D4": {
+    "eligible": true,
+    "per_line": [
+      {
+        "line_id": "line_item_123",
+        "outcome": "overturn",
+        "amount": 330,
+        "rule": "3_canceled",
+        "finding": null
+      }
+    ]
+  },
+  "D4b": {
+    "eligible": true,
+    "per_line": [
+      {
+        "line_id": "line_item_123",
+        "outcome": "uphold",
+        "amount": 0,
+        "rule": "1_moot",
+        "finding": null
+      }
+    ]
+  },
+  "D4c": {
+    "eligible": true,
+    "per_line": [
+      {
+        "line_id": "line_item_123",
+        "outcome": "overturn",
+        "amount": 330,
+        "rule": "3_canceled",
+        "finding": null
+      }
+    ]
+  },
+  "D4d": {
+    "eligible": true,
+    "per_line": [
+      {
+        "line_id": "a",
+        "outcome": "uphold",
+        "amount": 0,
+        "rule": "5_default",
+        "finding": null
+      }
+    ]
+  },
+  "D5": {
+    "eligible": true,
+    "per_line": [
+      {
+        "line_id": "line_item_123",
+        "outcome": "overturn",
+        "amount": 330,
+        "rule": "2_after_exp",
+        "finding": null
+      }
+    ]
+  },
+  "D5b": {
+    "eligible": true,
+    "per_line": [
+      {
+        "line_id": "line_item_123",
+        "outcome": "overturn",
+        "amount": 330,
+        "rule": "3_canceled",
+        "finding": null
+      }
+    ]
+  },
+  "D6": {
+    "eligible": true,
+    "per_line": [
+      {
+        "line_id": "line_item_123",
+        "outcome": "overturn",
+        "amount": 70,
+        "rule": "2_over_mandate",
+        "finding": null
+      }
+    ]
+  },
+  "D7": {
+    "eligible": true,
+    "per_line": [
+      {
+        "line_id": "line_item_123",
+        "outcome": "overturn",
+        "amount": 165,
+        "rule": "3_unfulfilled",
+        "finding": null
+      }
+    ]
+  },
+  "D8": {
+    "eligible": true,
+    "approval_bound": true,
+    "per_line": [
+      {
+        "line_id": "line_item_123",
+        "outcome": "uphold",
+        "amount": 0,
+        "rule": "4_intent",
+        "finding": "agent_platform"
+      }
+    ]
+  },
+  "D8b": {
+    "eligible": true,
+    "approval_bound": false,
+    "per_line": [
+      {
+        "line_id": "line_item_123",
+        "outcome": "uphold",
+        "amount": 0,
+        "rule": "5_default",
+        "finding": null
+      }
+    ]
+  },
+  "D8c": {
+    "eligible": true,
+    "approval_bound": true,
+    "per_line": [
+      {
+        "line_id": "line_item_123",
+        "outcome": "uphold",
+        "amount": 0,
+        "rule": "5_default",
+        "finding": null
+      }
+    ]
+  },
+  "D8d": {
+    "eligible": true,
+    "approval_bound": false,
+    "per_line": [
+      {
+        "line_id": "line_item_123",
+        "outcome": "uphold",
+        "amount": 0,
+        "rule": "5_default",
+        "finding": null
+      }
+    ]
+  },
+  "T0": {
+    "eligible": true,
+    "per_line": [
+      {
+        "line_id": "line_item_123",
+        "outcome": "overturn",
+        "amount": 330,
+        "rule": "3_canceled",
+        "finding": null
+      }
+    ],
+    "det_ok": true,
+    "det_problems": []
+  },
+  "T1": {
+    "eligible": true,
+    "per_line": [
+      {
+        "line_id": "line_item_123",
+        "outcome": "overturn",
+        "amount": 330,
+        "rule": "3_canceled",
+        "finding": null
+      }
+    ],
+    "det_ok": false,
+    "det_problems": [
+      "prohibited_not_screened"
+    ]
+  },
+  "T2": {
+    "eligible": true,
+    "per_line": [
+      {
+        "line_id": "line_item_123",
+        "outcome": "uphold",
+        "amount": 0,
+        "rule": "5_default",
+        "finding": null
+      }
+    ],
+    "det_ok": false,
+    "det_problems": [
+      "outcome_differs:line_item_123",
+      "fee_paid_by_differs"
+    ]
+  },
+  "T3": {
+    "eligible": true,
+    "per_line": [
+      {
+        "line_id": "line_item_123",
+        "outcome": "overturn",
+        "amount": 330,
+        "rule": "3_canceled",
+        "finding": null
+      }
+    ],
+    "det_ok": false,
+    "det_problems": [
+      "factor_not_permitted:party_reputation"
+    ]
+  },
+  "T4": {
+    "eligible": true,
+    "per_line": [
+      {
+        "line_id": "line_item_123",
+        "outcome": "overturn",
+        "amount": 330,
+        "rule": "3_canceled",
+        "finding": null
+      }
+    ],
+    "det_ok": false,
+    "det_problems": [
+      "signer_incomplete"
+    ]
+  },
+  "E1": {
+    "eligible": true,
+    "per_line": [
+      {
+        "line_id": "line_item_123",
+        "outcome": "overturn",
+        "amount": 330,
+        "rule": "3_canceled",
+        "finding": null
+      }
+    ]
+  },
+  "E2": {
+    "eligible": true,
+    "per_line": [
+      {
+        "line_id": "line_item_123",
+        "outcome": "overturn",
+        "amount": 330,
+        "rule": "3_canceled",
+        "finding": null
+      }
+    ]
+  },
+  "E3": {
+    "eligible": true,
+    "per_line": [
+      {
+        "line_id": "line_item_123",
+        "outcome": "uphold",
+        "amount": 0,
+        "rule": "1_moot",
+        "finding": null
+      }
+    ]
+  },
+  "E4": {
+    "eligible": false,
+    "not_eligible": "line_amount_missing"
+  },
+  "E5": {
+    "eligible": true,
+    "per_line": [
+      {
+        "line_id": "line_item_123",
+        "outcome": "overturn",
+        "amount": 330,
+        "rule": "3_canceled",
+        "finding": null
+      }
+    ],
+    "det_ok": false,
+    "det_problems": [
+      "factors_absent:intent_fidelity,agent_platform_conduct"
+    ]
+  },
+  "E6": {
+    "eligible": true,
+    "per_line": [
+      {
+        "line_id": "line_item_123",
+        "outcome": "overturn",
+        "amount": 330,
+        "rule": "3_canceled",
+        "finding": null
+      }
+    ],
+    "det_ok": false,
+    "det_problems": [
+      "missing:opened_at"
+    ]
+  },
+  "E7": {
+    "eligible": true,
+    "per_line": [
+      {
+        "line_id": "a",
+        "outcome": "overturn",
+        "amount": 200,
+        "rule": "3_canceled",
+        "finding": null
+      }
+    ]
+  },
+  "U3": {
+    "eligible": true,
+    "per_line": [
+      {
+        "line_id": "line_item_123",
+        "outcome": "overturn",
+        "amount": 330,
+        "rule": "3_canceled",
+        "finding": null
+      }
+    ],
+    "det_ok": true,
+    "det_problems": []
+  }
+}
