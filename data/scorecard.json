@@ -26,17 +26,17 @@
       "cells": {
         "accepts": {
           "code": "YES",
-          "note": "(private preview; SPT, ACP, UCP)",
-          "detail": "Accepts: Shared Payment Tokens, private preview. \"Shared payment tokens (SPTs) grant sellers scoped access to customers' payment methods for agent-initiated purchases.\" https://docs.stripe.com/agentic-commerce/concepts/shared-payment-tokens (undated, read 2026-10-15). Protocols UCP and ACP, https://docs.stripe.com/agentic-commerce. Custom path may use Mastercard Agent Pay and Visa Intelligent Commerce tokens, https://docs.stripe.com/agentic-commerce/sellers/custom.",
+          "note": "(public preview; SPT, ACP, UCP)",
+          "detail": "Accepts: Shared Payment Tokens, public preview (private preview when first read 2026-10-15). \"Shared payment tokens (SPTs) grant sellers scoped access to customers' payment methods for agent-initiated purchases. SPTs are available to agents, customers, and sellers in the US, Canada, and select European countries.\" https://docs.stripe.com/agentic-commerce/concepts/shared-payment-tokens (undated, read 2026-11-17). Protocols UCP, https://docs.stripe.com/agentic-commerce/protocols/ucp, and ACP, https://docs.stripe.com/agentic-commerce/protocols/acp. The same SPT page says Stripe may use Mastercard Agent Pay, Visa Intelligent Commerce and American Express ACE Kit tokens on the seller's behalf (the old sellers/custom page now redirects there).",
           "sources": [
             {
               "url": "https://docs.stripe.com/agentic-commerce/concepts/shared-payment-tokens"
             },
             {
-              "url": "https://docs.stripe.com/agentic-commerce"
+              "url": "https://docs.stripe.com/agentic-commerce/protocols/ucp"
             },
             {
-              "url": "https://docs.stripe.com/agentic-commerce/sellers/custom"
+              "url": "https://docs.stripe.com/agentic-commerce/protocols/acp"
             }
           ]
         },
@@ -95,16 +95,20 @@
         "token_scope": {
           "code": "YES",
           "note": "",
-          "detail": "Token scope: \"Shared Payment Tokens are uniquely granted to your seller account\" with usage_limits (currency, max_amount, expires_at).",
-          "sources": []
+          "detail": "Token scope: \"The agent grants SPTs to your Stripe profile, each with usage and expiration limits\" (usage_limits: currency, max_amount, expires_at), https://docs.stripe.com/agentic-commerce/concepts/shared-payment-tokens (undated, read 2026-11-17).",
+          "sources": [
+            {
+              "url": "https://docs.stripe.com/agentic-commerce/concepts/shared-payment-tokens"
+            }
+          ]
         },
         "refunds": {
           "code": "YES",
           "note": "(no change)",
-          "detail": "Refunds: \"your existing refund flow works without changes for agentic checkouts,\" https://docs.stripe.com/agentic-commerce/sellers/manage.",
+          "detail": "Refunds: \"your existing refund flow works without changes for agentic checkouts,\" https://docs.stripe.com/agentic-commerce/sellers/use-cases/retail/checkout/orders (undated, read 2026-11-17; the old sellers/manage page now redirects elsewhere).",
           "sources": [
             {
-              "url": "https://docs.stripe.com/agentic-commerce/sellers/manage"
+              "url": "https://docs.stripe.com/agentic-commerce/sellers/use-cases/retail/checkout/orders"
             }
           ]
         }
@@ -882,7 +886,7 @@
           "sources": []
         }
       },
-      "row_notes": "No doc says NMI accepts agent placed orders or names a protocol. Blogs only: https://www.nmi.com/blog/human-not-present-agentic-commerce-network-tokens-and-payments/ (2026-07-15), https://www.nmi.com/blog/prediction-network-tokens-will-take-center-stage-while-agentic-commerce-tests-the-industry/ (2026-07-14). The only agent named item is the developer MCP variable NMI_AGENT_ID, https://docs.nmi.com/docs/mcp. All seven cells silent. NMI is the gateway that published the five questions every merchant should ask on its own blog (2026-09-28, link not pinned here); it has not answered them for itself.",
+      "row_notes": "No doc says NMI accepts agent placed orders or names a protocol. Blogs only: https://www.nmi.com/blog/human-not-present-agentic-commerce-network-tokens-and-payments/ (2026-07-15), https://www.nmi.com/blog/prediction-network-tokens-will-take-center-stage-while-agentic-commerce-tests-the-industry/ (2026-07-14). The only agent named item is the optional NMI_AGENT_ID variable on NMI's own MCP server (\"Fixed name for the calling assistant\"), https://docs.nmi.com/docs/mcp-api (undated, read 2026-11-17). All seven cells silent. NMI is the gateway that published the five questions every merchant should ask on its own blog (2026-09-28, link not pinned here); it has not answered them for itself.",
       "row_sources": [
         {
           "url": "https://www.nmi.com/blog/human-not-present-agentic-commerce-network-tokens-and-payments/",
@@ -893,7 +897,7 @@
           "page_date": "2026-07-14"
         },
         {
-          "url": "https://docs.nmi.com/docs/mcp"
+          "url": "https://docs.nmi.com/docs/mcp-api"
         }
       ]
     },
@@ -1061,7 +1065,6 @@
     }
   ],
   "source_gaps": [
-    "stripe.token_scope",
     "braintree.reporting",
     "braintree.token_scope",
     "adyen.reporting",

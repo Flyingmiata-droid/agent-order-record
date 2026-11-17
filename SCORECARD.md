@@ -2,7 +2,7 @@
 
 Draft 1, read 2026-10-15. Pages change, so run scripts/recheck.ts before you lean on a cell. Re-read 2026-11-14 and still true: Stripe PaymentIntent.agent_details is on the preview API, Braintree transaction.facilitator_details is on the transaction response, and neither Dispute object lists an agent field. Re-read 2026-11-17: Stripe Radar now lists an agent attribute, is_agent_initiated, so the Stripe risk cell moved from SILENT to YES.
 
-The question the card answers: when an AI agent places a card order through this gateway, what does the merchant get back that says so, and does that signal survive to the dispute? Every cell is read from the vendor's own docs, API reference, changelog, terms or press release on the date shown. Nothing is inferred from a marketing sentence. The rows were first gathered with AI help, then each YES or PART cell was tied to the page it came from where one could be pinned (data/scorecard.json lists 6 that still need it under source_gaps). Two cells (Stripe agent_details, Braintree facilitator_details) were re-read by hand against the live page on 2026-10-15 and matched.
+The question the card answers: when an AI agent places a card order through this gateway, what does the merchant get back that says so, and does that signal survive to the dispute? Every cell is read from the vendor's own docs, API reference, changelog, terms or press release on the date shown. Nothing is inferred from a marketing sentence. The rows were first gathered with AI help, then each YES or PART cell was tied to the page it came from where one could be pinned (data/scorecard.json lists 5 that still need it under source_gaps). Two cells (Stripe agent_details, Braintree facilitator_details) were re-read by hand against the live page on 2026-10-15 and matched.
 
 Cell codes: YES = documented, field or sentence quoted below. PART = documented in part. NO = doc says it does not. SILENT = relevant doc read, nothing on it. ASK = no relevant doc found or reachable. ANN = announced only, no live product or doc.
 
@@ -10,7 +10,7 @@ Cell codes: YES = documented, field or sentence quoted below. PART = documented 
 
 | Gateway | Accepts agent orders | Agent field in API | Shows in reporting | Reaches disputes | Risk rules read it | Token scoped to merchant | Refund guidance |
 |---|---|---|---|---|---|---|---|
-| Stripe | YES (private preview; SPT, ACP, UCP) | YES PaymentIntent.agent_details | YES Dashboard tag and filter | SILENT | YES Radar is_agent_initiated | YES | YES (no change) |
+| Stripe | YES (public preview; SPT, ACP, UCP) | YES PaymentIntent.agent_details | YES Dashboard tag and filter | SILENT | YES Radar is_agent_initiated | YES | YES (no change) |
 | Braintree (PayPal) | YES (ACP, UCP) | YES response only, facilitator_details | YES Control Panel filter | SILENT | SILENT | YES | SILENT |
 | Adyen | YES (limited, enterprise US; UCP, AP2, ACP) | PART request side, shoppingPlatform and metadata | PART webhooks only | SILENT | SILENT (custom fields possible) | YES | SILENT |
 | Worldpay | YES (ACP live, UCP soon) | PART request side, paymentInstrument.type delegate | SILENT | ASK | SILENT | PART | SILENT |
@@ -41,7 +41,7 @@ The small merchant gateways are silent or absent. NMI, Authorize.net, Elavon, He
 
 ### Stripe
 
-Accepts: Shared Payment Tokens, private preview. "Shared payment tokens (SPTs) grant sellers scoped access to customers' payment methods for agent-initiated purchases." https://docs.stripe.com/agentic-commerce/concepts/shared-payment-tokens (undated, read 2026-10-15). Protocols UCP and ACP, https://docs.stripe.com/agentic-commerce. Custom path may use Mastercard Agent Pay and Visa Intelligent Commerce tokens, https://docs.stripe.com/agentic-commerce/sellers/custom.
+Accepts: Shared Payment Tokens, public preview (private preview when first read 2026-10-15). "Shared payment tokens (SPTs) grant sellers scoped access to customers' payment methods for agent-initiated purchases. SPTs are available to agents, customers, and sellers in the US, Canada, and select European countries." https://docs.stripe.com/agentic-commerce/concepts/shared-payment-tokens (undated, read 2026-11-17). Protocols UCP, https://docs.stripe.com/agentic-commerce/protocols/ucp, and ACP, https://docs.stripe.com/agentic-commerce/protocols/acp. The same SPT page says Stripe may use Mastercard Agent Pay, Visa Intelligent Commerce and American Express ACE Kit tokens on the seller's behalf (the old sellers/custom page now redirects there).
 
 API field: PaymentIntent.agent_details (object, nullable), with agent_details.name and agent_details.network_business_profile. https://docs.stripe.com/api/payment_intents/object?api-version=2026-09-30.preview. Listed as "Agent details (Private preview)" at CheckoutSessions.PaymentIntent.agent_details on https://docs.stripe.com/agentic-commerce/sellers/use-cases/retail/checkout (re-read by hand 2026-11-15; the field table moved there from the retail overview page). SharedPaymentGrantedToken carries agent_details, usage_limits and risk_details.insights (bot, card_testing, stolen_card, fraudulent_dispute, card_issuer_decline), https://docs.stripe.com/api/shared-payment/granted-token/object.
 
@@ -51,9 +51,9 @@ Disputes: Dispute object has no agent field, https://docs.stripe.com/api/dispute
 
 Risk rules: Radar supported attributes list is_agent_initiated (Boolean), "True when Stripe identifies the payment as initiated by an AI agent," under Cards, other payment details, https://docs.stripe.com/radar/rules/supported-attributes (undated, read 2026-11-17). The 2026-10-15 read found no agent attribute there.
 
-Token scope: "Shared Payment Tokens are uniquely granted to your seller account" with usage_limits (currency, max_amount, expires_at).
+Token scope: "The agent grants SPTs to your Stripe profile, each with usage and expiration limits" (usage_limits: currency, max_amount, expires_at), https://docs.stripe.com/agentic-commerce/concepts/shared-payment-tokens (undated, read 2026-11-17).
 
-Refunds: "your existing refund flow works without changes for agentic checkouts," https://docs.stripe.com/agentic-commerce/sellers/manage.
+Refunds: "your existing refund flow works without changes for agentic checkouts," https://docs.stripe.com/agentic-commerce/sellers/use-cases/retail/checkout/orders (undated, read 2026-11-17; the old sellers/manage page now redirects elsewhere).
 
 ### Braintree (PayPal)
 
@@ -185,7 +185,7 @@ Reporting: "See who, or what, is behind every transaction, with visibility into 
 
 ### NMI
 
-No doc says NMI accepts agent placed orders or names a protocol. Blogs only: https://www.nmi.com/blog/human-not-present-agentic-commerce-network-tokens-and-payments/ (2026-07-15), https://www.nmi.com/blog/prediction-network-tokens-will-take-center-stage-while-agentic-commerce-tests-the-industry/ (2026-07-14). The only agent named item is the developer MCP variable NMI_AGENT_ID, https://docs.nmi.com/docs/mcp. All seven cells silent. NMI is the gateway that published the five questions every merchant should ask on its own blog (2026-09-28, link not pinned here); it has not answered them for itself.
+No doc says NMI accepts agent placed orders or names a protocol. Blogs only: https://www.nmi.com/blog/human-not-present-agentic-commerce-network-tokens-and-payments/ (2026-07-15), https://www.nmi.com/blog/prediction-network-tokens-will-take-center-stage-while-agentic-commerce-tests-the-industry/ (2026-07-14). The only agent named item is the optional NMI_AGENT_ID variable on NMI's own MCP server ("Fixed name for the calling assistant"), https://docs.nmi.com/docs/mcp-api (undated, read 2026-11-17). All seven cells silent. NMI is the gateway that published the five questions every merchant should ask on its own blog (2026-09-28, link not pinned here); it has not answered them for itself.
 
 ### Authorize.net (Visa)
 
