@@ -1,6 +1,6 @@
 # Gateway readiness scorecard, agent placed card orders
 
-Draft 1, read 2026-10-15. Pages change, so run scripts/recheck.ts before you lean on a cell. Re-read 2026-11-14 and still true: Stripe PaymentIntent.agent_details is on the preview API, Braintree transaction.facilitator_details is on the transaction response, and neither Dispute object lists an agent field.
+Draft 1, read 2026-10-15. Pages change, so run scripts/recheck.ts before you lean on a cell. Re-read 2026-11-14 and still true: Stripe PaymentIntent.agent_details is on the preview API, Braintree transaction.facilitator_details is on the transaction response, and neither Dispute object lists an agent field. Re-read 2026-11-17: Stripe Radar now lists an agent attribute, is_agent_initiated, so the Stripe risk cell moved from SILENT to YES.
 
 The question the card answers: when an AI agent places a card order through this gateway, what does the merchant get back that says so, and does that signal survive to the dispute? Every cell is read from the vendor's own docs, API reference, changelog, terms or press release on the date shown. Nothing is inferred from a marketing sentence. The rows were first gathered with AI help, then each YES or PART cell was tied to the page it came from where one could be pinned (data/scorecard.json lists 6 that still need it under source_gaps). Two cells (Stripe agent_details, Braintree facilitator_details) were re-read by hand against the live page on 2026-10-15 and matched.
 
@@ -10,7 +10,7 @@ Cell codes: YES = documented, field or sentence quoted below. PART = documented 
 
 | Gateway | Accepts agent orders | Agent field in API | Shows in reporting | Reaches disputes | Risk rules read it | Token scoped to merchant | Refund guidance |
 |---|---|---|---|---|---|---|---|
-| Stripe | YES (private preview; SPT, ACP, UCP) | YES PaymentIntent.agent_details | YES Dashboard tag and filter | SILENT | SILENT | YES | YES (no change) |
+| Stripe | YES (private preview; SPT, ACP, UCP) | YES PaymentIntent.agent_details | YES Dashboard tag and filter | SILENT | YES Radar is_agent_initiated | YES | YES (no change) |
 | Braintree (PayPal) | YES (ACP, UCP) | YES response only, facilitator_details | YES Control Panel filter | SILENT | SILENT | YES | SILENT |
 | Adyen | YES (limited, enterprise US; UCP, AP2, ACP) | PART request side, shoppingPlatform and metadata | PART webhooks only | SILENT | SILENT (custom fields possible) | YES | SILENT |
 | Worldpay | YES (ACP live, UCP soon) | PART request side, paymentInstrument.type delegate | SILENT | ASK | SILENT | PART | SILENT |
@@ -33,7 +33,7 @@ Nobody passes the agent signal to the dispute. Sixteen gateways checked, zero do
 
 Two gateways give the merchant a named field. Stripe (PaymentIntent.agent_details, private preview) and Braintree (transaction.facilitator_details, response only). Both also tag it in the dashboard. Everything else is a request side hint the merchant has to store itself (Adyen shoppingPlatform, Worldpay paymentInstrument.type delegate) or a channel label with no documented value (Shopify, Square).
 
-No merchant fraud rule reads agent data anywhere. Stripe Radar attributes, Braintree Fraud Protection Advanced, Adyen custom risk fields, Checkout.com rule categories, Worldpay fraud assessment: none has an agent attribute. Adyen and Checkout.com let the merchant pass its own custom flag into rules, which is a workaround, not a feature.
+One fraud rule engine reads an agent signal: Stripe. Radar lists is_agent_initiated, a Boolean that is true "when Stripe identifies the payment as initiated by an AI agent" (read 2026-11-17). That is Stripe's own detection, it is not the agent_details object, and it still does not reach the dispute. Braintree Fraud Protection Advanced, Adyen custom risk fields, Checkout.com rule categories, Worldpay fraud assessment: none has an agent attribute. Adyen lets the merchant pass its own custom flag into rules, which is a workaround, not a feature.
 
 The small merchant gateways are silent or absent. NMI, Authorize.net, Elavon, Helcim: no doc saying they accept agent orders, no field, no announcement with a date (NMI has blog posts only). These are the gateways the merchants who will get the first "my agent did it" chargebacks actually use.
 
@@ -49,7 +49,7 @@ Reporting: "View orders on the Transactions page in the Dashboard, where they're
 
 Disputes: Dispute object has no agent field, https://docs.stripe.com/api/disputes/object. The Handle orders page says "Manage refunds and disputes on the Transactions page" and points dispute responses to the general dispute guide, https://docs.stripe.com/agentic-commerce/sellers/use-cases/retail/checkout/orders (undated, read 2026-11-15). Agent Services terms (modified 2026-04-20): "an Agentic Seller is solely responsible for Agentic Customers' claims relating to Agentic Seller's goods and services," https://stripe.com/legal/ssa-service-terms.
 
-Risk rules: Radar supported attributes list has no agent attribute, https://docs.stripe.com/radar/rules/supported-attributes.
+Risk rules: Radar supported attributes list is_agent_initiated (Boolean), "True when Stripe identifies the payment as initiated by an AI agent," under Cards, other payment details, https://docs.stripe.com/radar/rules/supported-attributes (undated, read 2026-11-17). The 2026-10-15 read found no agent attribute there.
 
 Token scope: "Shared Payment Tokens are uniquely granted to your seller account" with usage_limits (currency, max_amount, expires_at).
 
@@ -73,7 +73,7 @@ Refunds: silent.
 
 ### Adyen
 
-Accepts: "Adyen Agentic is in limited availability for enterprise merchants operating in the U.S." UCP, AP2, ACP. https://www.adyen.com/press-and-media/adyen-agentic (2026-06-16). Docs: https://docs.adyen.com/online-payments/agentic-commerce/agentic-checkout-integration.
+Accepts: "Adyen Agentic is in limited availability for enterprise merchants operating in the U.S." UCP, AP2, ACP. https://www.adyen.com/press-and-media/adyen-agentic (2026-06-16). Docs: https://docs.adyen.com/online-payments/agentic-commerce (the old agentic-checkout-integration page returned 404 on 2026-11-17).
 
 API field: Agentic Cart API shoppingPlatform ("Agent platform identifier, for example, openai, google, meta"), https://docs.adyen.com/online-payments/agentic-commerce/merchant/agentic-cart-api-integration (modified 2025-12-23). UCP path: optional metadata.agentProtocol, agentSessionId, agentPlatform, https://docs.adyen.com/online-payments/agentic-commerce/merchant/google-agentic-commerce (modified 2026-10-15). No agent flag in the /payments response.
 
@@ -81,7 +81,7 @@ Reporting: AUTHORISATION webhook carries sessionId and shoppingPlatform in addit
 
 Disputes: silent on every page read. UCP PAN_ONLY: "Liability shift is not available."
 
-Risk rules: no Adyen agent field; merchant can pass its own additionalData.riskdata.<name> into custom rules, https://docs.adyen.com/risk-management/configure-custom-risk-rules.
+Risk rules: no Adyen agent field; merchant can pass its own additionalData.riskdata.<name> into custom rules, https://docs.adyen.com/risk-management/configure-manual-risk/configure-custom-risk-rules (moved, read 2026-11-17).
 
 Token scope: ACP delegate_payment allowance (merchant_id, checkout_session_id, max_amount, currency, expires_at, one_time), token "bound to one merchant account," https://docs.adyen.com/online-payments/agentic-commerce/agent-platform/agentic-payments-acp (modified 2026-03-06).
 
@@ -121,7 +121,7 @@ API field: "Orders from AI channels display in your Shopify admin with channel o
 
 Reporting: Agentic Storefronts admin page, https://shopify.dev/changelog/a-new-home-for-agentic-storefronts-in-your-admin (2026-05-11).
 
-Disputes: Supplemental Terms (2026-01-12) silent on chargebacks; "You remain the seller of record," https://www.shopify.com/legal/agentic-storefronts-supplemental-terms.
+Disputes: Supplemental Terms (last updated 2026-10-06, read 2026-11-17) still silent on chargebacks; "You remain the seller of record," https://www.shopify.com/legal/terms-agentic-storefronts (the old address now returns 404).
 
 Risk rules: silent.
 

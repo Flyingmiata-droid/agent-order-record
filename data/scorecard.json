@@ -83,9 +83,9 @@
           ]
         },
         "risk_rules": {
-          "code": "SILENT",
-          "note": "",
-          "detail": "Risk rules: Radar supported attributes list has no agent attribute, https://docs.stripe.com/radar/rules/supported-attributes.",
+          "code": "YES",
+          "note": "Radar is_agent_initiated",
+          "detail": "Risk rules: Radar supported attributes list is_agent_initiated (Boolean), \"True when Stripe identifies the payment as initiated by an AI agent,\" under Cards, other payment details, https://docs.stripe.com/radar/rules/supported-attributes (undated, read 2026-11-17). The 2026-10-15 read found no agent attribute there.",
           "sources": [
             {
               "url": "https://docs.stripe.com/radar/rules/supported-attributes"
@@ -188,14 +188,14 @@
         "accepts": {
           "code": "YES",
           "note": "(limited, enterprise US; UCP, AP2, ACP)",
-          "detail": "Accepts: \"Adyen Agentic is in limited availability for enterprise merchants operating in the U.S.\" UCP, AP2, ACP. https://www.adyen.com/press-and-media/adyen-agentic (2026-06-16). Docs: https://docs.adyen.com/online-payments/agentic-commerce/agentic-checkout-integration.",
+          "detail": "Accepts: \"Adyen Agentic is in limited availability for enterprise merchants operating in the U.S.\" UCP, AP2, ACP. https://www.adyen.com/press-and-media/adyen-agentic (2026-06-16). Docs: https://docs.adyen.com/online-payments/agentic-commerce (the old agentic-checkout-integration page returned 404 on 2026-11-17).",
           "sources": [
             {
               "url": "https://www.adyen.com/press-and-media/adyen-agentic",
               "page_date": "2026-06-16"
             },
             {
-              "url": "https://docs.adyen.com/online-payments/agentic-commerce/agentic-checkout-integration"
+              "url": "https://docs.adyen.com/online-payments/agentic-commerce"
             }
           ]
         },
@@ -229,10 +229,10 @@
         "risk_rules": {
           "code": "SILENT",
           "note": "(custom fields possible)",
-          "detail": "Risk rules: no Adyen agent field; merchant can pass its own additionalData.riskdata.<name> into custom rules, https://docs.adyen.com/risk-management/configure-custom-risk-rules.",
+          "detail": "Risk rules: no Adyen agent field; merchant can pass its own additionalData.riskdata.<name> into custom rules, https://docs.adyen.com/risk-management/configure-manual-risk/configure-custom-risk-rules (moved, read 2026-11-17).",
           "sources": [
             {
-              "url": "https://docs.adyen.com/risk-management/configure-custom-risk-rules"
+              "url": "https://docs.adyen.com/risk-management/configure-manual-risk/configure-custom-risk-rules"
             }
           ]
         },
@@ -448,10 +448,10 @@
         "disputes": {
           "code": "SILENT",
           "note": "",
-          "detail": "Disputes: Supplemental Terms (2026-01-12) silent on chargebacks; \"You remain the seller of record,\" https://www.shopify.com/legal/agentic-storefronts-supplemental-terms.",
+          "detail": "Disputes: Supplemental Terms (last updated 2026-10-06, read 2026-11-17) still silent on chargebacks; \"You remain the seller of record,\" https://www.shopify.com/legal/terms-agentic-storefronts (the old address now returns 404).",
           "sources": [
             {
-              "url": "https://www.shopify.com/legal/agentic-storefronts-supplemental-terms"
+              "url": "https://www.shopify.com/legal/terms-agentic-storefronts"
             }
           ]
         },
