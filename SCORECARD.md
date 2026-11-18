@@ -20,8 +20,8 @@ Cell codes: YES = documented, field or sentence quoted below. PART = documented 
 | PayPal (wallet, Orders v2) | YES (ACP via Braintree only; UCP via Orders v2) | SILENT | SILENT | PART (Seller Protection sentence) | SILENT | SILENT | SILENT |
 | Cybersource (Visa) | YES pilot, agent side only | SILENT (no merchant indicator) | SILENT | SILENT | SILENT | SILENT | SILENT |
 | Nuvei | ANN (TAP pilot, H2 2026 target) | SILENT | SILENT | SILENT | ANN (KYA scoring) | SILENT | SILENT |
-| Fiserv (Commerce Hub, Clover, CardPointe) | ANN (TAP, Agent Pay, early adopter program) | ASK | SILENT | SILENT | SILENT | SILENT | SILENT |
-| Global Payments (Heartland, Genius) | ANN (building ACP, UCP) | ASK | SILENT | SILENT | SILENT | SILENT | SILENT |
+| Fiserv (Commerce Hub, Clover, CardPointe) | ANN (TAP, Agent Pay, early adopter program) | ASK | SILENT | ASK | SILENT | SILENT | SILENT |
+| Global Payments (Heartland, Genius) | ANN (building ACP, UCP) | ASK | SILENT | ASK | SILENT | SILENT | SILENT |
 | NMI | SILENT | SILENT | SILENT | SILENT | SILENT | SILENT | SILENT |
 | Authorize.net (Visa) | ASK | SILENT | ASK | ASK | SILENT | ASK | SILENT |
 | Elavon | ASK | SILENT | SILENT | SILENT | SILENT | SILENT | SILENT |
@@ -29,7 +29,7 @@ Cell codes: YES = documented, field or sentence quoted below. PART = documented 
 
 ## What the card says
 
-Nobody passes the agent signal to the dispute. Sixteen gateways checked, zero document an agent field on the dispute object, the chargeback notice or the evidence form. Stripe's Dispute object, Braintree's Dispute object and PayPal's Customer Disputes schema were each read field by field: no agent field. For Worldpay and Authorize.net the dispute docs could not be read (ASK), so that is 14 read and 2 unknown. That is the gap this repo works on.
+Nobody passes the agent signal to the dispute. Sixteen gateways checked, zero document an agent field on the dispute object, the chargeback notice or the evidence form. Stripe's Dispute object, Braintree's Dispute object and PayPal's Customer Disputes schema were each read field by field: no agent field. For Worldpay, Authorize.net, Fiserv and Global Payments the dispute docs could not be read (ASK), so that is 12 read and 4 unknown. That is the gap this repo works on.
 
 Two gateways give the merchant a named field. Stripe (PaymentIntent.agent_details, private preview) and Braintree (transaction.facilitator_details, response only). Both also tag it in the dashboard. Everything else is a request side hint the merchant has to store itself (Adyen shoppingPlatform, Worldpay paymentInstrument.type delegate) or a channel label with no documented value (Shopify, Square).
 

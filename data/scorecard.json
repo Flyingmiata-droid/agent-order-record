@@ -758,7 +758,7 @@
           "sources": []
         },
         "disputes": {
-          "code": "SILENT",
+          "code": "ASK",
           "note": "",
           "detail": "",
           "sources": []
@@ -812,7 +812,7 @@
           "sources": []
         },
         "disputes": {
-          "code": "SILENT",
+          "code": "ASK",
           "note": "",
           "detail": "",
           "sources": []

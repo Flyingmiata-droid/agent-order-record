@@ -20,7 +20,7 @@ An AEP chain check. src/aep.ts and src/jcs.ts do canonical JSON, the SHA-256 cha
 
 A Stripe evidence renderer. src/stripe.ts takes a DisputeBundle and returns the ten text fields for Stripe dispute evidence, plus page text for the three file fields. It refuses a bundle whose verification failed, is cached or contradicts itself, an empty bundle, a chain whose hashes no longer match (unless you pass reverify: false, which gives a warning instead), and any output that looks like it holds a card number. Signatures are checked again only when you pass the public key. Without the key you get a warning, not a refusal.
 
-A Visa CE 3.0 check. src/ce3.ts takes the disputed order and the prior orders and answers yes or no, with the reason. Device and IP values count only when they belong to the cardholder. On an agent order they often belong to the AI platform, and then they say nothing about the buyer.
+A Visa CE 3.0 check. src/ce3.ts takes the disputed order and the prior orders and answers yes or no, with the reason. It counts device and IP values only when they belong to the cardholder. That is our reading, not a Visa or Stripe rule: on an agent order they often belong to the AI platform, and then they say nothing about the buyer.
 
 ## Run it
 
@@ -36,7 +36,7 @@ The example takes AEP's own test vector b, checks the chain, and prints the Stri
 
 Read 2026-10-15. The Stripe and Braintree cells below were read again on 2026-11-14.
 
-Two of the 16 gateways give the merchant a named field for the agent: Stripe (PaymentIntent.agent_details, preview API) and Braintree (transaction.facilitator_details, a general third party field that its ACP page fills with ChatGPT). None documents an agent field on the dispute object or the evidence form: 14 were read and none has one (PayPal only says its Seller Protection extends to agentic transactions), and for 2 (Worldpay, Authorize.net) the dispute docs could not be read. One fraud rule engine documents an agent attribute: Stripe Radar's is_agent_initiated, Stripe's own detection, found on a re-read 2026-11-17. NMI, Authorize.net, Elavon and Helcim have no doc saying they accept agent orders (NMI has blog posts only).
+Two of the 16 gateways give the merchant a named field for the agent: Stripe (PaymentIntent.agent_details, preview API) and Braintree (transaction.facilitator_details, a general third party field that its ACP page fills with ChatGPT). None documents an agent field on the dispute object or the evidence form: 12 were read and none has one (PayPal only says its Seller Protection extends to agentic transactions), and for 4 (Worldpay, Authorize.net, Fiserv, Global Payments) the dispute docs could not be read. One fraud rule engine documents an agent attribute: Stripe Radar's is_agent_initiated, Stripe's own detection, found on a re-read 2026-11-17. NMI, Authorize.net, Elavon and Helcim have no doc saying they accept agent orders (NMI has blog posts only).
 
 So today the agent signal dies between the payment and the dispute.
 
