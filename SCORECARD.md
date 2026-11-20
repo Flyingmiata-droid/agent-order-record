@@ -91,7 +91,7 @@ Refunds: silent.
 
 Accepts: ACP live. Release note 2026-02-18: "Delegate tokens are now supported. Used as part of the Agentic Commerce Protocol (ACP) flow." https://docs.worldpay.com/access/products/releases. "We are an approved payment partner for OpenAI's Instant Checkout," https://docs.worldpay.com/access/products/ai/acp. UCP and agentic tokens: coming soon.
 
-API field: request side, instruction.paymentInstrument.type "delegate" with sessionHref, https://docs.worldpay.com/access/products/payments/enable-features/acp-delegate-token (updated 2026-10-09). Delegate token allowance and risk_signals at https://docs.worldpay.com/access/products/sessions/openapi/delegate-payment/delegatepayment.md. Response side: payment response schema has no delegate or agent term.
+API field: request side, instruction.paymentInstrument.type "delegate" with sessionHref, https://docs.worldpay.com/access/products/payments/enable-features/acp-delegate-token (updated 2026-11-10, read 2026-11-19). Delegate token allowance and risk_signals at https://docs.worldpay.com/access/products/sessions/openapi/delegate-payment/delegatepayment.md. Response side: payment response schema has no delegate or agent term.
 
 Reporting: query payments page gives no field detail. Silent.
 
@@ -109,7 +109,7 @@ Accepts: ACP (press 2025-11-25, https://www.checkout.com/newsroom/checkout-adopt
 
 API field: token arrives with provider "checkout", managed_by "agentic_platform_psp"; merchant sends source.type token, merchant_initiated false. No agent indicator field, https://www.checkout.com/docs/payments/accept-payments/accept-a-payment-via-agentic-commerce/accept-a-payment-via-chatgpt (updated 2026-09-09).
 
-Reporting, risk rules (https://www.checkout.com/docs/risk-management/fraud-detection/rule-categories, 2026-05-13), token scope, refunds: silent.
+Reporting, risk rules (https://www.checkout.com/docs/business-operations/prevent-fraud/create-risk-rules-and-lists, 2026-05-13), token scope, refunds: silent.
 
 Disputes: blog only, "Checkout.com can provide issuers with the original consent record," https://www.checkout.com/blog/how-checkout-is-thinking-about-agentic-commerce (2025-09-02). Nothing in docs.
 
