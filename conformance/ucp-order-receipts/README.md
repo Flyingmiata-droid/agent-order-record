@@ -1,0 +1,48 @@
+## Stripe events to UCP order receipts
+
+`src/ucp-receipts.ts` takes Stripe webhook events for one payment and signs the receipt chain that the AP2 Mandates extension describes in its Order Receipts section. That section is a proposal, Universal-Commerce-Protocol/ucp PR 1109. This code was written against commit fc59727 and will need a recheck when the text moves.
+
+It does not call Stripe. You pass in events you already hold and an ES256 key.
+
+### What has been checked and what has not
+
+The 13 scenarios in `test/fixtures/stripe-events/scenarios.ts` were run through a verifier this repo did not write: `common/payments/ap2_receipt_verifier.py` from conformance PR 136, at 1b94f82. All 13 came back with no outcome, warning or reconciliation finding. `run_verifier.py` in this folder repeats that run.
+
+The Stripe event shapes are hand built from Stripe's API reference and guides. They are not captures from a Stripe account, so a field Stripe sends differently in practice would not show up here. Capturing the same flows in test mode is the next step.
+
+### How Stripe events map
+
+| Stripe event | What it means on the card | Receipt |
+| :-- | :-- | :-- |
+| `charge.succeeded`, `captured` false | hold placed | `authorization` |
+| `charge.succeeded`, `captured` true | hold and capture together | `authorization`, then `capture` |
+| `payment_intent.amount_capturable_updated`, amount went up | incremental authorization | `authorization_adjustment` for the difference |
+| `charge.captured` | capture, or the next capture under multicapture | `capture` for the newly captured amount |
+| `payment_intent.succeeded` with part of the hold uncaptured | Stripe drops the rest of the hold | `release` for the rest |
+| `payment_intent.canceled`, `charge.expired` | hold voided or expired | `release` |
+| refund with status `pending` | refund sent, not settled | `refund`, `pending` |
+| refund with status `succeeded` | refund settled, as a refund or as a reversal | `refund`, `succeeded` |
+| refund update where `reference_status` turns `available` | the ARN arrived later | second `refund`, `succeeded`, same `processing_entry_id`, with `network_ref` |
+| refund `failed` or `canceled` before it succeeded | refund did not happen | `refund`, `failed` |
+
+The refund id is always the `processing_entry_id`, so a late ARN can be tied to its refund. A refund that Stripe settles as a reversal (`destination_details.card.type` is `reversal`) never gets a `network_ref`.
+
+Nothing from Stripe maps to `capture_reversal`. On cards, Stripe reports an undone capture as a refund whose type settles to `reversal`, and the spec text says to receipt that as a `refund`.
+
+### Where Stripe does something the receipt text has no event for
+
+Two card flows could not be written as receipts without guessing. The adapter signs nothing for them, reports them in `unmapped`, and stops the chain, because every total after that point would be wrong on purpose.
+
+Overcapture. Stripe can capture above the authorized amount with no new authorization at the network. The spec says captured never passes authorized for a compliant business. By default the adapter holds that capture. With `overcapture: 'adjust'` it signs an `authorization_adjustment` for the gap first. That is this repo's reading and the spec does not say it.
+
+A refund that fails after it succeeded. Stripe can move a refund from `succeeded` to `failed` when the bank sends the money back, sometimes weeks later. Totals only go up on a succeeded refund, and no event brings `refunded` back down.
+
+Disputes are reported in `unmapped` too, without stopping the chain. The spec puts them out of scope.
+
+### Run it
+
+```
+npm test
+node scripts/ucp-export.ts /tmp/ucp-out
+python3 conformance/ucp-order-receipts/run_verifier.py <checkout of conformance PR 136> /tmp/ucp-out
+```
