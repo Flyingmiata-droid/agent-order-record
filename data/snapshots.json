@@ -14,25 +14,28 @@
     "last_checked": "2026-11-09"
   },
   "https://docs.stripe.com/api/shared-payment/granted-token/object": {
-    "hash": "575f3edc1ba8364a5304268df7b94c2944185326997e126689f1eb34477c7296",
+    "hash": "cf7afd8b82ca24b1ddea1005f93bd8ca1e016b13ab786b7ec3ea75acda836f54",
     "status": "ok",
     "http": 200,
     "first_seen": "2026-11-09",
-    "last_checked": "2026-11-09"
+    "last_checked": "2026-11-21",
+    "last_changed": "2026-11-21"
   },
   "https://docs.stripe.com/agentic-commerce/concepts/shared-payment-tokens": {
-    "hash": "e1af14d99f1670ddd0a75bd27b7e4aab2e73fff6c38b7e9f04ecc73261dc63b1",
+    "hash": "2fdaf29f253d2a7aef4a489ded799a728a08cf5dd8f89a1a3234e821f06e3a7c",
     "status": "ok",
     "http": 200,
     "first_seen": "2026-11-09",
-    "last_checked": "2026-11-09"
+    "last_checked": "2026-11-21",
+    "last_changed": "2026-11-21"
   },
   "https://docs.stripe.com/api/disputes/object": {
-    "hash": "c2e0405373ec806c88cbda238f6c89cf2d808b55930dabf85a98503d54294a1e",
+    "hash": "c01d8dfd60d14d228261c7abc43adfada2ae61abceedc1f4083c21cc39fe0d9b",
     "status": "ok",
     "http": 200,
     "first_seen": "2026-11-09",
-    "last_checked": "2026-11-09"
+    "last_checked": "2026-11-21",
+    "last_changed": "2026-11-21"
   },
   "https://docs.stripe.com/agentic-commerce/sellers/custom": {
     "hash": "e1af14d99f1670ddd0a75bd27b7e4aab2e73fff6c38b7e9f04ecc73261dc63b1",
@@ -46,7 +49,7 @@
     "status": "ok",
     "http": 200,
     "first_seen": "2026-11-09",
-    "last_checked": "2026-11-09"
+    "last_checked": "2026-11-21"
   },
   "https://docs.stripe.com/agentic-commerce/sellers/manage": {
     "hash": "28ad08f6cd8c7127b2ffc3a959db28056aa7c10ab3cc08e68d0110311297f74a",
@@ -60,28 +63,30 @@
     "status": "ok",
     "http": 200,
     "first_seen": "2026-11-09",
-    "last_checked": "2026-11-09"
+    "last_checked": "2026-11-21"
   },
   "https://stripe.com/legal/ssa-service-terms": {
-    "hash": "100d10819e1b534dda6d40b5d7c5a0317320cc155f1413140c35d5bddca26f6e",
+    "hash": "71ccc04b62bef2102f4a549b5f704dfaf045f16c38de0f0a7acfbeb9bf0531c5",
     "status": "ok",
     "http": 200,
     "first_seen": "2026-11-09",
-    "last_checked": "2026-11-09"
+    "last_checked": "2026-11-21",
+    "last_changed": "2026-11-21"
   },
   "https://docs.stripe.com/api/payment_intents/object?api-version=2026-09-30.preview": {
-    "hash": "12c41744dd52d6a7d14ea230677c18a5efb778f2ddddd0c7369f3ef79ccd8e2d",
+    "hash": "3cb79099a01b6cf95017f222c382b4d44b3a9bf9433fcdd598e6dd235dba5ff7",
     "status": "ok",
     "http": 200,
     "first_seen": "2026-11-09",
-    "last_checked": "2026-11-09"
+    "last_checked": "2026-11-21",
+    "last_changed": "2026-11-21"
   },
   "https://www.adyen.com/press-and-media/adyen-agentic": {
     "hash": "fae58c6863e654b3dfc51bba92c4794ee92288f9d80c3cdf78ec2080b8824149",
     "status": "ok",
     "http": 200,
     "first_seen": "2026-11-09",
-    "last_checked": "2026-11-09"
+    "last_checked": "2026-11-21"
   },
   "https://docs.paypal.ai/growth/agentic-commerce/agent-ready/overview": {
     "hash": "b230f155b8e3cfd1420ec32f8265dfb2dd6978778539dcd47dadc4185ad48965",
@@ -95,21 +100,22 @@
     "status": "ok",
     "http": 200,
     "first_seen": "2026-11-09",
-    "last_checked": "2026-11-09"
+    "last_checked": "2026-11-21"
   },
   "https://developer.paypal.com/braintree/docs/reference/response/dispute": {
     "hash": "8fbf15ee8a546f00ab34d931f9141bac77fdd3720a28bf6df34edb741a6d66c2",
     "status": "ok",
     "http": 200,
     "first_seen": "2026-11-09",
-    "last_checked": "2026-11-09"
+    "last_checked": "2026-11-21"
   },
   "https://developer.paypal.com/braintree/docs/reference/response/transaction": {
-    "hash": "9057f10a1133edcd9fd934c967a33b7731a9fc0b90e92676a190860e195ba758",
+    "hash": "6326ad4843dd03b73ec6e27506525541a3be6df37e7bb5e3a4616e63635d7983",
     "status": "ok",
     "http": 200,
     "first_seen": "2026-11-09",
-    "last_checked": "2026-11-09"
+    "last_checked": "2026-11-21",
+    "last_changed": "2026-11-21"
   },
   "https://docs.adyen.com/online-payments/agentic-commerce/agentic-checkout-integration": {
     "hash": null,
@@ -123,14 +129,14 @@
     "status": "ok",
     "http": 200,
     "first_seen": "2026-11-09",
-    "last_checked": "2026-11-09"
+    "last_checked": "2026-11-21"
   },
   "https://docs.adyen.com/online-payments/agentic-commerce/merchant/agentic-cart-api-integration": {
     "hash": "6d3336a7e4a11e24e6804d45640bb862fcc85f96825f58dd3cb9613e4cde3124",
     "status": "ok",
     "http": 200,
     "first_seen": "2026-11-09",
-    "last_checked": "2026-11-09"
+    "last_checked": "2026-11-21"
   },
   "https://docs.adyen.com/risk-management/configure-custom-risk-rules": {
     "hash": null,
@@ -140,74 +146,77 @@
     "last_checked": "2026-11-09"
   },
   "https://docs.worldpay.com/access/products/releases": {
-    "hash": "655745a2a6c74125db952a0a113ec2f8965fd38a61c4917ae7614e5ce575805f",
+    "hash": "68c3bcbd4cc628927f5c9a2018bc41376e35fa3f3af23bba76e5c549d50750f8",
     "status": "ok",
     "http": 200,
     "first_seen": "2026-11-09",
-    "last_checked": "2026-11-09"
+    "last_checked": "2026-11-21",
+    "last_changed": "2026-11-21"
   },
   "https://www.checkout.com/newsroom/checkout-adopts-acp-backed-by-openai-to-power-agentic-commerce-for-enterprise-merchants": {
     "hash": "e1921d84c03e62467385fc557ccdf3e38f824ce1674a7805e4f263d06f204e70",
     "status": "ok",
     "http": 200,
     "first_seen": "2026-11-09",
-    "last_checked": "2026-11-09"
+    "last_checked": "2026-11-21"
   },
   "https://docs.worldpay.com/access/products/payments/enable-features/acp-delegate-token": {
-    "hash": "a485a9ecdf8762b68b63fca268dd41d366b8032b43f8466d24c0596be6d912e1",
+    "hash": "22c9b7242eaea356b91b3ea51adbbc7e80483fe30dfbcf69b0687517f5f780f7",
     "status": "ok",
     "http": 200,
     "first_seen": "2026-11-09",
-    "last_checked": "2026-11-09"
+    "last_checked": "2026-11-21",
+    "last_changed": "2026-11-21"
   },
   "https://docs.worldpay.com/access/products/sessions/openapi/delegate-payment/delegatepayment.md": {
     "hash": "477280187622548277e5a0644970ed6aa6a82e15cfab1ffc4e1c0dcda50b94eb",
     "status": "ok",
     "http": 200,
     "first_seen": "2026-11-09",
-    "last_checked": "2026-11-09"
+    "last_checked": "2026-11-21"
   },
   "https://docs.worldpay.com/access/products/ai/acp": {
     "hash": "b56fab07956448befaa5de17ecafb61d6526fcb00e1543433ff29b0b5ca5e669",
     "status": "ok",
     "http": 200,
     "first_seen": "2026-11-09",
-    "last_checked": "2026-11-09"
+    "last_checked": "2026-11-21"
   },
   "https://docs.adyen.com/online-payments/agentic-commerce/agent-platform/agentic-payments-acp": {
     "hash": "6f473b183a9621ae22207958e4b47c98d92bc18929df071f5e71e681b5672d34",
     "status": "ok",
     "http": 200,
     "first_seen": "2026-11-09",
-    "last_checked": "2026-11-09"
+    "last_checked": "2026-11-21"
   },
   "https://www.checkout.com/blog/how-checkout-is-thinking-about-agentic-commerce": {
-    "hash": "8d8a9e7dd98562afd6eee4fadf350f0160a44361944a2f8f21d62c2cbe2ae12a",
+    "hash": "7975986d2517f78df675408eacfb9a7ba60525405940dc1aec6a5a150bd26f6d",
     "status": "ok",
     "http": 200,
     "first_seen": "2026-11-09",
-    "last_checked": "2026-11-09"
+    "last_checked": "2026-11-21",
+    "last_changed": "2026-11-21"
   },
   "https://www.checkout.com/docs/payments/accept-payments/accept-a-payment-via-agentic-commerce/accept-a-payment-via-chatgpt": {
     "hash": "e96c9e9fb9fc42d1ae3ea350630d1ff95757cffb1b2b9b747f3cf2087ccf45fb",
     "status": "ok",
     "http": 200,
     "first_seen": "2026-11-09",
-    "last_checked": "2026-11-09"
+    "last_checked": "2026-11-21"
   },
   "https://help.shopify.com/en/manual/online-sales-channels/agentic-storefronts": {
-    "hash": null,
-    "status": "unreachable",
-    "http": 403,
+    "hash": "932ab85c71f69f580f24fa771d5ac0aa96e9495382d2b8e4b7c64675b2d04437",
+    "status": "ok",
+    "http": 200,
     "first_seen": "2026-11-09",
-    "last_checked": "2026-11-09"
+    "last_checked": "2026-11-21"
   },
   "https://www.checkout.com/docs/payments/accept-payments/accept-a-payment-via-agentic-commerce": {
     "hash": "5470dbff1c0e00d345b783d4fb75fab6d244c8f4d396148aa8f95ff70b04bedd",
     "status": "ok",
     "http": 200,
     "first_seen": "2026-11-09",
-    "last_checked": "2026-11-09"
+    "last_checked": "2026-11-21"
   },
   "https://www.shopify.com/legal/agentic-storefronts-supplemental-terms": {
     "hash": null,
@@ -217,39 +226,41 @@
     "last_checked": "2026-11-09"
   },
   "https://community.shopify.dev/t/ai-agent-initiated-orders-api/29140": {
-    "hash": "26dd16df6d7450096eabb0432c5f2485b9a20df714c484a475fd2860983c8b54",
+    "hash": "c39405d3f9185bd421c0c181cb8df83547c512284240b4dfb411ff47b1cf230a",
     "status": "ok",
     "http": 200,
     "first_seen": "2026-11-09",
-    "last_checked": "2026-11-09"
+    "last_checked": "2026-11-21",
+    "last_changed": "2026-11-21"
   },
   "https://squareup.com/us/en/press/claude-chatgpt-integrations": {
     "hash": "c8cebf87eab3d8918316b8318a27ccb12a654201ecfe4e0e34e49f5a025cb865",
     "status": "ok",
     "http": 200,
     "first_seen": "2026-11-09",
-    "last_checked": "2026-11-09"
+    "last_checked": "2026-11-21"
   },
   "https://shopify.dev/docs/agents/carts-and-checkout/shop-pay-handler": {
-    "hash": "de5e85deae799f1e87a26749085604fb4ad2b94a9b78ffbdb6c8597defe7c8bd",
+    "hash": "434e2d7d717e0f240d595a49a1ace75934b5903fc8dc4c7a27ff7e9d12e327ba",
     "status": "ok",
     "http": 200,
     "first_seen": "2026-11-09",
-    "last_checked": "2026-11-09"
+    "last_checked": "2026-11-21",
+    "last_changed": "2026-11-21"
   },
   "https://www.shopify.com/news/agentic-commerce-momentum": {
     "hash": "105864c9ffd151bcb23d8f11edd4dac51d5078b2311a10f751ed4db746eeedbc",
     "status": "ok",
     "http": 200,
     "first_seen": "2026-11-09",
-    "last_checked": "2026-11-09"
+    "last_checked": "2026-11-21"
   },
   "https://shopify.dev/changelog/a-new-home-for-agentic-storefronts-in-your-admin": {
     "hash": "4e5f287d9a251e54d3969e613dc4f668faa2f2c7c8999f2c8df456f0e6c9ea13",
     "status": "ok",
     "http": 200,
     "first_seen": "2026-11-09",
-    "last_checked": "2026-11-09"
+    "last_checked": "2026-11-21"
   },
   "https://www.checkout.com/docs/risk-management/fraud-detection/rule-categories": {
     "hash": "e34460d24f101eb0c0e6b10e35a836c3c4abd5f0ba5eba865de074ce7258a492",
@@ -263,63 +274,65 @@
     "status": "ok",
     "http": 200,
     "first_seen": "2026-11-09",
-    "last_checked": "2026-11-09"
+    "last_checked": "2026-11-21"
   },
   "https://developer.cas.cybersource.com/docs/cybs/en-us/visa-agentic-platform/developer/all/rest/intelligent-commerce.html": {
     "hash": "fb428b0aced10eb9c469a12bbdbab175f99eb6638f4939754cb1c7dddd912d80",
     "status": "ok",
     "http": 200,
     "first_seen": "2026-11-09",
-    "last_checked": "2026-11-09"
+    "last_checked": "2026-11-21"
   },
   "https://developer.paypal.com/api/orders/v2/schema.json": {
     "hash": "384189b6b00c7b82ab04931f385ceeff7c2333816b4ddef329c6a6714b226459",
     "status": "ok",
     "http": 200,
     "first_seen": "2026-11-09",
-    "last_checked": "2026-11-09"
+    "last_checked": "2026-11-21"
   },
   "https://developer.paypal.com/agent-ready/overview": {
     "hash": "b230f155b8e3cfd1420ec32f8265dfb2dd6978778539dcd47dadc4185ad48965",
     "status": "ok",
     "http": 200,
     "first_seen": "2026-11-09",
-    "last_checked": "2026-11-09"
+    "last_checked": "2026-11-21"
   },
   "https://developer.squareup.com/reference/square/objects/OrderSource": {
-    "hash": "5f2c9fa87d819185f5ab5f9c9b5ddafc2d5be44a2090a988e47f64bb391a3fcc",
+    "hash": "b4ef253b44ebd384897db99abb277d3672bbbdaf567bdd773885d0b02cc4a7d5",
     "status": "ok",
     "http": 200,
     "first_seen": "2026-11-09",
-    "last_checked": "2026-11-09"
+    "last_checked": "2026-11-21",
+    "last_changed": "2026-11-21"
   },
   "https://www.nuvei.com/posts/nuvei-completes-first-party-in-agent-payment-with-visa-unveils-merchant-led-agentic-payments-strategy": {
     "hash": "ac7573e755e5381c3291ccb547e5f372cc9bf2fc9c0e6947476310744d8c946c",
     "status": "ok",
     "http": 200,
     "first_seen": "2026-11-09",
-    "last_checked": "2026-11-09"
+    "last_checked": "2026-11-21"
   },
   "https://www.globalpayments.com/agentic-commerce": {
     "hash": null,
     "status": "unreachable",
     "http": 403,
     "first_seen": "2026-11-09",
-    "last_checked": "2026-11-09"
+    "last_checked": "2026-11-21"
   },
   "https://squareup.com/us/en/ai/agentic-commerce": {
-    "hash": "0b12f1095b520e0cd9dad09654c0946ca04024d65941227661b63f4c45299ea7",
+    "hash": "69f6c08264e4a51994b37bb517b98ce49bab1dbfedde5a52342dbbe65627882c",
     "status": "ok",
     "http": 200,
     "first_seen": "2026-11-09",
-    "last_checked": "2026-11-09"
+    "last_checked": "2026-11-21",
+    "last_changed": "2026-11-21"
   },
   "https://docs.nuvei.com/api/main/indexMain_v1_0.html": {
     "hash": "c2cc7fc80a572991d47a59cd6506eec53d78fc57956bcb956c30bf39646b8fbe",
     "status": "ok",
     "http": 200,
     "first_seen": "2026-11-09",
-    "last_checked": "2026-11-09"
+    "last_checked": "2026-11-21"
   },
   "https://docs.nmi.com/docs/mcp": {
     "hash": "b282dee7a552801b902485ad0a3cefd8c36f9dd039073aaf9214bffd9e90688c",
@@ -329,45 +342,720 @@
     "last_checked": "2026-11-09"
   },
   "https://paypal.ai/agent-ready": {
-    "hash": "8a256314f48aa7dad730f63aed04755ef214e14769d5de23938e85c45501a978",
+    "hash": "7fa82d62dac731588b5d3c9d0b29c19c4ebd8de9262e1c53788960dfc9773c03",
     "status": "ok",
     "http": 200,
     "first_seen": "2026-11-09",
-    "last_checked": "2026-11-09"
+    "last_checked": "2026-11-21",
+    "last_changed": "2026-11-21"
   },
   "https://developer.authorize.net/api/reference/index.html": {
     "hash": "b49295a3c25524d172c833ad68efa7e857e3f959853257c1cb1956f277667901",
     "status": "ok",
     "http": 200,
     "first_seen": "2026-11-09",
-    "last_checked": "2026-11-09"
+    "last_checked": "2026-11-21"
   },
   "https://www.nmi.com/blog/prediction-network-tokens-will-take-center-stage-while-agentic-commerce-tests-the-industry/": {
-    "hash": "c81a5283aec864c60a9dacc892e55d2cb141ec89e3b542be2ad0be1933c0e2f4",
+    "hash": "d8dbc3d06c42076ed0cdcf5f20e3d30428c45b10002ff7b2f9fe51577678cdc6",
     "status": "ok",
     "http": 200,
     "first_seen": "2026-11-09",
-    "last_checked": "2026-11-09"
+    "last_checked": "2026-11-21",
+    "last_changed": "2026-11-21"
   },
   "https://www.nmi.com/blog/human-not-present-agentic-commerce-network-tokens-and-payments/": {
-    "hash": "3014897159c821cfe04e027f5b09c0f9bbbe7b411ad70fbd83990c9a0e59c112",
+    "hash": "bff0a6131c90b484a92656592e41e42fe0f423e648f37236d19785f1bc9c771b",
     "status": "ok",
     "http": 200,
     "first_seen": "2026-11-09",
-    "last_checked": "2026-11-09"
+    "last_checked": "2026-11-21",
+    "last_changed": "2026-11-21"
   },
   "https://devdocs.helcim.com/reference/purchase": {
     "hash": "818d37670ec8469ac3bc9c62fa35a141e98a4cd665c48f34773106974294cd82",
     "status": "ok",
     "http": 200,
     "first_seen": "2026-11-09",
-    "last_checked": "2026-11-09"
+    "last_checked": "2026-11-21"
   },
   "https://developer.elavon.com/products/elavon-payment-gateway/v1/api-reference": {
     "hash": null,
     "status": "unreachable",
     "http": 200,
     "first_seen": "2026-11-09",
-    "last_checked": "2026-11-09"
+    "last_checked": "2026-11-21"
+  },
+  "https://docs.stripe.com/agentic-commerce/protocols/ucp": {
+    "hash": "ec2e6cf66ed23f2e7729e5d4439ef4f23c67ca35179e5a93777ec8363d67bf80",
+    "status": "ok",
+    "http": 200,
+    "first_seen": "2026-11-21",
+    "last_checked": "2026-11-21"
+  },
+  "https://docs.stripe.com/agentic-commerce/protocols/acp": {
+    "hash": "b36919560d9ead33f63d7336800c48fe438706d4c4917fcc78f9f25815727810",
+    "status": "ok",
+    "http": 200,
+    "first_seen": "2026-11-21",
+    "last_checked": "2026-11-21"
+  },
+  "https://docs.stripe.com/agentic-commerce/sellers/use-cases/retail/checkout": {
+    "hash": "976ef2faebce16d08770b9386b00b09416ab586fa3ae9c0c827cf1364cd7ac9c",
+    "status": "ok",
+    "http": 200,
+    "first_seen": "2026-11-21",
+    "last_checked": "2026-11-21"
+  },
+  "https://docs.stripe.com/agentic-commerce/sellers/use-cases/retail/checkout/orders": {
+    "hash": "4a6f5cf22779dfda8a1eb21c7ff1a093d67108b40d20d21406ee7ff15cd391e8",
+    "status": "ok",
+    "http": 200,
+    "first_seen": "2026-11-21",
+    "last_checked": "2026-11-21"
+  },
+  "https://docs.adyen.com/online-payments/agentic-commerce": {
+    "hash": "6e1737100d5e19cddc6860db1ecfb1d58b8ce7934f9300086cb1ad449c17bd45",
+    "status": "ok",
+    "http": 200,
+    "first_seen": "2026-11-21",
+    "last_checked": "2026-11-21"
+  },
+  "https://docs.adyen.com/risk-management/configure-manual-risk/configure-custom-risk-rules": {
+    "hash": "5eea87f678d2e8ea4b9194b38e668f3bd364438cc055bff5bf169ab4776730eb",
+    "status": "ok",
+    "http": 200,
+    "first_seen": "2026-11-21",
+    "last_checked": "2026-11-21"
+  },
+  "https://www.checkout.com/docs/business-operations/prevent-fraud/create-risk-rules-and-lists": {
+    "hash": "651bb413bbebdc5f8c898fb4b8f0136cd08ab266132e2eb50aa57091d9b7bf22",
+    "status": "ok",
+    "http": 200,
+    "first_seen": "2026-11-21",
+    "last_checked": "2026-11-21"
+  },
+  "https://www.shopify.com/legal/terms-agentic-storefronts": {
+    "hash": "976fe462ca8e44049092a2589b140076357fbdcc2435f325d57910fd3193763c",
+    "status": "ok",
+    "http": 200,
+    "first_seen": "2026-11-21",
+    "last_checked": "2026-11-21"
+  },
+  "https://developer.paypal.com/api/customer-disputes/v1/schema.json": {
+    "hash": "4065cde307db882a3c9da439de627ea36a73321e7c36bc0896bc98fe5d30c704",
+    "status": "ok",
+    "http": 200,
+    "first_seen": "2026-11-21",
+    "last_checked": "2026-11-21"
+  },
+  "https://docs.nmi.com/docs/mcp-api": {
+    "hash": "cb9056f9c8c1ea7269c5e500014510bc52570154430862efc120f8121726c9b7",
+    "status": "ok",
+    "http": 200,
+    "first_seen": "2026-11-21",
+    "last_checked": "2026-11-21"
+  },
+  "https://www.airwallex.com/en-us/payments/agentic-commerce": {
+    "hash": "ada527e4a4a435c8f8e6374ec03792328a3b6f8068cbc7a214874b7cf8ffb43a",
+    "status": "ok",
+    "http": 200,
+    "first_seen": "2026-11-21",
+    "last_checked": "2026-11-21"
+  },
+  "https://www.airwallex.com/docs/api/payments/payment_intents/retrieve.md": {
+    "hash": "6955c7f603b6b83144212b7f9030351287020ef9f8b1d781af1ab65a9ee2c5a3",
+    "status": "ok",
+    "http": 200,
+    "first_seen": "2026-11-21",
+    "last_checked": "2026-11-21"
+  },
+  "https://www.airwallex.com/docs/payments/payment-operations/disputes.md": {
+    "hash": "abe7eb5dde734dd3f8f5ea68a06acc15d863f3578761f9a40ba8c062013fa72d",
+    "status": "ok",
+    "http": 200,
+    "first_seen": "2026-11-21",
+    "last_checked": "2026-11-21"
+  },
+  "https://www.airwallex.com/docs/payments/payment-operations/manage-payments/refunds.md": {
+    "hash": "4c8befd80ad215e491db7987713d2199cd0b70e9e0d06a19ee26028c294e388e",
+    "status": "ok",
+    "http": 200,
+    "first_seen": "2026-11-21",
+    "last_checked": "2026-11-21"
+  },
+  "https://www.airwallex.com/docs/api/payments/payment_intents/confirm.md": {
+    "hash": "25334ba4890f35428ffb713b54c77ec36f97cdd9ae4f8edc57f5327e7cb94fd1",
+    "status": "ok",
+    "http": 200,
+    "first_seen": "2026-11-21",
+    "last_checked": "2026-11-21"
+  },
+  "https://www.airwallex.com/docs/api/payments/refunds/create.md": {
+    "hash": "c7850d5fbb480d7f7acbf702704142a7a83dd97730394d8ea3f0803beb3491e1",
+    "status": "ok",
+    "http": 200,
+    "first_seen": "2026-11-21",
+    "last_checked": "2026-11-21"
+  },
+  "https://www.airwallex.com/docs/payments/payment-operations/reporting.md": {
+    "hash": "8b096d91a2fd41d37eccd41ebfcd735a11a7d63ef184fa26a9f2445bf248487d",
+    "status": "ok",
+    "http": 200,
+    "first_seen": "2026-11-21",
+    "last_checked": "2026-11-21"
+  },
+  "https://www.airwallex.com/docs/api/payments/payment_disputes/retrieve.md": {
+    "hash": "c2c09ef1d5efee6a28500c78c9036a54403051b01683db8c1430b8bcf262c87e",
+    "status": "ok",
+    "http": 200,
+    "first_seen": "2026-11-21",
+    "last_checked": "2026-11-21"
+  },
+  "https://www.airwallex.com/docs/payments/payment-operations/fraud-prevention-overview.md": {
+    "hash": "84484e43ccab2d53e57bbda3899f516b1cb723fd9efd6acaed47d93fc818f2bb",
+    "status": "ok",
+    "http": 200,
+    "first_seen": "2026-11-21",
+    "last_checked": "2026-11-21"
+  },
+  "https://docs.globalgetnet.com/en/products/agentic-commerce/mcp-ai-toolkit": {
+    "hash": "1b1362d1f316cbf7ff75bac61da396d7239e35795f180c5457ea72c3bef67ad8",
+    "status": "ok",
+    "http": 200,
+    "first_seen": "2026-11-21",
+    "last_checked": "2026-11-21"
+  },
+  "https://docs.globalgetnet.com/en/global/products/business-operations/global-merchant-reports": {
+    "hash": "1f9639295d145c8144136816043dc6812fbb630c4ca58e69571e53f4c594594d",
+    "status": "ok",
+    "http": 200,
+    "first_seen": "2026-11-21",
+    "last_checked": "2026-11-21"
+  },
+  "https://docs.globalgetnet.com/en/global/products/online-payments/regional-api?doc=api-ref-webhooks-and-notifications": {
+    "hash": "09abfd6e9605f8309bd12dff4a879f62cc4ab79279533cadcf2aa7696dcb9ebe",
+    "status": "ok",
+    "http": 200,
+    "first_seen": "2026-11-21",
+    "last_checked": "2026-11-21"
+  },
+  "https://docs.connect.worldline-solutions.com/documentation/ConnectAI/universal-commerce-protocol": {
+    "hash": "7b59385022aba8db66e877f4f4bdd80567b8bb4824b2d507226c6253b5f8aef5",
+    "status": "ok",
+    "http": 200,
+    "first_seen": "2026-11-21",
+    "last_checked": "2026-11-21"
+  },
+  "https://docs.globalgetnet.com/en/global/products/agentic-commerce/mcp-ai-toolkit?doc=mcp-ai-toolkit-available-tools": {
+    "hash": "5c08c59a4f544c6e7e52a6cfdb35904650de8c8c752ceadf6d837d5e6ced57ab",
+    "status": "ok",
+    "http": 200,
+    "first_seen": "2026-11-21",
+    "last_checked": "2026-11-21"
+  },
+  "https://docs.globalgetnet.com/en/global/products/business-operations/chargeback": {
+    "hash": "ddcdd1e06acc62ca70bd4b5a3f1644940788a9466bf4da175cce96d0271a90d3",
+    "status": "ok",
+    "http": 200,
+    "first_seen": "2026-11-21",
+    "last_checked": "2026-11-21"
+  },
+  "https://apireference.connect.worldline-solutions.com/s2sapi/v1/en_US/json/payments/create.html?paymentPlatform=ALL": {
+    "hash": "f9ad5cf09ef94273d70150fa0c329d05dc0ffada96cd708ecf143f632c0e04b1",
+    "status": "ok",
+    "http": 200,
+    "first_seen": "2026-11-21",
+    "last_checked": "2026-11-21"
+  },
+  "https://docs.connect.worldline-solutions.com/reporting/Insights/payment-inquiries": {
+    "hash": "83848915ca335a752224c765f1dec2f27c49e3aa082bc08efd37d3143f1c795c",
+    "status": "ok",
+    "http": 200,
+    "first_seen": "2026-11-21",
+    "last_checked": "2026-11-21"
+  },
+  "https://docs.connect.worldline-solutions.com/documentation/webhooks/event-types": {
+    "hash": "484348401a5ace8e22b8db4bc97f1d2a87fb45460663e82084f91f957c2ff395",
+    "status": "ok",
+    "http": 200,
+    "first_seen": "2026-11-21",
+    "last_checked": "2026-11-21"
+  },
+  "https://docs.globalgetnet.com/en/global/products/online-payments/regional-api?doc=api-ref-antifraud": {
+    "hash": "21cb68df170eaabd794a441735f4e4f1c6105e3855e6708791bf94416cba54f5",
+    "status": "ok",
+    "http": 200,
+    "first_seen": "2026-11-21",
+    "last_checked": "2026-11-21"
+  },
+  "https://docs.connect.worldline-solutions.com/documentation/ConnectAI/worldline-globalcollect-payment-handler": {
+    "hash": "5b6a307e3ec9b9326752ad17fcfe704168810b862c922244af5e3c3c25e7fdcb",
+    "status": "ok",
+    "http": 200,
+    "first_seen": "2026-11-21",
+    "last_checked": "2026-11-21"
+  },
+  "https://docs.connect.worldline-solutions.com/documentation/ConnectAI/agent-payments-protocol-ap2": {
+    "hash": "3aeaaa6ea22aa4f6c6b104cb369b22717c507b7073ed27bf28a7196c9a737b73",
+    "status": "ok",
+    "http": 200,
+    "first_seen": "2026-11-21",
+    "last_checked": "2026-11-21"
+  },
+  "https://www.spreedly.com/products/agentic": {
+    "hash": "0ff9f8614a59bb5c430560fa85113a5f8d8bdaa0e5db3c1462cc85bbd8b6dca0",
+    "status": "ok",
+    "http": 200,
+    "first_seen": "2026-11-21",
+    "last_checked": "2026-11-21"
+  },
+  "https://developer.spreedly.com/docs/agentic-commerce": {
+    "hash": "209ae643fd3e4b6c514f22e7971b63d17dbce5c149015f3ee2411d61802fa17a",
+    "status": "ok",
+    "http": 200,
+    "first_seen": "2026-11-21",
+    "last_checked": "2026-11-21"
+  },
+  "https://developer.spreedly.com/reference/show-transactions": {
+    "hash": "c5b443f0f94888e1d31bc364f26b67254cdecaa7ec36529b7cec2c6bb546c60a",
+    "status": "ok",
+    "http": 200,
+    "first_seen": "2026-11-21",
+    "last_checked": "2026-11-21"
+  },
+  "https://developer.spreedly.com/docs/recent-transactions": {
+    "hash": "663891ade1462e3d61228f34ac4a3d84fcbe2db2a85eb7e600b6f9c5a16636a9",
+    "status": "ok",
+    "http": 200,
+    "first_seen": "2026-11-21",
+    "last_checked": "2026-11-21"
+  },
+  "https://developer.spreedly.com/llms.txt": {
+    "hash": "9a972ed9422923b512e16e5f77d7e6fd1766663301ac53c2da06389ccd966d2d",
+    "status": "ok",
+    "http": 200,
+    "first_seen": "2026-11-21",
+    "last_checked": "2026-11-21"
+  },
+  "https://docs.connect.worldline-solutions.com/after-the-payment/chargeback-handling/dispute": {
+    "hash": "9af3fef880fbcd4366969110bef170001278d18eff138a75bb752ede79cf4185",
+    "status": "ok",
+    "http": 200,
+    "first_seen": "2026-11-21",
+    "last_checked": "2026-11-21"
+  },
+  "https://developer.spreedly.com/reference/forward-claim": {
+    "hash": "e34208ce81d354466388b383d44dfe977b24f2eab0b8420e31c29ea0c3eb8561",
+    "status": "ok",
+    "http": 200,
+    "first_seen": "2026-11-21",
+    "last_checked": "2026-11-21"
+  },
+  "https://developer.spreedly.com/docs/decision-editor": {
+    "hash": "4d09510305a461aec0d53b489a63e84ace6ff02aad12fde28a3ef3a96b34e007",
+    "status": "ok",
+    "http": 200,
+    "first_seen": "2026-11-21",
+    "last_checked": "2026-11-21"
+  },
+  "https://www.spreedly.com/blog/spreedly-product-roundup-summer-2026": {
+    "hash": "d49b6740be6859300c625268a7f97e3cc1e6d5f3f4ebaf2e1d91e3efd4737f5e",
+    "status": "ok",
+    "http": 200,
+    "first_seen": "2026-11-21",
+    "last_checked": "2026-11-21"
+  },
+  "https://developer.spreedly.com/reference/credit-transaction": {
+    "hash": "f2dbc8a234899de0ef3527365498afa56458dc33065a7380694014503e941fd0",
+    "status": "ok",
+    "http": 200,
+    "first_seen": "2026-11-21",
+    "last_checked": "2026-11-21"
+  },
+  "https://developer.spreedly.com/reference/purchase": {
+    "hash": "e2539d6a297c17b945ec27f9dc29b2a32b6778daa9f891e574287df6d95db05e",
+    "status": "ok",
+    "http": 200,
+    "first_seen": "2026-11-21",
+    "last_checked": "2026-11-21"
+  },
+  "https://docs.connect.worldline-solutions.com/accepting-payments/fraud-management/fraud-risk-triggers": {
+    "hash": "8e0ef1e2a0a8983ee61aad9965b3bef62086105ec6956ef26cd2a278151e8b3e",
+    "status": "ok",
+    "http": 200,
+    "first_seen": "2026-11-21",
+    "last_checked": "2026-11-21"
+  },
+  "https://developer.spreedly.com/docs/composer-fraud-risk": {
+    "hash": "c5bfb030cdd32a97f1bcb060154eebb5ae2009359e779c991411e062b16a5859",
+    "status": "ok",
+    "http": 200,
+    "first_seen": "2026-11-21",
+    "last_checked": "2026-11-21"
+  },
+  "https://worldline.com/en/home/top-navigation/about-worldline/innovation/agentic-commerce": {
+    "hash": "1a2ac381371381d8ae65bc1e8d4585e7b2941401eec8f01482b85af0c0dfeca3",
+    "status": "ok",
+    "http": 200,
+    "first_seen": "2026-11-21",
+    "last_checked": "2026-11-21"
+  },
+  "https://developer.moneris.com/moneris-api/docs/model-context-protocol-mcp": {
+    "hash": "dd9585fc97f2c6bb63495797d41d6d134c89cc378499690e70f0ea5718fe7a58",
+    "status": "ok",
+    "http": 200,
+    "first_seen": "2026-11-21",
+    "last_checked": "2026-11-21"
+  },
+  "https://developer.moneris.com/moneris-api/docs/risk-inquiry-kount": {
+    "hash": "b1987f7db54947f85eec8106e13327f2bcd77ab7933f6653dcd757f0fcd18695",
+    "status": "ok",
+    "http": 200,
+    "first_seen": "2026-11-21",
+    "last_checked": "2026-11-21"
+  },
+  "https://developer.moneris.com/moneris-api/reference/createrefund-1": {
+    "hash": "d596349f92508acbd2a773b9c586831155938f478cec04e146aa75112629bdb6",
+    "status": "ok",
+    "http": 200,
+    "first_seen": "2026-11-21",
+    "last_checked": "2026-11-21"
+  },
+  "https://developer.moneris.com/moneris-api/reference/createpayments-1": {
+    "hash": "b40f77eadddc327f6900fa354864a9c9be26315b08b0ec4a5454534b39275711",
+    "status": "ok",
+    "http": 200,
+    "first_seen": "2026-11-21",
+    "last_checked": "2026-11-21"
+  },
+  "https://developer.moneris.com/moneris-api/reference/getpayment-1": {
+    "hash": "4b7f977aa72c3ef118fd32a567d56deee8702f8cc5a0641f6e339a71e5b3ecd6",
+    "status": "ok",
+    "http": 200,
+    "first_seen": "2026-11-21",
+    "last_checked": "2026-11-21"
+  },
+  "https://developer.moneris.com/moneris-api/reference/getdisputebycaseidandrecordnumber-1": {
+    "hash": "26636ba70b58a373facce9a08d97d4a06329d8503ec72a920937d7dfa94c8929",
+    "status": "ok",
+    "http": 200,
+    "first_seen": "2026-11-21",
+    "last_checked": "2026-11-21"
+  },
+  "https://developer.moneris.com/moneris-api/page/changelogs": {
+    "hash": "243c627810b4898f7e479cd24e5f48d20f7400aaa06eded4f4eecfbfff6b495c",
+    "status": "ok",
+    "http": 200,
+    "first_seen": "2026-11-21",
+    "last_checked": "2026-11-21"
+  },
+  "https://docs.dlocal.com/llms.txt": {
+    "hash": "2eb4bb3e9a24c7c09d0f86de03f17866c8ee142b0ff26de859a4444f59e0236b",
+    "status": "ok",
+    "http": 200,
+    "first_seen": "2026-11-21",
+    "last_checked": "2026-11-21"
+  },
+  "https://docs.dlocal.com/reference/create-payment.md": {
+    "hash": "77a4331fb9c3353d29474c3ffe79ebd1a96023cda9fa0a8fcada352d9ef70543",
+    "status": "ok",
+    "http": 200,
+    "first_seen": "2026-11-21",
+    "last_checked": "2026-11-21"
+  },
+  "https://docs.dlocal.com/reference/chargeback-asynchronous-notification.md": {
+    "hash": "288a8213afd3dab6fa3ff96d59c344bd365c571934f7757161f719472b86526d",
+    "status": "ok",
+    "http": 200,
+    "first_seen": "2026-11-21",
+    "last_checked": "2026-11-21"
+  },
+  "https://docs.dlocal.com/reference/retrieve-a-chargeback.md": {
+    "hash": "1e7a28f67b51b1daf487032d3bf47af0f0f8e514ccea469f5c74f80af8d6c063",
+    "status": "ok",
+    "http": 200,
+    "first_seen": "2026-11-21",
+    "last_checked": "2026-11-21"
+  },
+  "https://docs.dlocal.com/docs/chargebacks.md": {
+    "hash": "44e36308f52a3b653f6254df55a827b7caf318c57901c37422589f2f776fc4d1",
+    "status": "ok",
+    "http": 200,
+    "first_seen": "2026-11-21",
+    "last_checked": "2026-11-21"
+  },
+  "https://docs.dlocal.com/docs/risk-data-documentation.md": {
+    "hash": "33964bffc5558f17e6a43a4a3860b56877397563cb3f04b03869e307fc7fb3af",
+    "status": "ok",
+    "http": 200,
+    "first_seen": "2026-11-21",
+    "last_checked": "2026-11-21"
+  },
+  "https://docs.dlocal.com/docs/fraud-prevention.md": {
+    "hash": "6326950ae6bb47521e1135da5ad22737e70aac48863836db945cc3e580bd9731",
+    "status": "ok",
+    "http": 200,
+    "first_seen": "2026-11-21",
+    "last_checked": "2026-11-21"
+  },
+  "https://docs.dlocal.com/reference/the-card-object.md": {
+    "hash": "924df401aca6a0f130ed1302fa6d7bf4f59cd0c8b48df759ca0d3cfbcffe8c24",
+    "status": "ok",
+    "http": 200,
+    "first_seen": "2026-11-21",
+    "last_checked": "2026-11-21"
+  },
+  "https://docs.dlocal.com/docs/card-network-tokens.md": {
+    "hash": "e77cead8d5de3ef5d01bc86af3b7584c746b4d0fb762e6ef657f6301a342959f",
+    "status": "ok",
+    "http": 200,
+    "first_seen": "2026-11-21",
+    "last_checked": "2026-11-21"
+  },
+  "https://docs.dlocal.com/docs/refunds.md": {
+    "hash": "407369c7c1169dac3be813250af561723db6514502c919dd9c4bdcca3565ef84",
+    "status": "ok",
+    "http": 200,
+    "first_seen": "2026-11-21",
+    "last_checked": "2026-11-21"
+  },
+  "https://docs.globalgetnet.com/en/global/products/agentic-commerce/mcp-ai-toolkit?doc=vic-tutorial-rest-api": {
+    "hash": "79f6ffb06ce1bc4341d671157c6a23624c2337dcd44532d9979a033a92270936",
+    "status": "ok",
+    "http": 200,
+    "first_seen": "2026-11-21",
+    "last_checked": "2026-11-21"
+  },
+  "https://www.antom.com/news/ant-internationals-antom-debuts-agentic-payment-solution-pioneering-apm-checkout-solution-and-trusted-ai-for-secure-transactions": {
+    "hash": "07b56a3ea8e1d155711d5dec2eac3c8f5e88651fb4dce998f798037769c398e8",
+    "status": "ok",
+    "http": 200,
+    "first_seen": "2026-11-21",
+    "last_checked": "2026-11-21"
+  },
+  "https://www.antom.com/news/global-merchants-partner-with-ant-international-to-scale-internationally-amid-rise-of-agentic-commerce": {
+    "hash": "40d6387054547631ca9d97d5be6cebaac331b65feb9de02bbe9befb7ff75eab8",
+    "status": "ok",
+    "http": 200,
+    "first_seen": "2026-11-21",
+    "last_checked": "2026-11-21"
+  },
+  "https://docs.antom.com/ac/ams/api_fund.md": {
+    "hash": "90aa78790def29275466d2cc39671471db7ab52e97dabe8667f309487956f655",
+    "status": "ok",
+    "http": 200,
+    "first_seen": "2026-11-21",
+    "last_checked": "2026-11-21"
+  },
+  "https://www.dlocal.com/blog/dlocal-viewpoint/dlocal-joins-forces-with-google-to-help-define-agent-payments-protocol-ap2-the-open-standard-for-aiagent-payments/": {
+    "hash": "6dd0758ee215ed540275ecbef64f0d481a18efabf9588b52e9e1a627901ce95d",
+    "status": "ok",
+    "http": 200,
+    "first_seen": "2026-11-21",
+    "last_checked": "2026-11-21"
+  },
+  "https://docs.antom.com/ac/ams/paymentrn_online.md": {
+    "hash": "dce4b89b3acb8ba09e1fdbc897319d4fe85d9c2295e52f0d8d80ffd15e1bba2f",
+    "status": "ok",
+    "http": 200,
+    "first_seen": "2026-11-21",
+    "last_checked": "2026-11-21"
+  },
+  "https://docs.antom.com/ac/ams/supply_evidence.md": {
+    "hash": "b45b9cd583351daecde195affe7963b48b176ea262e246a114dd3db43b38e699",
+    "status": "ok",
+    "http": 200,
+    "first_seen": "2026-11-21",
+    "last_checked": "2026-11-21"
+  },
+  "https://docs.antom.com/ac/apo/transaction_details.md": {
+    "hash": "841997f05d11ef861d1a862f6b8cccbddb9e034a06748c89b44aa57c7a263a2d",
+    "status": "ok",
+    "http": 200,
+    "first_seen": "2026-11-21",
+    "last_checked": "2026-11-21"
+  },
+  "https://docs.antom.com/ac/ams/notify_dispute.md": {
+    "hash": "6f7d161014be5f7fa57dd0713aed14379abb003191d5a7029cc0785fee4bc38b",
+    "status": "ok",
+    "http": 200,
+    "first_seen": "2026-11-21",
+    "last_checked": "2026-11-21"
+  },
+  "https://docs.antom.com/ac/cashierpay/reconcile.md": {
+    "hash": "588f556ebd172ec8610698d9782960087d89a47a9752df3e61cb13a7d92f118a",
+    "status": "ok",
+    "http": 200,
+    "first_seen": "2026-11-21",
+    "last_checked": "2026-11-21"
+  },
+  "https://docs.antom.com/ac/ams/payment_cashier.md": {
+    "hash": "f0dc05a6ac0a36b7bb8ede41bf7c84d79d7c4e273f890004f23d50667211eae8",
+    "status": "ok",
+    "http": 200,
+    "first_seen": "2026-11-21",
+    "last_checked": "2026-11-21"
+  },
+  "https://docs.antom.com/ac/apo/risk_control.md": {
+    "hash": "a129824843e19c3d8bef0368845f9863cb7b1a434301bf3f95353d8713c1bf55",
+    "status": "ok",
+    "http": 200,
+    "first_seen": "2026-11-21",
+    "last_checked": "2026-11-21"
+  },
+  "https://docs.antom.com/ac/dispute/overview.md": {
+    "hash": "21a7094f47db76eaab6f7185e234091e008febf77e67d0931c803e9877314271",
+    "status": "ok",
+    "http": 200,
+    "first_seen": "2026-11-21",
+    "last_checked": "2026-11-21"
+  },
+  "https://docs.antom.com/ac/ref/risk_methods.md": {
+    "hash": "4aad091e8378f6165c31f7f107753d11e9db9f3a3c8fa44482526a788802985b",
+    "status": "ok",
+    "http": 200,
+    "first_seen": "2026-11-21",
+    "last_checked": "2026-11-21"
+  },
+  "https://docs.antom.com/ac/pm/tokenization.md": {
+    "hash": "32c0da566d08101f389c29b537657d03cbb1dc025a8cfb15cf8a99b98112ab68",
+    "status": "ok",
+    "http": 200,
+    "first_seen": "2026-11-21",
+    "last_checked": "2026-11-21"
+  },
+  "https://docs.verygoodsecurity.com/agentic-commerce/developer-resources/api-reference/card-on-file-matching-beta/card-attributes-agentic-properties": {
+    "hash": "aa59d68c830d261b31b860a8d201b6be7b248a38296f1fe55eb013debc92c45b",
+    "status": "ok",
+    "http": 200,
+    "first_seen": "2026-11-21",
+    "last_checked": "2026-11-21"
+  },
+  "https://docs.verygoodsecurity.com/agentic-commerce/developer-resources/api-reference/agentic-tokens/agentic-tokens": {
+    "hash": "b4244be66ad30989830433195a7455d09c77aeee4595f06cffc45bf669aaed51",
+    "status": "ok",
+    "http": 200,
+    "first_seen": "2026-11-21",
+    "last_checked": "2026-11-21"
+  },
+  "https://docs.verygoodsecurity.com/enterprise-platform/developer-resources/webhook-notifications": {
+    "hash": "b4a13271c23ebe260ea652c8791f1de8c7ce309f2f253761678be0b1f19ca5fb",
+    "status": "ok",
+    "http": 200,
+    "first_seen": "2026-11-21",
+    "last_checked": "2026-11-21"
+  },
+  "https://docs.verygoodsecurity.com/enterprise-platform/core-platform/reports/usage-reports/interaction-types": {
+    "hash": "2fde5fbbd1f034565c4d797da5dfc67d9dc9d1791f14d710f5aa395095fd252a",
+    "status": "ok",
+    "http": 200,
+    "first_seen": "2026-11-21",
+    "last_checked": "2026-11-21"
+  },
+  "https://docs.verygoodsecurity.com/llms.txt": {
+    "hash": "cf0ccfa9fe642f952cf09ee50430ee196d35b8f240fa14cef4a507c8c17f3daf",
+    "status": "ok",
+    "http": 200,
+    "first_seen": "2026-11-21",
+    "last_checked": "2026-11-21"
+  },
+  "https://docs.verygoodsecurity.com/agentic-commerce/developer-resources/api-reference/agentic-tokens/cryptograms": {
+    "hash": "b95fa13c1e203f09fc5f9ac81347a6313c3fcf93b8b0cebc56f4caa45c76fe08",
+    "status": "ok",
+    "http": 200,
+    "first_seen": "2026-11-21",
+    "last_checked": "2026-11-21"
+  },
+  "https://docs.verygoodsecurity.com/agentic-commerce/developer-resources/api-reference/agentic-tokens/intents": {
+    "hash": "c4ed955605a6947ba6753647d8df77a76635c7133c913917c602fe733f9a3a82",
+    "status": "ok",
+    "http": 200,
+    "first_seen": "2026-11-21",
+    "last_checked": "2026-11-21"
+  },
+  "https://docs.antom.com/ac/ams/refund_online.md": {
+    "hash": "433fd195a18845719f27a749ecfe3559f18a1c1d342f907cd890cad36ba0d1e7",
+    "status": "ok",
+    "http": 200,
+    "first_seen": "2026-11-21",
+    "last_checked": "2026-11-21"
+  },
+  "https://docs.verygoodsecurity.com/agentic-commerce/developer-resources/api-reference/card-on-file-matching-beta/card-on-file-match": {
+    "hash": "6dbced87c195c3bb112caa4078e0146466a44ef4c40c29371378cc898a9b1226",
+    "status": "ok",
+    "http": 200,
+    "first_seen": "2026-11-21",
+    "last_checked": "2026-11-21"
+  },
+  "https://developers.basistheory.com/docs/guides/ucp-payments": {
+    "hash": "c1abfae0751b7755fbc56afbe507a91b11724ec8fa9c47ad5693acf8e88d991e",
+    "status": "ok",
+    "http": 200,
+    "first_seen": "2026-11-21",
+    "last_checked": "2026-11-21"
+  },
+  "https://developers.basistheory.com/docs/api/agentic-commerce/payment-methods": {
+    "hash": "4433a4c0a1cad3fcdcc042ac15b3f30a8823536feb77bcf00fac09f8930cec8c",
+    "status": "ok",
+    "http": 200,
+    "first_seen": "2026-11-21",
+    "last_checked": "2026-11-21"
+  },
+  "https://developers.basistheory.com/docs/api/agentic-commerce/payment-credentials": {
+    "hash": "b794b77ac8c0d5bbfa95b1d9c9ee201d6ac63d8f6f133fab0283c360585221d1",
+    "status": "ok",
+    "http": 200,
+    "first_seen": "2026-11-21",
+    "last_checked": "2026-11-21"
+  },
+  "https://developers.basistheory.com/docs/api/events/event-types": {
+    "hash": "a28e5e896f46beeeea92ae97719abe468957d336cd59534ae211a40b5a5df9ee",
+    "status": "ok",
+    "http": 200,
+    "first_seen": "2026-11-21",
+    "last_checked": "2026-11-21"
+  },
+  "https://developers.basistheory.com/docs/card-payments/charge-card": {
+    "hash": "db53ec34851434abcc5b8352c1b4cf60b1cc80e96f08e3d03be9e6cc853993c1",
+    "status": "ok",
+    "http": 200,
+    "first_seen": "2026-11-21",
+    "last_checked": "2026-11-21"
+  },
+  "https://developers.basistheory.com/docs/api/agentic-commerce/instructions": {
+    "hash": "c9bbfdf40a9969b9e9292958e1886c6ff07a56a957a177a21e6334dbaeec6ebb",
+    "status": "ok",
+    "http": 200,
+    "first_seen": "2026-11-21",
+    "last_checked": "2026-11-21"
+  },
+  "https://developers.basistheory.com/docs/api/agentic-commerce/allowances": {
+    "hash": "78d2607ba110492727816ed3a2f05cd7eab29219a87fcb9688658aa73ea3d2f7",
+    "status": "ok",
+    "http": 200,
+    "first_seen": "2026-11-21",
+    "last_checked": "2026-11-21"
+  },
+  "https://developers.basistheory.com/docs/features/anti-fraud": {
+    "hash": "6d098b5fbb9cc0c9c5c1e225a23a35d5a6de43098761126a775472dd746596c5",
+    "status": "ok",
+    "http": 200,
+    "first_seen": "2026-11-21",
+    "last_checked": "2026-11-21"
+  },
+  "https://developers.basistheory.com/docs/api/agentic-commerce/errors-spm": {
+    "hash": "2fb9f0da595f090b07712e12098d56e26251c71c67df5ccd98a5dfded0429b73",
+    "status": "ok",
+    "http": 200,
+    "first_seen": "2026-11-21",
+    "last_checked": "2026-11-21"
+  },
+  "https://developers.basistheory.com/docs/guides/agentic/overview": {
+    "hash": "7d087062301afb6e8d89861379423108632bb0186f104610ae197d90d982ca64",
+    "status": "ok",
+    "http": 200,
+    "first_seen": "2026-11-21",
+    "last_checked": "2026-11-21"
   }
 }

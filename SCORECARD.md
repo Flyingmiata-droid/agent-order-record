@@ -92,7 +92,7 @@ Refunds: "your existing refund flow works without changes for agentic checkouts,
 
 ### Braintree (PayPal)
 
-Accepts: Agent Ready, ACP via delegated payment tokens, UCP via the Google Pay handler. https://docs.paypal.ai/growth/agentic-commerce/agent-ready/overview (undated, read 2026-10-15).
+Accepts: Agent Ready, ACP via delegated payment tokens, UCP via the Google Pay handler. https://developer.paypal.com/agent-ready/overview (undated, read 2026-11-21; the docs.paypal.ai page now redirects here).
 
 API field: transaction.facilitator_details.oauth_application_name ("ChatGPT") and oauth_application_client_id in the transaction response. https://developer.paypal.com/agent-ready/agentic-commerce-protocol (re-read by hand 2026-10-15). Reference: https://developer.paypal.com/braintree/docs/reference/response/transaction. UCP path: no agent field documented.
 
@@ -400,4 +400,4 @@ Refunds: The only refund guidance is about the allowance balance: a minted amoun
 
 First read in one day, 2026-10-15. Later re-reads carry their own date in the row. Docs behind JavaScript shells (Fiserv Commerce Hub, Elavon Converge, Global Payments developer portal) could not be read, so those ASK cells may hide a field. Private preview and limited availability docs can change without a changelog entry. A SILENT cell means the pages named above say nothing; it does not mean the vendor has nothing. A written answer from a vendor replaces the cell with a dated "stated" value.
 
-The 2026-11-21 rows were gathered with AI help in one afternoon. Worldline was read on the Connect portal only; its Direct and Acquiring docs were not. No dashboard behind a login was seen for any firm, so a SILENT reporting cell speaks for the docs and nothing else. VGS and Basis Theory issue the credential the agent pays with and do not process the merchant's payment. They are on the card because Visa lists them, and their cells are read from the merchant's seat. docs.paypal.ai now redirects to developer.paypal.com, so the PayPal and Braintree links are due a re-read.
+The 2026-11-21 rows were gathered with AI help in one afternoon. Worldline was read on the Connect portal only; its Direct and Acquiring docs were not. No dashboard behind a login was seen for any firm, so a SILENT reporting cell speaks for the docs and nothing else. VGS and Basis Theory issue the credential the agent pays with and do not process the merchant's payment. They are on the card because Visa lists them, and their cells are read from the merchant's seat. docs.paypal.ai now redirects to developer.paypal.com. The Braintree Agent Ready link was moved and re-read on 2026-11-21; other PayPal links are due a re-read.

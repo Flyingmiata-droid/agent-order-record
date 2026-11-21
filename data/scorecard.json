@@ -123,10 +123,10 @@
         "accepts": {
           "code": "YES",
           "note": "(ACP, UCP)",
-          "detail": "Accepts: Agent Ready, ACP via delegated payment tokens, UCP via the Google Pay handler. https://docs.paypal.ai/growth/agentic-commerce/agent-ready/overview (undated, read 2026-10-15).",
+          "detail": "Accepts: Agent Ready, ACP via delegated payment tokens, UCP via the Google Pay handler. https://developer.paypal.com/agent-ready/overview (undated, read 2026-11-21; the docs.paypal.ai page now redirects here).",
           "sources": [
             {
-              "url": "https://docs.paypal.ai/growth/agentic-commerce/agent-ready/overview"
+              "url": "https://developer.paypal.com/agent-ready/overview"
             }
           ]
         },
