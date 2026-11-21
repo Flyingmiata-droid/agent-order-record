@@ -8,7 +8,11 @@ It does not call Stripe. You pass in events you already hold and an ES256 key.
 
 The 13 scenarios in `test/fixtures/stripe-events/scenarios.ts` were run through a verifier this repo did not write: `common/payments/ap2_receipt_verifier.py` from conformance PR 136, at 1b94f82. All 13 came back with no outcome, warning or reconciliation finding. `run_verifier.py` in this folder repeats that run.
 
-The Stripe event shapes are hand built from Stripe's API reference and guides. They are not captures from a Stripe account, so a field Stripe sends differently in practice would not show up here. Capturing the same flows in test mode is the next step.
+Six flows were then captured from a Stripe sandbox with `scripts/ucp-capture.ts` and saved in `test/fixtures/stripe-events/captured`: automatic capture, manual partial capture, cancel before capture, a partial refund with its ARN, a refund that starts pending, and a refund on Stripe's test card for failed refunds. Receipts built from those real events also pass the verifier, 19 files in all.
+
+The captures changed the code. Stripe sent several events inside the same second, and the first version of the adapter got three of the six wrong when they were read in a different order. It now tracks amounts as running marks and gives the same receipts either way round. The test runs every captured flow both ways.
+
+Still not captured: multicapture, incremental authorization and overcapture. The sandbox account is not eligible for those card features, so their scenarios stay hand built from Stripe's guides. The two late refund outcomes (pending to succeeded, succeeded to failed) had not arrived when the capture ran; `node scripts/ucp-capture.ts --recheck` reads them later.
 
 ### How Stripe events map
 

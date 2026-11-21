@@ -1,0 +1,100 @@
+{
+  "flow": "canceled_before_capture",
+  "source": "Stripe sandbox, captured by scripts/ucp-capture.ts",
+  "captured_at": "2026-11-21T17:34:44.533Z",
+  "events": [
+    {
+      "id": "evt_3UeIBWLxxFJYx8SU044739lG",
+      "type": "charge.succeeded",
+      "created": 1795282486,
+      "api_version": "2026-04-22.dahlia",
+      "data": {
+        "object": {
+          "id": "ch_3UeIBWLxxFJYx8SU0L8BgVzH",
+          "object": "charge",
+          "amount": 5400,
+          "amount_captured": 0,
+          "amount_refunded": 0,
+          "captured": false,
+          "currency": "usd",
+          "created": 1795282486,
+          "payment_intent": "pi_3UeIBWLxxFJYx8SU0eXtDniD",
+          "status": "succeeded",
+          "payment_method_details": {
+            "card": {
+              "amount_authorized": 5400,
+              "overcapture": {
+                "maximum_amount_capturable": 5400,
+                "status": "unavailable"
+              },
+              "multicapture": {
+                "status": "unavailable"
+              },
+              "incremental_authorization": {
+                "status": "unavailable"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "evt_3UeIBWLxxFJYx8SU06iUS6gh",
+      "type": "payment_intent.canceled",
+      "created": 1795282486,
+      "api_version": "2026-04-22.dahlia",
+      "data": {
+        "object": {
+          "id": "pi_3UeIBWLxxFJYx8SU0eXtDniD",
+          "object": "payment_intent",
+          "amount": 5400,
+          "amount_capturable": 0,
+          "amount_received": 0,
+          "currency": "usd",
+          "status": "canceled",
+          "capture_method": "manual",
+          "cancellation_reason": null
+        }
+      }
+    },
+    {
+      "id": "evt_3UeIBWLxxFJYx8SU0hQsE45s",
+      "type": "payment_intent.amount_capturable_updated",
+      "created": 1795282486,
+      "api_version": "2026-04-22.dahlia",
+      "data": {
+        "object": {
+          "id": "pi_3UeIBWLxxFJYx8SU0eXtDniD",
+          "object": "payment_intent",
+          "amount": 5400,
+          "amount_capturable": 5400,
+          "amount_received": 0,
+          "currency": "usd",
+          "status": "requires_capture",
+          "capture_method": "manual",
+          "cancellation_reason": null
+        }
+      }
+    },
+    {
+      "id": "evt_3UeIBWLxxFJYx8SU0o9sG5ZL",
+      "type": "payment_intent.created",
+      "created": 1795282486,
+      "api_version": "2026-04-22.dahlia",
+      "data": {
+        "object": {
+          "id": "pi_3UeIBWLxxFJYx8SU0eXtDniD",
+          "object": "payment_intent",
+          "amount": 5400,
+          "amount_capturable": 0,
+          "amount_received": 0,
+          "currency": "usd",
+          "status": "requires_payment_method",
+          "capture_method": "manual",
+          "cancellation_reason": null
+        }
+      }
+    }
+  ],
+  "saw_expected_event": null
+}

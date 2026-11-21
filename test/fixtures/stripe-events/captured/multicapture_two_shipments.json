@@ -1,0 +1,7 @@
+{
+  "flow": "multicapture_two_shipments",
+  "source": "Stripe sandbox, captured by scripts/ucp-capture.ts",
+  "captured_at": "2026-11-21T17:34:51.696Z",
+  "error": "POST /payment_intents: payment_intent_invalid_parameter This account is not eligible for the requested card features. See https://stripe.com/docs/payments/flexible-payments for more details.",
+  "events": []
+}

@@ -158,6 +158,11 @@ export function stripeToReceipts(events: StripeEvent[], ctx: ReceiptContext): Re
   };
   const refunds = new Map<string, RefundState>();
   let released = false;
+  // Stripe does not promise event order, so amounts are tracked as high-water marks
+  // and the void or final capture is remembered until the events that explain it arrive.
+  let authHigh = 0;
+  let voided = false;
+  let finalReceived: number | null = null;
 
   const HALTING: UnmappedReason[] = ['overcapture_held', 'would_exceed_mandate', 'refund_would_exceed_capture', 'refund_failed_after_succeeded'];
   const hold = (e: StripeEvent, reason: UnmappedReason, detail: string): void => {
@@ -199,41 +204,42 @@ export function stripeToReceipts(events: StripeEvent[], ctx: ReceiptContext): Re
 
   // Brings the authorized total up to `target`. First time is an authorization, later an adjustment.
   const authorizeTo = (e: StripeEvent, target: number, currency: string, at: number, entry: string): boolean => {
-    const t = out.totals;
-    const delta = target - t.authorized;
+    const delta = target - authHigh;
     if (delta <= 0) return true;
     if (target > ctx.mandated) {
       hold(e, 'would_exceed_mandate', `authorized would be ${target}, mandate covers ${ctx.mandated}; a new Payment Mandate is needed first`);
       return false;
     }
-    const first = t.authorized === 0 && !out.payloads.some((p) => p.event.type === 'authorization');
+    const first = authHigh === 0;
+    authHigh = target;
     emit(e, base(first ? 'authorization' : 'authorization_adjustment', 'succeeded', delta, currency, at,
       entry + (first ? ':auth' : ':auth:' + target)));
     return true;
   };
 
-  const captureTo = (e: StripeEvent, ch: StripeCharge, at: number): void => {
+  // Brings the captured total up to `total`. Works from a charge or a payment intent event.
+  const captureTo = (e: StripeEvent, total: number, currency: string, at: number, entry: string): void => {
     const t = out.totals;
-    const delta = ch.amount_captured - t.captured;
+    const delta = total - t.captured;
     if (delta <= 0) return;
-    if (ch.amount_captured > ctx.mandated) {
-      hold(e, 'would_exceed_mandate', `captured would be ${ch.amount_captured}, mandate covers ${ctx.mandated}`);
+    if (total > ctx.mandated) {
+      hold(e, 'would_exceed_mandate', `captured would be ${total}, mandate covers ${ctx.mandated}`);
       return;
     }
-    if (ch.amount_captured > t.authorized) {
+    if (total > t.authorized) {
       if (ctx.overcapture !== 'adjust') {
-        hold(e, 'overcapture_held', `captured ${ch.amount_captured} is above authorized ${t.authorized} with no new network authorization`);
+        hold(e, 'overcapture_held', `captured ${total} is above authorized ${t.authorized} with no new network authorization`);
         return;
       }
-      if (!authorizeTo(e, ch.amount_captured, ch.currency, at, ch.id)) return;
+      if (!authorizeTo(e, total, currency, at, entry)) return;
     }
-    emit(e, base('capture', 'succeeded', delta, ch.currency, at, ch.id + ':cap:' + ch.amount_captured));
+    emit(e, base('capture', 'succeeded', delta, currency, at, entry + ':cap:' + total));
   };
 
   const releaseRest = (e: StripeEvent, currency: string, at: number, entry: string): void => {
     const t = out.totals;
     const rest = t.authorized - t.captured;
-    if (rest <= 0 || released) return;
+    if (rest <= 0 || released || out.halted) return;
     released = true;
     emit(e, base('release', 'succeeded', rest, currency, at, entry + ':release'));
   };
@@ -248,32 +254,35 @@ export function stripeToReceipts(events: StripeEvent[], ctx: ReceiptContext): Re
       hold(e, 'chain_halted', 'an earlier movement could not be receipted; fix that first');
       continue;
     }
+    if (e.type === 'payment_intent.created' || e.type === 'charge.refunded') continue; // carry nothing the other events lack
     if (obj.object === 'charge' && (e.type === 'charge.succeeded' || e.type === 'charge.captured' || e.type === 'charge.updated')) {
       const ch = obj as StripeCharge;
+      const entry = ch.payment_intent ?? ch.id;
       const authorized = ch.payment_method_details?.card?.amount_authorized ?? ch.amount;
-      if (!authorizeTo(e, Math.max(authorized, out.totals.authorized), ch.currency, ch.created, ch.id)) continue;
-      if (ch.captured) captureTo(e, ch, e.created);
-      continue;
-    }
-    if (obj.object === 'payment_intent') {
+      if (authorizeTo(e, authorized, ch.currency, ch.created, entry) && ch.captured) {
+        captureTo(e, ch.amount_captured, ch.currency, e.created, entry);
+      }
+    } else if (obj.object === 'payment_intent' && e.type === 'payment_intent.amount_capturable_updated') {
+      // Incremental authorization raises amount_capturable on an uncaptured intent.
       const pi = obj as StripePaymentIntent;
-      if (e.type === 'payment_intent.amount_capturable_updated') {
-        // Incremental authorization raises amount_capturable on an uncaptured intent.
-        if (out.totals.captured === 0) authorizeTo(e, pi.amount_capturable, pi.currency, e.created, pi.id);
-        continue;
-      }
-      if (e.type === 'payment_intent.succeeded') {
-        // A partial capture releases the uncaptured rest unless multicapture keeps it open.
-        releaseRest(e, pi.currency, e.created, pi.id);
-        continue;
-      }
-      if (e.type === 'payment_intent.canceled') {
-        releaseRest(e, pi.currency, e.created, pi.id);
-        continue;
-      }
+      if (out.totals.captured === 0) authorizeTo(e, pi.amount_capturable, pi.currency, e.created, pi.id);
+    } else if (obj.object === 'payment_intent' && e.type === 'payment_intent.succeeded') {
+      // Final capture. A partial capture drops the uncaptured rest of the hold.
+      const pi = obj as StripePaymentIntent;
+      finalReceived = pi.amount_received;
+      if (authHigh === 0) authorizeTo(e, pi.amount, pi.currency, e.created, pi.id);
+      // Above the hold is overcapture: leave it to the charge event, which says what was authorized.
+      if (!out.halted && pi.amount_received <= authHigh) captureTo(e, pi.amount_received, pi.currency, e.created, pi.id);
+    } else if (obj.object === 'payment_intent' && e.type === 'payment_intent.canceled') {
+      voided = true;
+    } else if (obj.object === 'charge' && e.type === 'charge.expired') {
+      voided = true;
+    } else if (obj.object !== 'refund') {
+      hold(e, 'event_not_a_money_movement', 'no receipt event for this Stripe event');
     }
-    if (obj.object === 'charge' && e.type === 'charge.expired') {
-      releaseRest(e, (obj as StripeCharge).currency, e.created, (obj as StripeCharge).id);
+    if (obj.object !== 'refund') {
+      const done = voided || (finalReceived !== null && out.totals.captured >= finalReceived);
+      if (done && authHigh > 0) releaseRest(e, (obj as StripeCharge).currency, e.created, (obj as { payment_intent?: string | null }).payment_intent ?? obj.id ?? 'intent');
       continue;
     }
     if (obj.object === 'refund') {
@@ -323,7 +332,6 @@ export function stripeToReceipts(events: StripeEvent[], ctx: ReceiptContext): Re
       }
       continue;
     }
-    hold(e, 'event_not_a_money_movement', 'no receipt event for this Stripe event');
   }
   return out;
 }

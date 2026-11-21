@@ -64,7 +64,7 @@ AEP Appendix C gives one text limit for Stripe, about 150,000 characters combine
 
 Every scorecard cell comes from a vendor's own docs, API reference, changelog, terms or press release. A SILENT cell means the pages named say nothing. It does not mean the vendor has nothing.
 
-The first pass over the rows was done with AI help, and so was much of the code. The tests are the claim: 54 of them, run against AEP's conformance vectors and Stripe's published field list. The UCP order receipts were also run through a verifier this repo did not write; see conformance/ucp-order-receipts.
+The first pass over the rows was done with AI help, and so was much of the code. The tests are the claim: 60 of them, run against AEP's conformance vectors and Stripe's published field list. The UCP order receipts were also run through a verifier this repo did not write; see conformance/ucp-order-receipts.
 
 The scorecard is a month old outside Stripe and Braintree. A re-check on 2026-11-14 flagged about a third of the source pages as changed since the 2026-11-09 snapshot, and a few as unreachable. The count moves from run to run because some sites rate limit. Those cells have not been re-read yet.
 
