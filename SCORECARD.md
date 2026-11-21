@@ -20,10 +20,10 @@ Cell codes: YES = documented, field or sentence quoted below. PART = documented 
 | PayPal (wallet, Orders v2) | YES (ACP via Braintree only; UCP via Orders v2) | SILENT | SILENT | PART (Seller Protection sentence) | SILENT | SILENT | SILENT |
 | Cybersource (Visa) | YES pilot, agent side only | SILENT (no merchant indicator) | SILENT | SILENT | SILENT | SILENT | SILENT |
 | Nuvei | ANN (TAP pilot, H2 2026 target) | SILENT | SILENT | SILENT | ANN (KYA scoring) | SILENT | SILENT |
-| Fiserv (Commerce Hub, Clover, CardPointe) | ANN (TAP, Agent Pay, early adopter program) | ASK | SILENT | ASK | SILENT | SILENT | SILENT |
-| Global Payments (Heartland, Genius) | ANN (building ACP, UCP) | ASK | SILENT | ASK | SILENT | SILENT | SILENT |
+| Fiserv (Commerce Hub, Clover, CardPointe) | ANN (TAP, Agent Pay, early adopter program) | ASK | SILENT | SILENT | SILENT | SILENT | SILENT |
+| Global Payments (Heartland, Genius) | ANN (building ACP, UCP) | ASK | SILENT | SILENT | SILENT | SILENT | SILENT |
 | NMI | SILENT | SILENT | SILENT | SILENT | SILENT | SILENT | SILENT |
-| Authorize.net (Visa) | ASK | SILENT | ASK | ASK | SILENT | ASK | SILENT |
+| Authorize.net (Visa) | ASK | SILENT | ASK | SILENT | SILENT | ASK | SILENT |
 | Elavon | ASK | SILENT | SILENT | SILENT | SILENT | SILENT | SILENT |
 | Helcim | ASK | SILENT | SILENT | SILENT | SILENT | SILENT | SILENT |
 | Airwallex | PART (API fields documented; suite on waitlist) | YES agentic_payment_data on the attempt, names no agent | ANN (product page claim only) | ANN (product page claim; dispute object has none) | ANN (product page claim only) | PART bound to the agent session | SILENT |
@@ -38,7 +38,7 @@ Cell codes: YES = documented, field or sentence quoted below. PART = documented 
 
 ## What the card says
 
-Nobody passes the agent signal to the dispute. Twenty-five rows checked, zero document an agent field on the dispute object, the chargeback notice or the evidence form. Stripe's Dispute object, Braintree's Dispute object and PayPal's Customer Disputes schema were each read field by field: no agent field. For Worldpay, Authorize.net, Fiserv and Global Payments the dispute docs could not be read (ASK), so of the first 16 that is 12 read and 4 unknown. Of the nine rows added 2026-11-21, seven have a dispute, chargeback or claim object that was read (Airwallex, Getnet, Worldline, Spreedly, Moneris, dLocal, Antom) and none has an agent field. VGS has no dispute object, and Basis Theory says disputes happen on rails it is not part of. That is the gap this repo works on.
+Nobody passes the agent signal to the dispute. Twenty-five rows checked, zero document an agent field on the dispute object, the chargeback notice or the evidence form. Stripe's Dispute object, Braintree's Dispute object and PayPal's Customer Disputes schema were each read field by field: no agent field. On 2026-11-21 the Fiserv and Global Payments dispute APIs were read field by field too, with the same result, and Authorize.net turned out to have no dispute product of its own. Worldpay's dispute docs could not be read (ASK), so of the first 16 that is 15 checked and 1 unknown. Of the nine rows added 2026-11-21, seven have a dispute, chargeback or claim object that was read (Airwallex, Getnet, Worldline, Spreedly, Moneris, dLocal, Antom) and none has an agent field. VGS has no dispute object, and Basis Theory says disputes happen on rails it is not part of. That is the gap this repo works on.
 
 Four rows give the merchant a named field, and only two of them name the agent. Stripe (PaymentIntent.agent_details, private preview) and Braintree (transaction.facilitator_details, response only). Both also tag it in the dashboard. Airwallex marks the payment attempt as agentic (agentic_payment_data) and names no agent. Getnet returns agentic_protocol on its agent checkout call, in a preview its own docs call sandbox only. VGS flags a stored card as an agent token (beta), which marks the card and not the order. Everything else is a request side hint the merchant has to store itself (Adyen shoppingPlatform, Worldpay paymentInstrument.type delegate) or a channel label with no documented value (Shopify, Square).
 
@@ -212,11 +212,15 @@ API field: developer.fiserv.com and developer.cardpointe.com searches found noth
 
 Reporting: "Use existing merchant accounts for consolidated settlement and reporting, just as you are used to" (sales sheet). Everything else silent.
 
+Disputes: Disputes API v1.3.0 on the EMEA developer portal, dispute and evidence fields read 2026-11-21, no agent field, https://docs.fiserv.dev/public/docs/disputes. No public dispute docs found for the US platforms (Clover, CardPointe).
+
 ### Global Payments (Heartland, Genius)
 
 Accepts: "We're building support for emerging standards, including OpenAI's ACP and Google's UCP," https://www.globalpayments.com/agentic-commerce. Worldpay (acquired 2026-01-12) is the only GP platform with agentic docs. Nothing for Heartland.
 
 Reporting: "See who, or what, is behind every transaction, with visibility into agent identity, permissions and bot activity" (same page, no screen or field named). Everything else silent or ASK.
+
+Disputes: GP API dispute object and challenge documents read 2026-11-21, no agent field; the only evidence document type is SALES_RECEIPT, https://developer.globalpayments.com/docs/operations/disputes-management-guide.
 
 ### NMI
 
@@ -225,6 +229,8 @@ No doc says NMI accepts agent placed orders or names a protocol. Blogs only: htt
 ### Authorize.net (Visa)
 
 No page says it accepts agent placed orders. API reference has no agent field (nearest: authorizationIndicator, deprecated authenticationIndicator), https://developer.authorize.net/api/reference/index.html. API change log last entry 2019-09-03. Visa's 2026-04-08 Intelligent Commerce Connect release does not name Authorize.net.
+
+Disputes: "Authorize.net does not handle credit card chargebacks"; the merchant goes to its processor, https://support.authorize.net/knowledgebase/article/000001216/en-us (read 2026-11-21).
 
 ### Elavon
 

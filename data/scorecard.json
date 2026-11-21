@@ -758,10 +758,14 @@
           "sources": []
         },
         "disputes": {
-          "code": "ASK",
+          "code": "SILENT",
           "note": "",
-          "detail": "",
-          "sources": []
+          "detail": "Disputes: Disputes API v1.3.0 on the EMEA developer portal, dispute and evidence fields read 2026-11-21, no agent field, https://docs.fiserv.dev/public/docs/disputes. No public dispute docs found for the US platforms (Clover, CardPointe).",
+          "sources": [
+            {
+              "url": "https://docs.fiserv.dev/public/docs/disputes"
+            }
+          ]
         },
         "risk_rules": {
           "code": "SILENT",
@@ -812,10 +816,14 @@
           "sources": []
         },
         "disputes": {
-          "code": "ASK",
+          "code": "SILENT",
           "note": "",
-          "detail": "",
-          "sources": []
+          "detail": "Disputes: GP API dispute object and challenge documents read 2026-11-21, no agent field; the only evidence document type is SALES_RECEIPT, https://developer.globalpayments.com/docs/operations/disputes-management-guide.",
+          "sources": [
+            {
+              "url": "https://developer.globalpayments.com/docs/operations/disputes-management-guide"
+            }
+          ]
         },
         "risk_rules": {
           "code": "SILENT",
@@ -924,10 +932,15 @@
           "sources": []
         },
         "disputes": {
-          "code": "ASK",
+          "code": "SILENT",
           "note": "",
-          "detail": "",
-          "sources": []
+          "detail": "Disputes: \"Authorize.net does not handle credit card chargebacks\"; the merchant goes to its processor, https://support.authorize.net/knowledgebase/article/000001216/en-us (read 2026-11-21).",
+          "sources": [
+            {
+              "url": "https://support.authorize.net/knowledgebase/article/000001216/en-us",
+              "page_date": "2026-11-21"
+            }
+          ]
         },
         "risk_rules": {
           "code": "SILENT",
