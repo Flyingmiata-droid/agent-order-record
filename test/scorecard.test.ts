@@ -7,9 +7,9 @@ import { normalizePage, pageHash, recheck } from '../src/recheck.ts';
 
 const card = JSON.parse(readFileSync(new URL('../data/scorecard.json', import.meta.url), 'utf8')) as Scorecard & { source_gaps: string[] };
 
-test('scorecard data: 16 gateways, 7 coded cells each', () => {
-  assert.equal(card.gateways.length, 16);
-  assert.equal(new Set(card.gateways.map((g) => g.id)).size, 16);
+test('scorecard data: 25 rows, 7 coded cells each', () => {
+  assert.equal(card.gateways.length, 25);
+  assert.equal(new Set(card.gateways.map((g) => g.id)).size, 25);
   for (const g of card.gateways) for (const c of COLUMNS) {
     assert.ok(CODES.includes(g.cells[c].code), g.id + '.' + c);
     for (const s of g.cells[c].sources) assert.match(s.url, /^https:\/\//);
@@ -19,7 +19,7 @@ test('scorecard data: 16 gateways, 7 coded cells each', () => {
 
 test('the headline finding holds in the data: no gateway documents the agent signal on a dispute', () => {
   assert.equal(card.gateways.filter((g) => g.cells.disputes.code === 'YES').length, 0);
-  assert.deepEqual(card.gateways.filter((g) => g.cells.api_field.code === 'YES').map((g) => g.id), ['stripe', 'braintree']);
+  assert.deepEqual(card.gateways.filter((g) => g.cells.api_field.code === 'YES').map((g) => g.id), ['stripe', 'braintree', 'airwallex', 'getnet']);
 });
 
 test('every YES or PART cell has a source page or is a listed gap', () => {

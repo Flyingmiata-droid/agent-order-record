@@ -1,8 +1,8 @@
 # Gateway readiness scorecard, agent placed card orders
 
-Draft 1, read 2026-10-15. Pages change, so run scripts/recheck.ts before you lean on a cell. Re-read 2026-11-14 and still true: Stripe PaymentIntent.agent_details is on the preview API, Braintree transaction.facilitator_details is on the transaction response, and neither Dispute object lists an agent field. Re-read 2026-11-17: Stripe Radar now lists an agent attribute, is_agent_initiated, so the Stripe risk cell moved from SILENT to YES.
+Draft 1, read 2026-10-15. Pages change, so run scripts/recheck.ts before you lean on a cell. Re-read 2026-11-14 and still true: Stripe PaymentIntent.agent_details is on the preview API, Braintree transaction.facilitator_details is on the transaction response, and neither Dispute object lists an agent field. Re-read 2026-11-17: Stripe Radar now lists an agent attribute, is_agent_initiated, so the Stripe risk cell moved from SILENT to YES. Added 2026-11-21: nine rows for firms named in Visa's Agentic Ready release of 2026-11-17 (Airwallex, Getnet, Worldline, Spreedly, Moneris, dLocal, Antom, VGS, Basis Theory), each read that day.
 
-The question the card answers: when an AI agent places a card order through this gateway, what does the merchant get back that says so, and does that signal survive to the dispute? Every cell is read from the vendor's own docs, API reference, changelog, terms or press release on the date shown. Nothing is inferred from a marketing sentence. The rows were first gathered with AI help, then each YES or PART cell was tied to the page it came from where one could be pinned (data/scorecard.json lists 5 that still need it under source_gaps). Two cells (Stripe agent_details, Braintree facilitator_details) were re-read by hand against the live page on 2026-10-15 and matched.
+The question the card answers: when an AI agent places a card order through this gateway, what does the merchant get back that says so, and does that signal survive to the dispute? Every cell is read from the vendor's own docs, API reference, changelog, terms or press release on the date shown. Nothing is inferred from a marketing sentence. The rows were first gathered with AI help, then each YES or PART cell was tied to the page it came from where one could be pinned (data/scorecard.json lists 5 that still need it under source_gaps). Two cells (Stripe agent_details, Braintree facilitator_details) were re-read by hand against the live page on 2026-10-15 and matched. Six cells in the 2026-11-21 rows were fetched a second time the same day and matched: Airwallex agentic_payment_data and its dispute object, Getnet agentic_protocol and its Chargeback API, VGS agentic_properties, and the Spreedly alpha guide.
 
 Cell codes: YES = documented, field or sentence quoted below. PART = documented in part. NO = doc says it does not. SILENT = relevant doc read, nothing on it. ASK = no relevant doc found or reachable. ANN = announced only, no live product or doc.
 
@@ -26,16 +26,51 @@ Cell codes: YES = documented, field or sentence quoted below. PART = documented 
 | Authorize.net (Visa) | ASK | SILENT | ASK | ASK | SILENT | ASK | SILENT |
 | Elavon | ASK | SILENT | SILENT | SILENT | SILENT | SILENT | SILENT |
 | Helcim | ASK | SILENT | SILENT | SILENT | SILENT | SILENT | SILENT |
+| Airwallex | PART (API fields documented; suite on waitlist) | YES agentic_payment_data on the attempt, names no agent | ANN (product page claim only) | ANN (product page claim; dispute object has none) | ANN (product page claim only) | PART bound to the agent session | SILENT |
+| Getnet | PART (Visa and Mastercard flows; sandbox preview) | YES agentic_protocol, sandbox preview | SILENT | SILENT | SILENT | PART per purchase session | SILENT |
+| Worldline | PART (UCP handler beta) | SILENT | SILENT | SILENT | SILENT | YES single use, merchant and checkout bound | PART (FAQ line only) |
+| Spreedly | PART (ACP, UCP alpha; no Visa doc) | SILENT | SILENT | SILENT | SILENT | YES amount, expiry, merchant (alpha) | SILENT |
+| Moneris | SILENT (MCP preview is the merchant's own agent) | SILENT | SILENT | SILENT | SILENT | SILENT | SILENT |
+| dLocal | ANN (AP2 blog 2025, no doc) | SILENT | SILENT | SILENT | SILENT | SILENT | SILENT |
+| Antom | ANN (2025 press, card pilot) | SILENT | SILENT | ANN (press line only) | ANN (press line only) | ANN (press line only) | SILENT |
+| VGS | PART (agent side tokens; Visa, Mastercard, Amex) | PART beta agentic_properties on the stored card | SILENT | SILENT (no dispute object) | SILENT | YES Visa mandates: limit, merchant, expiry | SILENT |
+| Basis Theory | PART (agent side; VIC and Agent Pay rails) | NO (no transaction object) | SILENT (webhooks go to the agent platform) | NO (disputes are off its rails) | SILENT | YES allowance: merchant, amount, expiry | PART (allowance balance only) |
 
 ## What the card says
 
-Nobody passes the agent signal to the dispute. Sixteen gateways checked, zero document an agent field on the dispute object, the chargeback notice or the evidence form. Stripe's Dispute object, Braintree's Dispute object and PayPal's Customer Disputes schema were each read field by field: no agent field. For Worldpay, Authorize.net, Fiserv and Global Payments the dispute docs could not be read (ASK), so that is 12 read and 4 unknown. That is the gap this repo works on.
+Nobody passes the agent signal to the dispute. Twenty-five rows checked, zero document an agent field on the dispute object, the chargeback notice or the evidence form. Stripe's Dispute object, Braintree's Dispute object and PayPal's Customer Disputes schema were each read field by field: no agent field. For Worldpay, Authorize.net, Fiserv and Global Payments the dispute docs could not be read (ASK), so of the first 16 that is 12 read and 4 unknown. Of the nine rows added 2026-11-21, seven have a dispute, chargeback or claim object that was read (Airwallex, Getnet, Worldline, Spreedly, Moneris, dLocal, Antom) and none has an agent field. VGS has no dispute object, and Basis Theory says disputes happen on rails it is not part of. That is the gap this repo works on.
 
-Two gateways give the merchant a named field. Stripe (PaymentIntent.agent_details, private preview) and Braintree (transaction.facilitator_details, response only). Both also tag it in the dashboard. Everything else is a request side hint the merchant has to store itself (Adyen shoppingPlatform, Worldpay paymentInstrument.type delegate) or a channel label with no documented value (Shopify, Square).
+Four rows give the merchant a named field, and only two of them name the agent. Stripe (PaymentIntent.agent_details, private preview) and Braintree (transaction.facilitator_details, response only). Both also tag it in the dashboard. Airwallex marks the payment attempt as agentic (agentic_payment_data) and names no agent. Getnet returns agentic_protocol on its agent checkout call, in a preview its own docs call sandbox only. VGS flags a stored card as an agent token (beta), which marks the card and not the order. Everything else is a request side hint the merchant has to store itself (Adyen shoppingPlatform, Worldpay paymentInstrument.type delegate) or a channel label with no documented value (Shopify, Square).
 
 One fraud rule engine reads an agent signal: Stripe. Radar lists is_agent_initiated, a Boolean that is true "when Stripe identifies the payment as initiated by an AI agent" (read 2026-11-17). That is Stripe's own detection, it is not the agent_details object, and it still does not reach the dispute. Braintree Fraud Protection Advanced, Adyen custom risk fields, Checkout.com rule categories, Worldpay fraud assessment: none has an agent attribute. Adyen lets the merchant pass its own custom flag into rules, which is a workaround, not a feature.
 
 The small merchant gateways are silent or absent. NMI, Authorize.net, Elavon, Helcim: no doc saying they accept agent orders, no field, no announcement with a date (NMI has blog posts only). These are the gateways the merchants who will get the first "my agent did it" chargebacks actually use.
+
+## Visa Agentic Ready, press and docs
+
+Visa's release of 2026-11-17 says the program is "launching with more than 140 participants" on the acceptance side. It names 18. Fifteen take card payments for merchants or sit right next to that, and three are B2B platforms. It gives no go-live date for any of them. https://investor.visa.com/news/news-details/2026/Visa-Expands-Agentic-Ready-to-Help-Scale-Trusted-AI-Commerce-Globally/default.aspx (2026-11-17, read 2026-11-21).
+
+A press line is not a doc. This table puts what the release says each firm is doing next to what the firm's own pages gave a merchant on 2026-11-21. The first six were already on the card; their docs were checked for changes since 2026-11-01 and none was found on the pages read.
+
+| Firm | Press says | Docs show |
+|---|---|---|
+| Stripe | Testing ways to recognize agent payments and tighten merchant controls | Named field, dashboard tag and a Radar attribute. No agent field on the dispute |
+| Adyen | Recognizing agent transactions, taking network tokens, agent signals in risk tools | Request side hints the merchant stores itself. No agent field on the dispute or in risk rules |
+| Checkout.com | Agent identification, authentication, risk and processing | Accepts ACP and UCP. No agent field in the API reference, dispute schemas included |
+| Fiserv | Agent discovery, tokenized payments, agent authentication, fraud | Announcements only. Developer docs sit behind a JavaScript shell and could not be read |
+| Global Payments | Agent recognition, permissions, fraud controls, routing | Says it is building ACP and UCP support. Its agentic page returned 403 on 2026-11-21 |
+| PayPal | Wider acceptance of Visa agentic tokens across its merchants | Braintree returns facilitator_details. No PayPal page on Visa agentic tokens was found |
+| Airwallex | Agent orders across markets, and work to embed Trusted Agent Protocol | An agentic marker on the payment attempt. Suite on a waitlist. No page read names Trusted Agent Protocol |
+| Getnet | Tokenization and agent identity for agentic network tokens | A preview toolkit, sandbox only, with agentic_protocol on the checkout response. Chargeback API has no agent field |
+| Worldline | Building on live agent payments in European markets | A beta UCP handler with merchant and checkout bound tokens. No agent field on payment or dispute |
+| Spreedly | Agent payments through the stack merchants already run | One alpha guide for ACP and UCP. No agent marker on the purchase. The guide does not name a Visa program |
+| Moneris | Testing how agent transactions are recognized for Canadian merchants | An MCP server for the merchant's own agent. Nothing on shopper agents or agentic tokens |
+| dLocal | Exploring agent payments in emerging markets | Nothing agent specific in the docs. One 2025 blog post about AP2 |
+| Antom | Exploring merchant participation and agent identity standards | Nothing agent specific in the docs. A 2025 news post announces a solution |
+| VGS | Infrastructure for AI platforms, merchants and fintechs | Agent side token API with Visa mandates. A beta flag on the stored card. No dispute object |
+| Basis Theory | The enablement layer for agentic credentials | Mints one purchase credentials for the agent. Says it sees nothing after the mint |
+
+The three B2B platforms are not gateways, so they are not on the card. Billtrust's own newsroom says its pilot with BILL and Visa is running: "The pilot is currently live and processing end-to-end transactions," https://www.billtrust.com/news/news-visa-bill-billtrust-launch-ai-agents-for-payments (2026-10-20, read 2026-11-21). It names no field or report a supplier could use to see that an agent paid. HighRadius and Versapay had no page of their own on the program on 2026-11-21. Both appear only in Visa's release.
 
 ## Row detail
 
@@ -199,6 +234,170 @@ No announcement in 30 company news items (2022 to 2026-09-29). Elavon Payment Ga
 
 No announcement (2025 and 2026 list, latest 2026-09-08). 150 devdocs pages read; purchase endpoint (updated 2026-04-20) has no agent, channel or initiator field, https://devdocs.helcim.com/reference/purchase. Changelog latest 2026-07-30.
 
+### Airwallex
+
+Visa Agentic Ready release (2026-11-17), press says: Visa says Airwallex is working with it so global merchants can take agent orders across markets and currencies, alongside its Agentic Commerce Suite, and is working to embed Trusted Agent Protocol. Docs show: The Payment Intent API reference documents an agentic token and an agentic_payment_data object on the payment attempt, but the dispute, refund, risk and reporting docs say nothing about agents and the suite itself sits behind a waitlist.
+
+Accepts: The Agentic Commerce Suite product page names ACP and UCP and says the firm takes payments from agent interfaces. The only call to action is "Join waitlist" and no live or pilot status is stated. Visa Intelligent Commerce, Trusted Agent Protocol, AP2 and Mastercard Agent Pay are not named on that page. The API reference does document agentic token payments (see API field), so the plumbing is documented but the product status is not. "Accept payments from any agentic interface across major protocols, including ACP, UCP, and more" https://www.airwallex.com/en-us/payments/agentic-commerce (undated, read 2026-11-21).
+
+API field: Retrieve a Payment Intent returns latest_payment_attempt.agentic_payment_data, described as the fulfillment outcome recorded for agent-initiated payments. Confirm a Payment Intent takes a request object agentic_payment_data (with checkout_session_id and fulfillment) and payment_method.card.agentic_token. Create a Payment Intent shows the same response object. No field names the agent itself (no agent id, name or platform). "Present only on payment attempts initiated via an agentic checkout flow." https://www.airwallex.com/docs/api/payments/payment_intents/retrieve.md (undated, API version 2026-08-21, read 2026-11-21).
+
+Reporting: The reporting doc and the webhook events doc were read and do not mention agents. The product page claims merchants can track sales by agent, with no doc behind it. ANN. https://www.airwallex.com/docs/payments/payment-operations/reporting.md and https://www.airwallex.com/en-us/payments/agentic-commerce
+
+Disputes: Retrieve a Payment Dispute and List Payment Disputes were read. The dispute object has no agent field. It carries payment_attempt_id and payment_intent_id, so a merchant can look up the attempt by hand. The product page claims agent identity, intent and action are documented for disputes, with no doc behind it. ANN. https://www.airwallex.com/docs/api/payments/payment_disputes/retrieve.md and https://www.airwallex.com/docs/payments/payment-operations/disputes.md
+
+Risk rules: The fraud prevention overview and the Create watchlist API were read. No agent attribute in the rule layers or watchlist attributes. The product page names an Agent Trust and Risk SDK, with no doc found. ANN. https://www.airwallex.com/docs/payments/payment-operations/fraud-prevention-overview.md
+
+Token scope: Confirm a Payment Intent says the agentic token is tied to one agent checkout session and that checkout_session_id must match the restriction set at tokenization. No doc read states an amount cap, an expiry or a merchant binding, and no doc for creating the token was found. "The agent session ID the agentic payment token is bound to." https://www.airwallex.com/docs/api/payments/payment_intents/confirm.md (undated, API version 2026-08-21, read 2026-11-21).
+
+Refunds: silent, https://www.airwallex.com/docs/payments/payment-operations/manage-payments/refunds.md and https://www.airwallex.com/docs/api/payments/refunds/create.md
+
+### Getnet
+
+Visa Agentic Ready release (2026-11-17), press says: Visa says Getnet is working with it across Europe and Latin America to build the tokenization and agent identity needed to accept agentic network tokens at scale. Docs show: A Developer Preview MCP AI Toolkit with Visa and Mastercard agent checkout flows, sandbox only, whose checkout response carries an agentic_protocol field, while the chargeback, report, webhook and antifraud docs say nothing about agents.
+
+Accepts: The MCP AI Toolkit overview says the toolkit takes payments started by AI agents and plugs into Mastercard Agent Pay and Visa Intelligent Commerce. The Remote Server page labels it Developer Preview with two core tools, list_cards and process_card_payment. The tools page says the agent checkout tools work in Sandbox only and cannot be used for production transactions. Shopping Agent, Managing Agent and MCP Inventory are marked In Roadmap. "It enables the capture of transactions initiated by AI agents" https://docs.globalgetnet.com/en/products/agentic-commerce/mcp-ai-toolkit (2026-02-23, read 2026-11-21).
+
+API field: The card_checkouts tool and the REST call POST /v1/card-checkouts return a field named agentic_protocol. Values are NONE, MAP (Mastercard Agent Pay) or CSIC (the Visa flow). The response also echoes flow_id. The plain path POST /v1/card-payments returns the same payment fields without flow_id or agentic_protocol. The field sits on the toolkit API, not on the Global API payment docs, and it is preview. "Agentic protocol used" https://docs.globalgetnet.com/en/global/products/agentic-commerce/mcp-ai-toolkit?doc=mcp-ai-toolkit-available-tools (2026-09-23, read 2026-11-21).
+
+Reporting: silent. The Merchant Reporting (OneGMR) overview and the Global API webhooks and notifications page were read, neither names agentic_protocol or any agent marker. https://docs.globalgetnet.com/en/global/products/business-operations/global-merchant-reports and https://docs.globalgetnet.com/en/global/products/online-payments/regional-api?doc=api-ref-webhooks-and-notifications (read 2026-11-21).
+
+Disputes: silent. The Chargeback API functional page was read in full. It covers list, detail, history, contest or accept, and evidence upload. It has no agent field and no agent evidence type. https://docs.globalgetnet.com/en/global/products/business-operations/chargeback (2026-03-10, read 2026-11-21).
+
+Risk rules: silent. The Global API antifraud concept page was read, no agent attribute. The agentic overview says an agent check called Know your Agent will appear at purchase, with no rule or field behind it. https://docs.globalgetnet.com/en/global/products/online-payments/regional-api?doc=api-ref-antifraud (read 2026-11-21).
+
+Token scope: The Visa REST tutorial ties each purchase to a new Visa session, a new flow_id and an instruction_id from POST /v1/intentions, and says amount and currency must match across the calls. The Mastercard tutorial shows an authentication expires_at. No doc states a merchant binding, a spend cap or an expiry on the agent token itself. "Use a fresh VTS session for each purchase." https://docs.globalgetnet.com/en/global/products/agentic-commerce/mcp-ai-toolkit?doc=vic-tutorial-rest-api (2026-10-20, read 2026-11-21).
+
+Refunds: silent. The tools page lists list_cards, authentications_options, authentications_initiate, authentications_validation, authentications_transaction, intentions, card_checkouts and card_payments. There is no refund or cancel tool and no refund guidance for agent orders. https://docs.globalgetnet.com/en/global/products/agentic-commerce/mcp-ai-toolkit?doc=mcp-ai-toolkit-available-tools (read 2026-11-21).
+
+### Worldline
+
+Visa Agentic Ready release (2026-11-17), press says: Visa says Worldline, after running live end to end agent payments in several European markets last summer, is partnering with it to help merchants move to agent driven commerce. Docs show: The Connect docs give a beta UCP payment handler with checkout bound, merchant scoped network tokens plus a beta MCP server, but the payment, webhook, dispute and fraud references carry no field that marks an order as agent placed.
+
+Accepts: The ConnectAI docs cover UCP, ACP, AP2 and an MCP server. For UCP a merchant can take Google Pay on Gemini and AI Mode with Worldline as gateway, or declare the Worldline Global Collect payment handler (com.worldline.globalcollect, version 2026-04-08), which the docs mark as beta. The ACP and AP2 pages explain the protocols and send the reader to OpenAI and Google for the spec; the AP2 page says Worldline is co-developing and testing it. The MCP servers are marked beta. Worldline's own agentic commerce page says the live transactions with ING, Credit Agricole, Visa and Mastercard are proof points and not broad commercial availability. No doc names Visa Intelligent Commerce or Mastercard Agent Pay as a merchant integration. "Accept payments in your own Universal Commerce Protocol implementation (In Beta)" https://docs.connect.worldline-solutions.com/documentation/ConnectAI/universal-commerce-protocol (undated, read 2026-11-21).
+
+API field: silent. The Create Payment and Get Payment API reference pages were downloaded and searched. The only agent words are userAgent, the airline agentNumericCode and the funding value agentCashOut. The UCP handler maps the agent's credential to the normal CardPaymentMethodSpecificInput (networkTokenData), and its response config is empty. The AP2 page says a Payment Mandate tells the network an agent was involved, but shows no Worldline field for it. https://apireference.connect.worldline-solutions.com/s2sapi/v1/en_US/json/payments/create.html?paymentPlatform=ALL (undated, read 2026-11-21).
+
+Reporting: silent. The webhook event types page and the payment inquiries reporting page were read, no agent marker. https://docs.connect.worldline-solutions.com/documentation/webhooks/event-types and https://docs.connect.worldline-solutions.com/reporting/Insights/payment-inquiries (read 2026-11-21).
+
+Disputes: silent. The dispute guide and the Get Dispute, Get Disputes and Submit Dispute reference pages were read, no agent field and no agent evidence type. The MCP operations server exposes CreateDispute, GetDispute and SubmitDispute, which lets an agent work a dispute but does not mark the order. Worldline's own FAQ page says agent payments use the usual dispute process and may need extra evidence of the agent's role, with no doc behind it. https://docs.connect.worldline-solutions.com/after-the-payment/chargeback-handling/dispute (read 2026-11-21).
+
+Risk rules: silent. The fraud risk triggers page was read, no agent attribute. The AP2 page only advises merchants to audit CVV, AVS and risk thresholds and to plan with the processor for AP2 mandate signals in fraud models. https://docs.connect.worldline-solutions.com/accepting-payments/fraud-management/fraud-risk-triggers and https://docs.connect.worldline-solutions.com/documentation/ConnectAI/agent-payments-protocol-ap2 (read 2026-11-21).
+
+Token scope: The UCP handler spec requires a binding object on the credential that carries checkout_id and identity, says the merchant must verify it, and says network tokens are scoped to the merchant's merchant_id. No amount cap is stated in the handler. The ACP page describes a single use token with a maximum amount and validity period, but as OpenAI's spec, not a Worldline API. "Network tokens and wallet tokens are single-use for a given checkout." https://docs.connect.worldline-solutions.com/documentation/ConnectAI/worldline-globalcollect-payment-handler (version 2026-04-08, read 2026-11-21).
+
+Refunds: The refunds doc and the Create Refund reference say nothing about agent orders. The MCP operations server can call CreateRefund. The only guidance is an FAQ on Worldline's own agentic commerce page: refunds work as in standard payments and should be tied to the purchase, merchant and amount the customer approved. "A partial capture or refund should map back to the original verified intent" https://worldline.com/en/home/top-navigation/about-worldline/innovation/agentic-commerce (undated, read 2026-11-21).
+
+### Spreedly
+
+Visa Agentic Ready release (2026-11-17), press says: Visa lists Spreedly under acquirers and financial institutions and says it is helping merchants take trusted agent-initiated payments under Visa Intelligent Commerce through the payment stack they already run. Docs show: One developer guide, marked Alpha for select merchants, covers ChatGPT (ACP) and UCP orders with an amount, expiry and merchant bound token; the purchase, claim and reporting docs carry no agent marker and no doc names Visa Intelligent Commerce.
+
+Accepts: The developer guide "Agentic commerce" was read in full. It covers OpenAI ACP delegated payment and UCP with AP2 mandates, and is labeled a private preview. It does not name Visa Intelligent Commerce, Trusted Agent Protocol or Mastercard Agent Pay. The marketing page https://www.spreedly.com/products/agentic names Visa TAP / VIC and Mastercard Agent Pay as early access, with no doc behind it, so the Visa part is ANN level only. "currently in Alpha with select merchant partners" https://developer.spreedly.com/docs/agentic-commerce (2026-03-25, read 2026-11-21).
+
+API field: The purchase reference and the show transaction reference were read and searched for agent, agentic, initiator, mandate and allowance. The only hits are user_agent, stored_credential_initiator (cardholder or merchant) and an AGENT value of customer_account_type that is a protection provider account type, not an AI agent flag. No field marks a transaction as agent placed. The agentic guide says the merchant backend gets what looks like a standard vaulted token. Silent, https://developer.spreedly.com/reference/purchase (2026-06-12, read 2026-11-21) and https://developer.spreedly.com/reference/show-transactions (2026-06-12, read 2026-11-21).
+
+Reporting: silent, https://developer.spreedly.com/docs/recent-transactions (2026-10-21, read 2026-11-21). The Recent Transactions report page lists filters, columns and downloads and has no agent column or filter. The docs index https://developer.spreedly.com/llms.txt lists no agentic reporting or webhook page.
+
+Disputes: silent, https://developer.spreedly.com/reference/forward-claim (2026-06-12, read 2026-11-21). The claim object (forwarded to a protection provider) has case_id, charge_id, reason_code, reason_type, issue_date, due_date, amount, status. No agent field. Spreedly has no other dispute or chargeback object in the docs index.
+
+Risk rules: silent, https://developer.spreedly.com/docs/composer-fraud-risk (2026-09-23, read 2026-11-21) and https://developer.spreedly.com/docs/decision-editor (2026-11-04, read 2026-11-21). Fraud runs as a Composer step with Sift, Socure, Veriff or Forter. No agent attribute is named.
+
+Token scope: The agentic guide has a mandate validation table. Spreedly checks reason (one_time), max_amount, currency, checkout_session_id, merchant_id / environment_key and expires_at before the gateway sees the request, and rejects the transaction if a check fails. This is ACP and UCP/AP2 only and Alpha. The firm's own product roundup repeats the claim. "Set limits through the API and checkout SDKs" https://www.spreedly.com/blog/spreedly-product-roundup-summer-2026 (2026-10-01, read 2026-11-21). Doc behind it: https://developer.spreedly.com/docs/agentic-commerce (2026-03-25, read 2026-11-21).
+
+Refunds: silent, https://developer.spreedly.com/reference/credit-transaction (2026-06-12, read 2026-11-21). The refund reference and the agentic guide say nothing on refunds for agent placed orders. The guide only says the allowance reason must be one_time.
+
+### Moneris
+
+Visa Agentic Ready release (2026-11-17), press says: Visa says Moneris joined Agentic Ready and is testing with Visa how agent transactions can be recognized, accepted and processed for Canadian merchants. Docs show: A preview MCP server lets a merchant's own AI agent call the Moneris API with a stored payment method, but no payment, dispute, risk or refund doc names an agent field or a Visa or Mastercard agent protocol.
+
+Accepts: silent on shopper agents. The only agent doc is an MCP server for the merchant's own AI agent, which is not an agent placed shopper order, so the cell is SILENT. The MCP guide shows an AI agent creating a payment through the tool create_payment with a stored payment method ID made outside the agent. It names sandbox and production MCP hosts. It does not name Visa Intelligent Commerce, Trusted Agent Protocol, Mastercard Agent Pay, ACP, UCP or AP2, and says nothing on agentic network tokens. "Moneris MCP Server is in preview and is subject to change." https://developer.moneris.com/moneris-api/docs/model-context-protocol-mcp (2026-06-23, read 2026-11-21). The Moneris blog (2026-07-17) and media room release (2026-06-18) on the MCP server add no doc detail, and neither names a card network agent program.
+
+API field: silent. The Create Payment and Retrieve Payment reference pages were read in full as markdown. No field marks an order as agent placed. The nearest field is cardholderInitiatingChannel with values DESKTOP_WEB, MOBILE_WEB, MOBILE_APP, and the CUSTOMER_INITIATED / MERCHANT_INITIATED enums. https://developer.moneris.com/moneris-api/reference/createpayments-1 (2026-11-13, read 2026-11-21) and https://developer.moneris.com/moneris-api/reference/getpayment-1 (read 2026-11-21).
+
+Reporting: silent. The Retrieve Payment response, the docs index (llms.txt) and the changelog page were searched for agent and agentic, no marker found. https://developer.moneris.com/moneris-api/page/changelogs (latest entry 2026-11-11, read 2026-11-21). Merchant portal help pages were not read.
+
+Disputes: silent. The Dispute Details reference was read, it has no agent field. The Disputes API lets a merchant accept a case, read details and upload images. https://developer.moneris.com/moneris-api/reference/getdisputebycaseidandrecordnumber-1 (2026-11-13, read 2026-11-21).
+
+Risk rules: silent. The Kount risk inquiry guide and the Create Kount Inquiry reference were read. The only agent words are deviceUserAgent and the Kount "Agent Web Console", which is a human reviewer console. https://developer.moneris.com/moneris-api/docs/risk-inquiry-kount (2026-05-07, read 2026-11-21).
+
+Token scope: silent. The MCP guide tells the merchant to use Moneris stored payment method IDs and never pass raw card data to an agent. It gives no amount, expiry or merchant binding for an agent token. https://developer.moneris.com/moneris-api/docs/model-context-protocol-mcp (read 2026-11-21).
+
+Refunds: silent. The MCP tool list has retrieve_refund and list_refunds only, no create refund tool. The Create Refund reference has no agent text. https://developer.moneris.com/moneris-api/reference/createrefund-1 (2026-11-13, read 2026-11-21).
+
+### dLocal
+
+Visa Agentic Ready release (2026-11-17), press says: Visa says dLocal is working with it to explore how agent orders can be enabled safely across local payment systems in emerging markets. Docs show: The dLocal docs give a merchant nothing agent specific today; the payment, chargeback, refund, risk and network token docs do not mention agent placed orders.
+
+Accepts: The only dLocal page found on agent payments is a blog post from 2025-09-16 saying dLocal is working with Google on AP2 and will work with select merchants and partners on early agent payment experiences. No product, no doc, no Visa program named. The docs index (llms.txt) has no page with agent or agentic in the title or summary. ANN. https://www.dlocal.com/blog/dlocal-viewpoint/dlocal-joins-forces-with-google-to-help-define-agent-payments-protocol-ap2-the-open-standard-for-aiagent-payments/ (2025-09-16, read 2026-11-21).
+
+API field: silent, https://docs.dlocal.com/reference/create-payment.md (the only agent strings are the User-Agent header and the browser user_agent field) and https://docs.dlocal.com/reference/the-card-object.md
+
+Reporting: silent, https://docs.dlocal.com/llms.txt (full docs index, no agent page) and https://docs.dlocal.com/reference/chargeback-asynchronous-notification.md. The payment notification guide (receive-notifications) was not opened.
+
+Disputes: silent, https://docs.dlocal.com/reference/retrieve-a-chargeback.md , https://docs.dlocal.com/reference/chargeback-asynchronous-notification.md and https://docs.dlocal.com/docs/chargebacks.md
+
+Risk rules: silent, https://docs.dlocal.com/docs/risk-data-documentation.md and https://docs.dlocal.com/docs/fraud-prevention.md
+
+Token scope: silent, https://docs.dlocal.com/docs/card-network-tokens.md (network tokens covered, no agent token).
+
+Refunds: silent, https://docs.dlocal.com/docs/refunds.md
+
+### Antom
+
+Visa Agentic Ready release (2026-11-17), press says: Visa says Antom is working with it to explore how merchants can take part in agent commerce, including shared agent identity standards and ways to do it safely. Docs show: The Antom docs give a merchant nothing agent specific today; the pay API, dispute notice, evidence, refund, risk and token docs do not mention agent placed orders, and the agentic payment solution exists only in Antom's own press.
+
+Accepts: Antom's own news post of 2025-09-04 announces an agentic payment solution, says it covers wallets and cards, and says Antom is among the first partners of Mastercard and Visa to pilot card payments for AI agents. The docs index (llms.txt) has no page on it. No protocol name and no go-live for cards is given. ANN. "The Antom agentic payment solution is now open-sourced on GitHub" https://www.antom.com/news/ant-internationals-antom-debuts-agentic-payment-solution-pioneering-apm-checkout-solution-and-trusted-ai-for-secure-transactions (2025-09-04, read 2026-11-21). A second news post dated 2026-04-27 repeats that Ant International is working on agent protocols with AI platforms and networks, again with no doc: https://www.antom.com/news/global-merchants-partner-with-ant-international-to-scale-internationally-amid-rise-of-agentic-commerce
+
+API field: silent, https://docs.antom.com/ac/ams/payment_cashier.md (pay, One-time Payments). The only agent strings there are agentCode and agentName, which are the IATA travel agency fields. The agent-token request header in https://docs.antom.com/ac/ams/api_fund.md is a token for an ISV calling the API, not a shopper agent marker.
+
+Reporting: silent, https://docs.antom.com/ac/ams/paymentrn_online.md (payment notification), https://docs.antom.com/ac/apo/transaction_details.md and https://docs.antom.com/ac/cashierpay/reconcile.md
+
+Disputes: notifyDispute, supplyDefenseDocument and the dispute overview were read and have no agent field or agent evidence type. The 2025-09-04 news post says agent disputes can be resolved through credential queries, with no doc behind it. ANN. https://docs.antom.com/ac/ams/notify_dispute.md , https://docs.antom.com/ac/ams/supply_evidence.md , https://docs.antom.com/ac/dispute/overview.md
+
+Risk rules: The independent risk control doc and the risk methods doc (AVS, CVV) were read and have no agent attribute. The 2025-09-04 news post claims risk management technologies for AI agents, with no doc. ANN. https://docs.antom.com/ac/apo/risk_control.md and https://docs.antom.com/ac/ref/risk_methods.md
+
+Token scope: The tokenization doc covers network tokens only and has no agent token. The 2025-09-04 news post describes a payment mandate model and purchases inside a set spending limit, with no doc and no mention of merchant binding or expiry. ANN. https://docs.antom.com/ac/pm/tokenization.md
+
+Refunds: silent, https://docs.antom.com/ac/ams/refund_online.md
+
+### VGS
+
+Visa Agentic Ready release (2026-11-17), press says: Visa lists VGS under payment service providers and quotes its head of partnerships calling it a leader in digital and agentic commerce infrastructure that supports AI platforms, merchants and fintechs. Docs show: The docs give an agent platform an Agentic Tokens API (Visa, Mastercard, American Express) with Visa mandates for limit, merchant and expiry, and give a merchant a beta agentic_properties block on a stored card that says the card is an agent token; there is no dispute, report or refund doc for agent orders.
+
+Accepts: Read the Agentic Commerce guide and the Agentic Tokens API reference (doc version 0.12.0, API version 2.1.0). It enrolls a stored card with Visa (VIC), Mastercard or American Express and returns network token credentials for an agent platform. The spec lists a sandbox and a live server and no beta label, but a tenant must be enabled (tenant_not_enabled error). VGS is a vault, not the merchant's processor, so this is the agent side, not merchant acceptance. The overview page names no protocol. "Enrolls a stored card for agentic payments." https://docs.verygoodsecurity.com/agentic-commerce/developer-resources/api-reference/agentic-tokens/agentic-tokens (undated, read 2026-11-21).
+
+API field: in part. VGS has no payment or transaction object. A beta adds enriched_attributes.agentic_properties to the card object a merchant gets back from POST /cards and GET /cards/{card_id}. Fields: agentic (true or false), minter (agent platform), platform, tsp. It marks the stored card, not the order, and the page is under "Card on File Matching (beta)". "learn at once whether it is an agentic token" https://docs.verygoodsecurity.com/agentic-commerce/developer-resources/api-reference/card-on-file-matching-beta/card-attributes-agentic-properties (undated, read 2026-11-21).
+
+Reporting: silent, https://docs.verygoodsecurity.com/enterprise-platform/developer-resources/webhook-notifications (undated, read 2026-11-21) and https://docs.verygoodsecurity.com/enterprise-platform/core-platform/reports/usage-reports/interaction-types (undated, read 2026-11-21). Neither names an agentic event or report field. The agentic guide mentions only network token update webhooks.
+
+Disputes: silent, https://docs.verygoodsecurity.com/llms.txt (undated, read 2026-11-21). The docs index has no dispute or chargeback page. The Cryptograms reference has an optional dispute_policy text field inside the purchase data the agent platform sends to Visa; that is not a dispute record (https://docs.verygoodsecurity.com/agentic-commerce/developer-resources/api-reference/agentic-tokens/cryptograms, undated, read 2026-11-21).
+
+Risk rules: silent, https://docs.verygoodsecurity.com/agentic-commerce/developer-resources/api-reference/agentic-tokens/agentic-tokens (undated, read 2026-11-21). Enrollment takes risk fields (risk.account, risk.device) that American Express requires, and country restrictions can block enrollment. No rule engine with an agent attribute is documented.
+
+Token scope: for Visa. A purchase intent carries mandates with decline_threshold (amount, currency_code), effective_until, preferred_merchant_name, merchant_category and quantity. The Card On File Match page adds that a credential is bound at issue to the merchant the agent means to pay, checked against the caller's verified domains. Intents are Visa only; Mastercard and American Express credentials are requested without an intent. "Mandates describe the spending limits, merchant restrictions, and expiry times" https://docs.verygoodsecurity.com/agentic-commerce/developer-resources/api-reference/agentic-tokens/intents (undated, read 2026-11-21). Also read: https://docs.verygoodsecurity.com/agentic-commerce/developer-resources/api-reference/card-on-file-matching-beta/card-on-file-match (undated, read 2026-11-21).
+
+Refunds: silent, https://docs.verygoodsecurity.com/agentic-commerce/developer-resources/api-reference/agentic-tokens/cryptograms (undated, read 2026-11-21). There is an optional refund_policy text field and an is_refundable flag in the purchase data. The Intents page says the confirmation call does not refund or reverse a payment. No guidance on how to refund an agent placed order.
+
+### Basis Theory
+
+Visa Agentic Ready release (2026-11-17), press says: Visa lists Basis Theory under payment service providers and quotes its CTO calling it the enablement layer for all agentic credentials, serving more than 300 merchants and platforms. Docs show: The docs give an agent platform an API to mint one-purchase credentials on Visa Intelligent Commerce, Mastercard Agent Pay and Stripe rails under a merchant, amount and expiry allowance, plus a UCP tokenizer guide for merchants; they say Basis Theory sees nothing after the mint, so the merchant gets no agent marker from it.
+
+Accepts: Read the Agentic Payments overview, setup, implementation and the payment methods API reference. The rails table maps provider vic to Visa Intelligent Commerce, agentpay to Mastercard Agent Pay and stripe to Shared Payment Tokens. This is the agent (buyer) side: it issues the credential the agent presents. Basis Theory is a vault and proxy, not the merchant's processor. The setup guide says it is an Enterprise feature and production needs onboarding; test tenants run on mocks. A separate guide lets a merchant accept UCP orders with Basis Theory as tokenizer (https://developers.basistheory.com/docs/guides/ucp-payments). "a Visa card provisions `vic`, a Mastercard card provisions `agentpay`" https://developers.basistheory.com/docs/api/agentic-commerce/payment-methods (undated, read 2026-11-21).
+
+API field: none. Basis Theory has no payment or transaction object for the merchant. The overview says minting is the last event it sees and a credential status stays created and never becomes approved, declined or settled. The credential handed to the agent has number, expiry, cvc, or network token with eci and cryptogram; none of these is documented as an agent marker for the merchant. The Charge a Card guide was searched and has no agent field. "Network-supplied electronic commerce indicator, returned as given." https://developers.basistheory.com/docs/api/agentic-commerce/payment-credentials (undated, read 2026-11-21). Also read: https://developers.basistheory.com/docs/card-payments/charge-card (undated, read 2026-11-21).
+
+Reporting: silent for the merchant. Webhook events exist for agentic.payment-method, agentic.allowance and agentic.payment-credential.created (credential_id, allowance_id, rail, provider, format). They go to the Basis Theory customer that minted the credential, which is the agent platform. Nothing is documented for the merchant that takes the order. "a natural hook for ledger reconciliation" https://developers.basistheory.com/docs/api/events/event-types (undated, read 2026-11-21).
+
+Disputes: no dispute object exists. The overview says these happen after the mint and outside its view. "refunds, and disputes all happen afterwards on rails Basis Theory is not part of" https://developers.basistheory.com/docs/guides/agentic/overview (undated, read 2026-11-21). The deprecated Instructions API has a confirmation call whose transaction_type list includes chargeback and fraud, but that is the agent platform reporting to the network, not a dispute record (https://developers.basistheory.com/docs/api/agentic-commerce/instructions, undated, read 2026-11-21).
+
+Risk rules: silent, https://developers.basistheory.com/docs/features/anti-fraud (undated, read 2026-11-21). The page covers 3DS and general anti-fraud. No agent attribute and no rule engine with one.
+
+Token scope: An allowance holds an amount, an expires_at and an optional merchant object (name, url, country_code, category_code). A credential is minted from it for one purchase. An open allowance has no merchant and each credential names one. Visa and Mastercard rails need cardholder verification by passkey or one-time code. "The merchant cannot be added, changed, or removed after creation." https://developers.basistheory.com/docs/api/agentic-commerce/allowances (undated, read 2026-11-21).
+
+Refunds: The only refund guidance is about the allowance balance: a minted amount is spent for good, even if the merchant refunds or never charges. No guidance on the merchant refund itself. "there is no void, release, or refund-to-allowance operation" https://developers.basistheory.com/docs/api/agentic-commerce/errors-spm (undated, read 2026-11-21).
+
 ## Limits
 
 First read in one day, 2026-10-15. Later re-reads carry their own date in the row. Docs behind JavaScript shells (Fiserv Commerce Hub, Elavon Converge, Global Payments developer portal) could not be read, so those ASK cells may hide a field. Private preview and limited availability docs can change without a changelog entry. A SILENT cell means the pages named above say nothing; it does not mean the vendor has nothing. A written answer from a vendor replaces the cell with a dated "stated" value.
+
+The 2026-11-21 rows were gathered with AI help in one afternoon. Worldline was read on the Connect portal only; its Direct and Acquiring docs were not. No dashboard behind a login was seen for any firm, so a SILENT reporting cell speaks for the docs and nothing else. VGS and Basis Theory issue the credential the agent pays with and do not process the merchant's payment. They are on the card because Visa lists them, and their cells are read from the merchant's seat. docs.paypal.ai now redirects to developer.paypal.com, so the PayPal and Braintree links are due a re-read.

@@ -12,7 +12,7 @@ It does not capture anything at checkout. Hosted services already do that part. 
 
 ## What is here
 
-A gateway scorecard, as data. SCORECARD.md is the readable copy and data/scorecard.json is the same thing for code: 16 gateways, 7 questions each. A YES or PART cell quotes the vendor page it came from, with the date. Five of them still need the exact page pinned and are listed under source_gaps. For SILENT and ASK cells, the row detail in SCORECARD.md names the pages that were read. The questions are plain ones. Does the gateway accept agent orders? Does the merchant get an agent field in the API? Does it show in reporting? Does it reach the dispute? Do risk rules read it? Is the token scoped to one merchant? Is there refund guidance?
+A gateway scorecard, as data. SCORECARD.md is the readable copy and data/scorecard.json is the same thing for code: 25 rows, 7 questions each. A YES or PART cell quotes the vendor page it came from, with the date. Five of them still need the exact page pinned and are listed under source_gaps. For SILENT and ASK cells, the row detail in SCORECARD.md names the pages that were read. The questions are plain ones. Does the gateway accept agent orders? Does the merchant get an agent field in the API? Does it show in reporting? Does it reach the dispute? Do risk rules read it? Is the token scoped to one merchant? Is there refund guidance?
 
 A re-check script. scripts/recheck.ts fetches every source page again, hashes the text and lists the cells that lean on a page that changed. It never edits a cell. A person re-reads the page.
 
@@ -34,9 +34,11 @@ The example takes AEP's own test vector b, checks the chain, and prints the Stri
 
 ## What the scorecard says so far
 
-Read 2026-10-15. The Stripe and Braintree cells below were read again on 2026-11-14.
+Read 2026-10-15. The Stripe and Braintree cells below were read again on 2026-11-14. Nine rows were added on 2026-11-21 for firms named in Visa's Agentic Ready release.
 
-Two of the 16 gateways give the merchant a named field for the agent: Stripe (PaymentIntent.agent_details, preview API) and Braintree (transaction.facilitator_details, a general third party field that its ACP page fills with ChatGPT). None documents an agent field on the dispute object or the evidence form: 12 were read and none has one (PayPal only says its Seller Protection extends to agentic transactions), and for 4 (Worldpay, Authorize.net, Fiserv, Global Payments) the dispute docs could not be read. One fraud rule engine documents an agent attribute: Stripe Radar's is_agent_initiated, Stripe's own detection, found on a re-read 2026-11-17. NMI, Authorize.net, Elavon and Helcim have no doc saying they accept agent orders (NMI has blog posts only).
+Two of the first 16 gateways give the merchant a named field for the agent: Stripe (PaymentIntent.agent_details, preview API) and Braintree (transaction.facilitator_details, a general third party field that its ACP page fills with ChatGPT). None documents an agent field on the dispute object or the evidence form: 12 were read and none has one (PayPal only says its Seller Protection extends to agentic transactions), and for 4 (Worldpay, Authorize.net, Fiserv, Global Payments) the dispute docs could not be read. One fraud rule engine documents an agent attribute: Stripe Radar's is_agent_initiated, Stripe's own detection, found on a re-read 2026-11-17. NMI, Authorize.net, Elavon and Helcim have no doc saying they accept agent orders (NMI has blog posts only).
+
+The nine new rows do not change that. Airwallex marks the payment attempt as agentic and names no agent. Getnet returns agentic_protocol in a sandbox only preview. Seven of the nine have a dispute or chargeback object and none carries an agent field. SCORECARD.md also sets what Visa's release says about each named firm next to what that firm's own docs show.
 
 So today the agent signal dies between the payment and the dispute.
 
