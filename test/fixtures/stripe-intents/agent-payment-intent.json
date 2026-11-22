@@ -1,0 +1,14 @@
+{
+  "id": "pi_made_up_agent_0001",
+  "object": "payment_intent",
+  "amount": 12900,
+  "currency": "usd",
+  "created": 1795200000,
+  "status": "succeeded",
+  "livemode": false,
+  "latest_charge": "ch_made_up_0001",
+  "agent_details": {
+    "name": "Example Agent",
+    "network_business_profile": "profile_made_up_0001"
+  }
+}

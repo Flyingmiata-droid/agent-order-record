@@ -41,16 +41,19 @@ One command line tool wraps the scorecard and the checks. It reads and prints. N
     node bin/aor.ts gateway stripe api_field
     node bin/aor.ts verify test/fixtures/aep/b-chain.json
     node bin/aor.ts braintree test/fixtures/braintree/acp-transaction.json
+    node bin/aor.ts stripe-intent test/fixtures/stripe-intents/agent-payment-intent.json
 
 The second line asks which gateways document an agent field on the dispute. Today it prints 0 of 25.
 
-The last line reads a Braintree transaction you already hold and prints facilitator_details, the one place Braintree names the application behind the order. It also lists the fields to keep, because Braintree's dispute object does not carry that name. Braintree fills facilitator_details for any third party, not only AI agents, so the reader reports the application name and leaves the call to you. The fixture is made up, and the reader has not been run on a live agent order.
+The braintree line reads a Braintree transaction you already hold and prints facilitator_details, the one place Braintree names the application behind the order. It also lists the fields to keep, because Braintree's dispute object does not carry that name. Braintree fills facilitator_details for any third party, not only AI agents, so the reader reports the application name and leaves the call to you. The fixture is made up, and the reader has not been run on a live agent order.
 
-The same seven operations run as an MCP server, so an agent can look a gateway up while it works. It talks over stdio, needs no packages, and marks every tool read only. Point your client at it with your own path:
+The stripe-intent line does the same for Stripe. It takes a PaymentIntent, a Checkout Session with payment_intent expanded, or a webhook event, and prints agent_details: the agent's name and its Stripe profile. Stripe documents the field on its preview API only and labels it private preview, and on 2026-11-21 it was not in Stripe's public OpenAPI files. So a PaymentIntent without it is not proof that a person ordered. This fixture is made up too, and this reader has not been run on a live agent order either.
+
+The same eight operations run as an MCP server, so an agent can look a gateway up while it works. It talks over stdio, needs no packages, and marks every tool read only. Point your client at it with your own path:
 
     { "mcpServers": { "agent-order-record": { "command": "node", "args": ["/path/to/agent-order-record/bin/aor.ts", "mcp"] } } }
 
-The tools are list_gateways, get_gateway, find_gateways, verify_aep_chain, render_stripe_evidence, check_ce3 and read_braintree_transaction. On 2026-11-21 the server was run against the official MCP TypeScript client, SDK 1.32.2: connect, list, call, a bad argument and an unknown tool. It is not on npm. Node refuses to run TypeScript from inside node_modules, so clone the repo.
+The tools are list_gateways, get_gateway, find_gateways, verify_aep_chain, render_stripe_evidence, check_ce3, read_braintree_transaction and read_stripe_payment_intent. On 2026-11-21 the server was run against the official MCP TypeScript client, SDK 1.32.2: connect, list, call, a bad argument and an unknown tool. It is not on npm. Node refuses to run TypeScript from inside node_modules, so clone the repo.
 
 skills/agent-order-record/SKILL.md is a short skill file that tells a coding agent when to use these commands.
 
@@ -124,7 +127,7 @@ No call to Stripe.
 
 The Stripe renderer does not fill the Visa CE 3.0 block yet. The check exists, but the renderer does not call it.
 
-No Braintree, Adyen or PayPal renderer. One reader pulls the marker off a gateway object so far, for Braintree (src/braintree.ts). Stripe and Adyen have none yet.
+No Braintree, Adyen or PayPal renderer. Two readers pull the marker off a gateway object so far: Braintree (src/braintree.ts) and Stripe (src/stripe-reader.ts). Adyen has none yet.
 
 sealedBundleHash is not checked. AEP has not pinned the bundle signature rule yet (its vector c is pending). Until then a chain cut short at the end, with its verification block edited to match, is not caught.
 
@@ -138,7 +141,7 @@ AEP Appendix C gives one text limit for Stripe, about 150,000 characters combine
 
 Every scorecard cell comes from a vendor's own docs, API reference, changelog, terms or press release. A SILENT cell means the pages named say nothing. It does not mean the vendor has nothing.
 
-The first pass over the rows was done with AI help, and so was much of the code. The tests are the claim: 78 of them, run against AEP's conformance vectors and Stripe's published field list. The UCP order receipts were also run through a verifier this repo did not write; see conformance/ucp-order-receipts.
+The first pass over the rows was done with AI help, and so was much of the code. The tests are the claim: 86 of them, run against AEP's conformance vectors and Stripe's published field list. The UCP order receipts were also run through a verifier this repo did not write; see conformance/ucp-order-receipts.
 
 The scorecard is a month old outside Stripe and Braintree. A re-check on 2026-11-14 flagged about a third of the source pages as changed since the 2026-11-09 snapshot, and a few as unreachable. The count moves from run to run because some sites rate limit. Those cells have not been re-read yet.
 

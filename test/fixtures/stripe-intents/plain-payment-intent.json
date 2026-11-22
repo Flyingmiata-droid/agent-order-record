@@ -1,0 +1,11 @@
+{
+  "id": "pi_made_up_plain_0002",
+  "object": "payment_intent",
+  "amount": 4250,
+  "currency": "usd",
+  "created": 1795203600,
+  "status": "succeeded",
+  "livemode": false,
+  "latest_charge": "ch_made_up_0002",
+  "agent_details": null
+}

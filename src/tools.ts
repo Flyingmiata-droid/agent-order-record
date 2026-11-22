@@ -10,6 +10,7 @@ import type { Code, Column, Gateway, Scorecard } from './scorecard.ts';
 import { CODES, COLUMNS } from './scorecard.ts';
 import type { RawPlane } from './stripe.ts';
 import { RenderRefused, renderStripeEvidence } from './stripe.ts';
+import { readStripePaymentIntent, StripeReadRefused } from './stripe-reader.ts';
 
 export class BadInput extends Error {
   constructor(message: string) { super(message); this.name = 'BadInput'; }
@@ -132,5 +133,17 @@ export function braintreeRead(args: { transaction?: unknown }) {
   } catch (e) {
     if (e instanceof ReadRefused) return { refused: true as const, reason: e.message };
     throw new BadInput('could not read the transaction: ' + (e as Error).message);
+  }
+}
+
+// Takes a Stripe PaymentIntent (or a Checkout Session or event that holds one)
+// and says whether it carries agent_details, and what to keep.
+export function stripeIntentRead(args: { object?: unknown }) {
+  if (!isRecord(args.object)) throw new BadInput('object must be a Stripe PaymentIntent, Checkout Session or event, as your own API call or webhook returned it');
+  try {
+    return { refused: false as const, ...readStripePaymentIntent(args.object), note: 'Prototype. Nothing was sent to Stripe. Field names were read from Stripe\'s preview API reference on the date shown; the reader has not been run on a live agent order.' };
+  } catch (e) {
+    if (e instanceof StripeReadRefused) return { refused: true as const, reason: e.message };
+    throw new BadInput('could not read the object: ' + (e as Error).message);
   }
 }
