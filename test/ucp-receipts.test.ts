@@ -50,6 +50,7 @@ for (const s of scenarios) {
         if (e.type === 'release') t.authorized -= e.amount;
         if (e.type === 'capture') t.captured += e.amount;
         if (e.type === 'refund') t.refunded += e.amount;
+        if (e.type === 'refund_reversal') t.refunded -= e.amount;
       }
       assert.deepEqual(payload.totals, { mandated: s.mandated, ...t });
       assert.ok(t.captured <= t.authorized && t.authorized <= s.mandated && t.refunded <= t.captured, 'spec invariants');

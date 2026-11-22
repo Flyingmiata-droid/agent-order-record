@@ -143,7 +143,7 @@ export const scenarios: Scenario[] = [
     expectTotals: { authorized: 5400, captured: 5400, refunded: 0 },
   },
   {
-    name: 'refund_fails_after_succeeded_halts',
+    name: 'refund_fails_after_succeeded_reversed',
     mandated: 5400,
     events: [
       ev('charge.succeeded', T0, charge({ authorized: 5400, captured: 5400, isCaptured: true })),
@@ -151,13 +151,14 @@ export const scenarios: Scenario[] = [
       ev('refund.failed', T0 + 86400 * 20, refund('re_test_1', 5400, 'failed', { type: 'refund', reference_status: 'unavailable' }, T0 + 7200)),
       ev('refund.created', T0 + 86400 * 21, refund('re_test_2', 5400, 'succeeded', { type: 'refund', reference_status: 'pending' }, T0 + 86400 * 21)),
     ],
-    expect: ['authorization:succeeded:5400', 'capture:succeeded:5400', 'refund:succeeded:5400'],
-    expectUnmapped: ['refund_failed_after_succeeded', 'chain_halted'],
+    expect: ['authorization:succeeded:5400', 'capture:succeeded:5400', 'refund:succeeded:5400', 'refund_reversal:succeeded:5400', 'refund:succeeded:5400'],
+    expectUnmapped: [],
     expectTotals: { authorized: 5400, captured: 5400, refunded: 5400 },
   },
   {
-    name: 'overcapture_held_by_default',
+    name: 'overcapture_held_when_asked',
     mandated: 6000,
+    overcapture: 'hold',
     events: [
       ev('charge.succeeded', T0, charge({ authorized: 5000, captured: 0, isCaptured: false })),
       ev('charge.captured', T0 + 3600, charge({ authorized: 5000, captured: 5800, isCaptured: true })),
@@ -168,9 +169,8 @@ export const scenarios: Scenario[] = [
     expectTotals: { authorized: 5000, captured: 0, refunded: 0 },
   },
   {
-    name: 'overcapture_with_adjust_reading',
+    name: 'overcapture_adjusts_by_default',
     mandated: 6000,
-    overcapture: 'adjust',
     events: [
       ev('charge.succeeded', T0, charge({ authorized: 5000, captured: 0, isCaptured: false })),
       ev('charge.captured', T0 + 3600, charge({ authorized: 5000, captured: 5800, isCaptured: true })),

@@ -1,6 +1,6 @@
 // Stripe webhook events to UCP AP2 order receipts.
 // Follows the Order Receipts section of the AP2 Mandates extension as proposed
-// in Universal-Commerce-Protocol/ucp PR 1109 (read at fc59727). That text is a
+// in Universal-Commerce-Protocol/ucp PR 1109 (read at 0110eac). That text is a
 // proposal and still moving. Recheck this file when it changes.
 //
 // This code reads Stripe event objects the caller already holds and signs
@@ -18,7 +18,7 @@ export const RECEIPT_TYP = 'ucp-ap2-receipt+jwt';
 
 export type ReceiptEventType =
   | 'authorization' | 'authorization_adjustment' | 'capture'
-  | 'capture_reversal' | 'release' | 'refund';
+  | 'capture_reversal' | 'release' | 'refund' | 'refund_reversal';
 export type ReceiptStatus = 'pending' | 'succeeded' | 'failed';
 
 export interface ReceiptEvent {
@@ -108,15 +108,14 @@ export interface ReceiptContext {
   // Order adjustment a refund belongs to. Default reads refund.metadata.ucp_adjustment_id.
   adjustmentFor?: (refund: StripeRefund) => string | undefined;
   // Overcapture puts captured above authorized with no new network authorization.
-  // The spec text has no event for that. 'hold' (default) signs nothing for the
-  // capture and reports it. 'adjust' signs an authorization_adjustment for the
-  // difference first, which is this adapter's reading, not the spec's.
+  // The spec (Edge Cases, from 0110eac) says the business first issues an
+  // authorization_adjustment for the difference. 'adjust' (default) does that.
+  // 'hold' signs nothing for the capture, reports it and stops the chain.
   overcapture?: 'hold' | 'adjust';
 }
 
 export type UnmappedReason =
   | 'dispute_out_of_scope'
-  | 'refund_failed_after_succeeded'
   | 'overcapture_held'
   | 'would_exceed_mandate'
   | 'refund_would_exceed_capture'
@@ -164,7 +163,7 @@ export function stripeToReceipts(events: StripeEvent[], ctx: ReceiptContext): Re
   let voided = false;
   let finalReceived: number | null = null;
 
-  const HALTING: UnmappedReason[] = ['overcapture_held', 'would_exceed_mandate', 'refund_would_exceed_capture', 'refund_failed_after_succeeded'];
+  const HALTING: UnmappedReason[] = ['overcapture_held', 'would_exceed_mandate', 'refund_would_exceed_capture'];
   const hold = (e: StripeEvent, reason: UnmappedReason, detail: string): void => {
     out.unmapped.push({ event_id: e.id, event_type: e.type, reason, detail });
     if (HALTING.includes(reason)) out.halted = true;
@@ -179,6 +178,7 @@ export function stripeToReceipts(events: StripeEvent[], ctx: ReceiptContext): Re
       if (event.type === 'capture') t.captured += event.amount;
       if (event.type === 'capture_reversal') t.captured -= event.amount;
       if (event.type === 'refund') t.refunded += event.amount;
+      if (event.type === 'refund_reversal') t.refunded -= event.amount;
     }
     delete event.network_ref_only;
     const payload: ReceiptPayload = {
@@ -227,7 +227,7 @@ export function stripeToReceipts(events: StripeEvent[], ctx: ReceiptContext): Re
       return;
     }
     if (total > t.authorized) {
-      if (ctx.overcapture !== 'adjust') {
+      if (ctx.overcapture === 'hold') {
         hold(e, 'overcapture_held', `captured ${total} is above authorized ${t.authorized} with no new network authorization`);
         return;
       }
@@ -322,8 +322,12 @@ export function stripeToReceipts(events: StripeEvent[], ctx: ReceiptContext): Re
       } else if (r.status === 'failed' || r.status === 'canceled') {
         if (st.succeeded) {
           if (!st.failed) {
+            // Spec Edge Cases (0110eac): a refund receipted as succeeded that later
+            // fails gets a refund_reversal with the same event.ref, lowering refunded.
             st.failed = true;
-            hold(e, 'refund_failed_after_succeeded', `refund ${r.id} was receipted as succeeded and then ${r.status}; no receipt event lowers refunded`);
+            const ev = base('refund_reversal', 'succeeded', r.amount, r.currency, e.created, r.id);
+            if (adj) ev.ref = { ...ev.ref, adjustment_id: adj };
+            emit(e, ev);
           }
         } else if (!st.failed) {
           st.failed = true;

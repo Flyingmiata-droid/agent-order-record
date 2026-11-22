@@ -58,10 +58,10 @@ for (const file of readdirSync(dir).filter((f) => f.endsWith('.json')).sort()) {
     const refunds = doc.events.filter((e) => e.data.object.object === 'refund').map((e) => e.data.object as { status: string; amount: number; destination_details?: { card?: { reference?: string } } });
     if (refunds.length) {
       const failedAfter = refunds.some((r) => r.status === 'succeeded') && refunds.some((r) => r.status === 'failed');
-      assert.equal(a.halted, failedAfter);
-      if (failedAfter) assert.ok(a.unmapped.some((u) => u.reason === 'refund_failed_after_succeeded'));
+      assert.equal(a.halted, false);
+      if (failedAfter) assert.ok(a.payloads.some((p) => p.event.type === 'refund_reversal'));
       const settled = refunds.some((r) => r.status === 'succeeded');
-      assert.equal(a.totals.refunded, settled ? refunds[0].amount : 0);
+      assert.equal(a.totals.refunded, settled && !failedAfter ? refunds[0].amount : 0);
       const arn = refunds.map((r) => r.destination_details?.card?.reference).find(Boolean);
       const refs = a.payloads.filter((p) => p.event.type === 'refund').map((p) => p.event.network_ref).filter(Boolean);
       assert.deepEqual([...new Set(refs)], arn ? [arn] : []);

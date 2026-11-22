@@ -1,6 +1,6 @@
 ## Stripe events to UCP order receipts
 
-`src/ucp-receipts.ts` takes Stripe webhook events for one payment and signs the receipt chain that the AP2 Mandates extension describes in its Order Receipts section. That section is a proposal, Universal-Commerce-Protocol/ucp PR 1109. This code was written against commit fc59727 and will need a recheck when the text moves.
+`src/ucp-receipts.ts` takes Stripe webhook events for one payment and signs the receipt chain that the AP2 Mandates extension describes in its Order Receipts section. That section is a proposal, Universal-Commerce-Protocol/ucp PR 1109. This code follows commit 0110eac and will need a recheck when the text moves.
 
 It does not call Stripe. You pass in events you already hold and an ES256 key.
 
@@ -28,18 +28,18 @@ Still not captured: multicapture, incremental authorization and overcapture. The
 | refund with status `succeeded` | refund settled, as a refund or as a reversal | `refund`, `succeeded` |
 | refund update where `reference_status` turns `available` | the ARN arrived later | second `refund`, `succeeded`, same `processing_entry_id`, with `network_ref` |
 | refund `failed` or `canceled` before it succeeded | refund did not happen | `refund`, `failed` |
+| refund `failed` or `canceled` after it succeeded | the bank sent the money back | `refund_reversal`, `succeeded`, same `processing_entry_id` |
+| capture above the authorized amount (overcapture) | Stripe captured more than the hold | `authorization_adjustment` for the gap, then `capture` |
 
 The refund id is always the `processing_entry_id`, so a late ARN can be tied to its refund. A refund that Stripe settles as a reversal (`destination_details.card.type` is `reversal`) never gets a `network_ref`.
 
 Nothing from Stripe maps to `capture_reversal`. On cards, Stripe reports an undone capture as a refund whose type settles to `reversal`, and the spec text says to receipt that as a `refund`.
 
-### Where Stripe does something the receipt text has no event for
+### Two flows the spec now covers
 
-Two card flows could not be written as receipts without guessing. The adapter signs nothing for them, reports them in `unmapped`, and stops the chain, because every total after that point would be wrong on purpose.
+Overcapture and a refund that fails after it succeeded had no receipt event at fc59727, so the adapter stopped the chain on both. After this repo raised them on PR 1109, 0110eac added both to Edge Cases: overcapture gets an `authorization_adjustment` for the gap first, and a returned refund gets a `refund_reversal` with the same `event.ref`, which lowers `refunded`. The adapter does both by default now. `overcapture: 'hold'` keeps the old stop-the-chain behavior for anyone who wants it.
 
-Overcapture. Stripe can capture above the authorized amount with no new authorization at the network. The spec says captured never passes authorized for a compliant business. By default the adapter holds that capture. With `overcapture: 'adjust'` it signs an `authorization_adjustment` for the gap first. That is this repo's reading and the spec does not say it.
-
-A refund that fails after it succeeded. Stripe can move a refund from `succeeded` to `failed` when the bank sends the money back, sometimes weeks later. Totals only go up on a succeeded refund, and no event brings `refunded` back down.
+The conformance verifier at 1b94f82 predates `refund_reversal`, so it reads that one scenario as malformed: 18 of 19 files clean. With `refund_reversal` added to its event list, running totals, per-seller totals and rule 8 reconciliation (13 lines), all 19 are clean.
 
 Disputes are reported in `unmapped` too, without stopping the chain. The spec puts them out of scope.
 
