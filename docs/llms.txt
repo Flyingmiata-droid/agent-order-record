@@ -1,0 +1,47 @@
+# Gateway readiness scorecard, agent placed card orders
+
+> When an AI agent places a card order through a gateway, what does the merchant get back that says so, and does that signal reach the dispute? 25 gateways, 7 cells each, every cell read from the vendor's own public docs and linked to its source page. Kept by Nick Kaufman. The data and the code are open under Apache-2.0.
+
+Card orders only, read from public docs. A field a vendor has not documented will not show here. Vendor pages change. Open the source link before you lean on a cell.
+
+## Cell codes
+
+- YES: documented, field or sentence quoted
+- PART: documented in part
+- NO: doc says it does not
+- SILENT: relevant doc read, nothing on it
+- ASK: no relevant doc found or reachable
+- ANN: announced only, no live product or doc
+
+## Data
+
+- [The card](https://flyingmiata-droid.github.io/agent-order-record/): all 25 gateways in one table
+- [scorecard.json](https://flyingmiata-droid.github.io/agent-order-record/data/scorecard.json): the same data with reading notes and source links
+
+## Gateways
+
+- [Stripe](https://flyingmiata-droid.github.io/agent-order-record/gateways/stripe/): Accepts agent orders YES; Agent field in API YES; Shows in reporting YES; Reaches disputes SILENT; Risk rules read it YES; Token scoped to merchant YES; Refund guidance YES
+- [Braintree (PayPal)](https://flyingmiata-droid.github.io/agent-order-record/gateways/braintree/): Accepts agent orders YES; Agent field in API YES; Shows in reporting YES; Reaches disputes SILENT; Risk rules read it SILENT; Token scoped to merchant YES; Refund guidance SILENT
+- [Adyen](https://flyingmiata-droid.github.io/agent-order-record/gateways/adyen/): Accepts agent orders YES; Agent field in API PART; Shows in reporting PART; Reaches disputes SILENT; Risk rules read it SILENT; Token scoped to merchant YES; Refund guidance SILENT
+- [Worldpay](https://flyingmiata-droid.github.io/agent-order-record/gateways/worldpay/): Accepts agent orders YES; Agent field in API PART; Shows in reporting SILENT; Reaches disputes ASK; Risk rules read it SILENT; Token scoped to merchant PART; Refund guidance SILENT
+- [Checkout.com](https://flyingmiata-droid.github.io/agent-order-record/gateways/checkout-com/): Accepts agent orders YES; Agent field in API SILENT; Shows in reporting SILENT; Reaches disputes SILENT; Risk rules read it SILENT; Token scoped to merchant SILENT; Refund guidance SILENT
+- [Shopify Payments](https://flyingmiata-droid.github.io/agent-order-record/gateways/shopify-payments/): Accepts agent orders YES; Agent field in API SILENT; Shows in reporting PART; Reaches disputes SILENT; Risk rules read it SILENT; Token scoped to merchant PART; Refund guidance PART
+- [Square](https://flyingmiata-droid.github.io/agent-order-record/gateways/square/): Accepts agent orders YES; Agent field in API SILENT; Shows in reporting PART; Reaches disputes SILENT; Risk rules read it SILENT; Token scoped to merchant SILENT; Refund guidance SILENT
+- [PayPal (wallet, Orders v2)](https://flyingmiata-droid.github.io/agent-order-record/gateways/paypal/): Accepts agent orders YES; Agent field in API SILENT; Shows in reporting SILENT; Reaches disputes SILENT; Risk rules read it SILENT; Token scoped to merchant SILENT; Refund guidance SILENT
+- [Cybersource (Visa)](https://flyingmiata-droid.github.io/agent-order-record/gateways/cybersource/): Accepts agent orders YES; Agent field in API SILENT; Shows in reporting SILENT; Reaches disputes SILENT; Risk rules read it SILENT; Token scoped to merchant SILENT; Refund guidance SILENT
+- [Nuvei](https://flyingmiata-droid.github.io/agent-order-record/gateways/nuvei/): Accepts agent orders ANN; Agent field in API SILENT; Shows in reporting SILENT; Reaches disputes SILENT; Risk rules read it ANN; Token scoped to merchant SILENT; Refund guidance SILENT
+- [Fiserv (Commerce Hub, Clover, CardPointe)](https://flyingmiata-droid.github.io/agent-order-record/gateways/fiserv/): Accepts agent orders ANN; Agent field in API ASK; Shows in reporting SILENT; Reaches disputes SILENT; Risk rules read it SILENT; Token scoped to merchant SILENT; Refund guidance SILENT
+- [Global Payments (Heartland, Genius)](https://flyingmiata-droid.github.io/agent-order-record/gateways/global-payments/): Accepts agent orders ANN; Agent field in API ASK; Shows in reporting SILENT; Reaches disputes SILENT; Risk rules read it SILENT; Token scoped to merchant SILENT; Refund guidance SILENT
+- [NMI](https://flyingmiata-droid.github.io/agent-order-record/gateways/nmi/): Accepts agent orders SILENT; Agent field in API SILENT; Shows in reporting SILENT; Reaches disputes SILENT; Risk rules read it SILENT; Token scoped to merchant SILENT; Refund guidance SILENT
+- [Authorize.net (Visa)](https://flyingmiata-droid.github.io/agent-order-record/gateways/authorize-net/): Accepts agent orders ASK; Agent field in API SILENT; Shows in reporting ASK; Reaches disputes SILENT; Risk rules read it SILENT; Token scoped to merchant ASK; Refund guidance SILENT
+- [Elavon](https://flyingmiata-droid.github.io/agent-order-record/gateways/elavon/): Accepts agent orders ASK; Agent field in API SILENT; Shows in reporting SILENT; Reaches disputes SILENT; Risk rules read it SILENT; Token scoped to merchant SILENT; Refund guidance SILENT
+- [Helcim](https://flyingmiata-droid.github.io/agent-order-record/gateways/helcim/): Accepts agent orders ASK; Agent field in API SILENT; Shows in reporting SILENT; Reaches disputes SILENT; Risk rules read it SILENT; Token scoped to merchant SILENT; Refund guidance SILENT
+- [Airwallex](https://flyingmiata-droid.github.io/agent-order-record/gateways/airwallex/): Accepts agent orders PART; Agent field in API YES; Shows in reporting ANN; Reaches disputes ANN; Risk rules read it ANN; Token scoped to merchant PART; Refund guidance SILENT
+- [Getnet](https://flyingmiata-droid.github.io/agent-order-record/gateways/getnet/): Accepts agent orders PART; Agent field in API YES; Shows in reporting SILENT; Reaches disputes SILENT; Risk rules read it SILENT; Token scoped to merchant PART; Refund guidance SILENT
+- [Worldline](https://flyingmiata-droid.github.io/agent-order-record/gateways/worldline/): Accepts agent orders PART; Agent field in API SILENT; Shows in reporting SILENT; Reaches disputes SILENT; Risk rules read it SILENT; Token scoped to merchant YES; Refund guidance PART
+- [Spreedly](https://flyingmiata-droid.github.io/agent-order-record/gateways/spreedly/): Accepts agent orders PART; Agent field in API SILENT; Shows in reporting SILENT; Reaches disputes SILENT; Risk rules read it SILENT; Token scoped to merchant YES; Refund guidance SILENT
+- [Moneris](https://flyingmiata-droid.github.io/agent-order-record/gateways/moneris/): Accepts agent orders SILENT; Agent field in API SILENT; Shows in reporting SILENT; Reaches disputes SILENT; Risk rules read it SILENT; Token scoped to merchant SILENT; Refund guidance SILENT
+- [dLocal](https://flyingmiata-droid.github.io/agent-order-record/gateways/dlocal/): Accepts agent orders ANN; Agent field in API SILENT; Shows in reporting SILENT; Reaches disputes SILENT; Risk rules read it SILENT; Token scoped to merchant SILENT; Refund guidance SILENT
+- [Antom](https://flyingmiata-droid.github.io/agent-order-record/gateways/antom/): Accepts agent orders ANN; Agent field in API SILENT; Shows in reporting SILENT; Reaches disputes ANN; Risk rules read it ANN; Token scoped to merchant ANN; Refund guidance SILENT
+- [VGS](https://flyingmiata-droid.github.io/agent-order-record/gateways/vgs/): Accepts agent orders PART; Agent field in API PART; Shows in reporting SILENT; Reaches disputes SILENT; Risk rules read it SILENT; Token scoped to merchant YES; Refund guidance SILENT
+- [Basis Theory](https://flyingmiata-droid.github.io/agent-order-record/gateways/basis-theory/): Accepts agent orders PART; Agent field in API NO; Shows in reporting SILENT; Reaches disputes NO; Risk rules read it SILENT; Token scoped to merchant YES; Refund guidance PART

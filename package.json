@@ -10,6 +10,7 @@
     "test": "node --test \"test/*.test.ts\"",
     "example": "node examples/stripe-evidence.ts",
     "build:scorecard": "node scripts/build-scorecard.ts",
+    "build:site": "node scripts/build-site.ts",
     "recheck": "node scripts/recheck.ts",
     "aor": "node bin/aor.ts",
     "mcp": "node bin/aor.ts mcp"

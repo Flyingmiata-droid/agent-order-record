@@ -1,0 +1,1965 @@
+{
+  "title": "Gateway readiness scorecard, agent placed card orders",
+  "read_date": "2026-10-15",
+  "built_from": "SCORECARD.md",
+  "codes": {
+    "YES": "documented, field or sentence quoted",
+    "PART": "documented in part",
+    "NO": "doc says it does not",
+    "SILENT": "relevant doc read, nothing on it",
+    "ASK": "no relevant doc found or reachable",
+    "ANN": "announced only, no live product or doc"
+  },
+  "columns": {
+    "accepts": "Accepts agent orders",
+    "api_field": "Agent field in API",
+    "reporting": "Shows in reporting",
+    "disputes": "Reaches disputes",
+    "risk_rules": "Risk rules read it",
+    "token_scope": "Token scoped to merchant",
+    "refunds": "Refund guidance"
+  },
+  "gateways": [
+    {
+      "id": "stripe",
+      "name": "Stripe",
+      "cells": {
+        "accepts": {
+          "code": "YES",
+          "note": "(public preview; SPT, ACP, UCP)",
+          "detail": "Accepts: Shared Payment Tokens, public preview (private preview when first read 2026-10-15). \"Shared payment tokens (SPTs) grant sellers scoped access to customers' payment methods for agent-initiated purchases. SPTs are available to agents, customers, and sellers in the US, Canada, and select European countries.\" https://docs.stripe.com/agentic-commerce/concepts/shared-payment-tokens (undated, read 2026-11-17). Protocols UCP, https://docs.stripe.com/agentic-commerce/protocols/ucp, and ACP, https://docs.stripe.com/agentic-commerce/protocols/acp. The same SPT page says Stripe may use Mastercard Agent Pay, Visa Intelligent Commerce and American Express ACE Kit tokens on the seller's behalf (the old sellers/custom page now redirects there).",
+          "sources": [
+            {
+              "url": "https://docs.stripe.com/agentic-commerce/concepts/shared-payment-tokens"
+            },
+            {
+              "url": "https://docs.stripe.com/agentic-commerce/protocols/ucp"
+            },
+            {
+              "url": "https://docs.stripe.com/agentic-commerce/protocols/acp"
+            }
+          ]
+        },
+        "api_field": {
+          "code": "YES",
+          "note": "PaymentIntent.agent_details",
+          "detail": "API field: PaymentIntent.agent_details (object, nullable), with agent_details.name and agent_details.network_business_profile. https://docs.stripe.com/api/payment_intents/object?api-version=2026-09-30.preview. Listed as \"Agent details (Private preview)\" at CheckoutSessions.PaymentIntent.agent_details on https://docs.stripe.com/agentic-commerce/sellers/use-cases/retail/checkout (re-read by hand 2026-11-15; the field table moved there from the retail overview page). SharedPaymentGrantedToken carries agent_details, usage_limits and risk_details.insights (bot, card_testing, stolen_card, fraudulent_dispute, card_issuer_decline), https://docs.stripe.com/api/shared-payment/granted-token/object.",
+          "sources": [
+            {
+              "url": "https://docs.stripe.com/api/payment_intents/object?api-version=2026-09-30.preview"
+            },
+            {
+              "url": "https://docs.stripe.com/agentic-commerce/sellers/use-cases/retail/checkout"
+            },
+            {
+              "url": "https://docs.stripe.com/api/shared-payment/granted-token/object"
+            }
+          ]
+        },
+        "reporting": {
+          "code": "YES",
+          "note": "Dashboard tag and filter",
+          "detail": "Reporting: \"View orders on the Transactions page in the Dashboard, where they're tagged with the originating agent. You can also filter transactions by agent names.\" https://docs.stripe.com/agentic-commerce/sellers/use-cases/retail/checkout (re-read by hand 2026-11-15).",
+          "sources": [
+            {
+              "url": "https://docs.stripe.com/agentic-commerce/sellers/use-cases/retail/checkout"
+            }
+          ]
+        },
+        "disputes": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "Disputes: Dispute object has no agent field, https://docs.stripe.com/api/disputes/object. The Handle orders page says \"Manage refunds and disputes on the Transactions page\" and points dispute responses to the general dispute guide, https://docs.stripe.com/agentic-commerce/sellers/use-cases/retail/checkout/orders (undated, read 2026-11-15). Agent Services terms (modified 2026-04-20): \"an Agentic Seller is solely responsible for Agentic Customers' claims relating to Agentic Seller's goods and services,\" https://stripe.com/legal/ssa-service-terms.",
+          "sources": [
+            {
+              "url": "https://docs.stripe.com/api/disputes/object"
+            },
+            {
+              "url": "https://docs.stripe.com/agentic-commerce/sellers/use-cases/retail/checkout/orders"
+            },
+            {
+              "url": "https://stripe.com/legal/ssa-service-terms"
+            }
+          ]
+        },
+        "risk_rules": {
+          "code": "YES",
+          "note": "Radar is_agent_initiated",
+          "detail": "Risk rules: Radar supported attributes list is_agent_initiated (Boolean), \"True when Stripe identifies the payment as initiated by an AI agent,\" under Cards, other payment details, https://docs.stripe.com/radar/rules/supported-attributes (undated, read 2026-11-17). The 2026-10-15 read found no agent attribute there.",
+          "sources": [
+            {
+              "url": "https://docs.stripe.com/radar/rules/supported-attributes"
+            }
+          ]
+        },
+        "token_scope": {
+          "code": "YES",
+          "note": "",
+          "detail": "Token scope: \"The agent grants SPTs to your Stripe profile, each with usage and expiration limits\" (usage_limits: currency, max_amount, expires_at), https://docs.stripe.com/agentic-commerce/concepts/shared-payment-tokens (undated, read 2026-11-17).",
+          "sources": [
+            {
+              "url": "https://docs.stripe.com/agentic-commerce/concepts/shared-payment-tokens"
+            }
+          ]
+        },
+        "refunds": {
+          "code": "YES",
+          "note": "(no change)",
+          "detail": "Refunds: \"your existing refund flow works without changes for agentic checkouts,\" https://docs.stripe.com/agentic-commerce/sellers/use-cases/retail/checkout/orders (undated, read 2026-11-17; the old sellers/manage page now redirects elsewhere).",
+          "sources": [
+            {
+              "url": "https://docs.stripe.com/agentic-commerce/sellers/use-cases/retail/checkout/orders"
+            }
+          ]
+        }
+      },
+      "row_notes": "",
+      "row_sources": []
+    },
+    {
+      "id": "braintree",
+      "name": "Braintree (PayPal)",
+      "cells": {
+        "accepts": {
+          "code": "YES",
+          "note": "(ACP, UCP)",
+          "detail": "Accepts: Agent Ready, ACP via delegated payment tokens, UCP via the Google Pay handler. https://developer.paypal.com/agent-ready/overview (undated, read 2026-11-21; the docs.paypal.ai page now redirects here).",
+          "sources": [
+            {
+              "url": "https://developer.paypal.com/agent-ready/overview"
+            }
+          ]
+        },
+        "api_field": {
+          "code": "YES",
+          "note": "response only, facilitator_details",
+          "detail": "API field: transaction.facilitator_details.oauth_application_name (\"ChatGPT\") and oauth_application_client_id in the transaction response. https://developer.paypal.com/agent-ready/agentic-commerce-protocol (re-read by hand 2026-10-15). Reference: https://developer.paypal.com/braintree/docs/reference/response/transaction. The reference describes facilitator_details as third party payment information in general (it names the Grant API, Shared Vault and Google Pay) and does not mention AI agents, so the field is not agent specific and the application name is what says who ordered (read 2026-11-21). UCP path: no agent field documented.",
+          "sources": [
+            {
+              "url": "https://developer.paypal.com/agent-ready/agentic-commerce-protocol"
+            },
+            {
+              "url": "https://developer.paypal.com/braintree/docs/reference/response/transaction"
+            }
+          ]
+        },
+        "reporting": {
+          "code": "YES",
+          "note": "Control Panel filter",
+          "detail": "Reporting: \"Use the search filter for facilitator_details.oauth_application_name\" in the Control Panel; GraphQL search on facilitatorOAuthApplicationClientId.",
+          "sources": []
+        },
+        "disputes": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "Disputes: Dispute object has no facilitator field, https://developer.paypal.com/braintree/docs/reference/response/dispute.",
+          "sources": [
+            {
+              "url": "https://developer.paypal.com/braintree/docs/reference/response/dispute"
+            }
+          ]
+        },
+        "risk_rules": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "Risk rules: Fraud Protection Advanced lists custom fields and predefined features, none named facilitator or agent, https://developer.paypal.com/braintree/articles/guides/fraud-tools/premium/fraud-protection-advanced.",
+          "sources": [
+            {
+              "url": "https://developer.paypal.com/braintree/articles/guides/fraud-tools/premium/fraud-protection-advanced"
+            }
+          ]
+        },
+        "token_scope": {
+          "code": "YES",
+          "note": "",
+          "detail": "Token scope: \"It's bound to your merchant ID and includes amount and time restrictions that you can configure.\" Validation errors 91565, 915266, 915267. UCP nonce single use, 3 hour expiry.",
+          "sources": []
+        },
+        "refunds": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "Refunds: silent.",
+          "sources": []
+        }
+      },
+      "row_notes": "",
+      "row_sources": []
+    },
+    {
+      "id": "adyen",
+      "name": "Adyen",
+      "cells": {
+        "accepts": {
+          "code": "YES",
+          "note": "(limited, enterprise US; UCP, AP2, ACP)",
+          "detail": "Accepts: \"Adyen Agentic is in limited availability for enterprise merchants operating in the U.S.\" UCP, AP2, ACP. https://www.adyen.com/press-and-media/adyen-agentic (2026-06-16). Docs: https://docs.adyen.com/online-payments/agentic-commerce (the old agentic-checkout-integration page returned 404 on 2026-11-17).",
+          "sources": [
+            {
+              "url": "https://www.adyen.com/press-and-media/adyen-agentic",
+              "page_date": "2026-06-16"
+            },
+            {
+              "url": "https://docs.adyen.com/online-payments/agentic-commerce"
+            }
+          ]
+        },
+        "api_field": {
+          "code": "PART",
+          "note": "request side, shoppingPlatform and metadata",
+          "detail": "API field: Agentic Cart API shoppingPlatform (\"Agent platform identifier, for example, openai, google, meta\"), https://docs.adyen.com/online-payments/agentic-commerce/merchant/agentic-cart-api-integration (modified 2025-12-23). UCP path: optional metadata.agentProtocol, agentSessionId, agentPlatform, https://docs.adyen.com/online-payments/agentic-commerce/merchant/google-agentic-commerce (modified 2026-10-15). No agent flag in the /payments response.",
+          "sources": [
+            {
+              "url": "https://docs.adyen.com/online-payments/agentic-commerce/merchant/agentic-cart-api-integration",
+              "page_date": "2025-12-23"
+            },
+            {
+              "url": "https://docs.adyen.com/online-payments/agentic-commerce/merchant/google-agentic-commerce",
+              "page_date": "2026-10-15"
+            }
+          ]
+        },
+        "reporting": {
+          "code": "PART",
+          "note": "webhooks only",
+          "detail": "Reporting: AUTHORISATION webhook carries sessionId and shoppingPlatform in additionalData; additionalData.agentic.sessionId. https://docs.adyen.com/online-payments/agentic-commerce/merchant/agentic-cart-api-integration (Finalize session section, re-read 2026-11-21: the two keys are named in one sentence and no example webhook is printed). Customer Area and reports: silent.",
+          "sources": [
+            {
+              "url": "https://docs.adyen.com/online-payments/agentic-commerce/merchant/agentic-cart-api-integration"
+            }
+          ]
+        },
+        "disputes": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "Disputes: silent. Disputes API v30 (OpenAPI spec, every field listed) and the dispute notifications page were read 2026-11-22: no agent field. Fields include disputePspReference, defenseReasonCode, defenseDocumentTypeCode; webhook additionalData has chargebackReasonCode and disputeStatus. https://docs.adyen.com/risk-management/disputes-api/disputes-api-reference , https://docs.adyen.com/risk-management/disputes-api/dispute-notifications , https://raw.githubusercontent.com/Adyen/adyen-openapi/main/json/DisputeService-v30.json . UCP PAN_ONLY: \"Liability shift is not available.\"",
+          "sources": [
+            {
+              "url": "https://docs.adyen.com/risk-management/disputes-api/disputes-api-reference"
+            },
+            {
+              "url": "https://docs.adyen.com/risk-management/disputes-api/dispute-notifications"
+            },
+            {
+              "url": "https://raw.githubusercontent.com/Adyen/adyen-openapi/main/json/DisputeService-v30.json"
+            }
+          ]
+        },
+        "risk_rules": {
+          "code": "SILENT",
+          "note": "(custom fields possible)",
+          "detail": "Risk rules: no Adyen agent field; merchant can pass its own additionalData.riskdata.<name> into custom rules, https://docs.adyen.com/risk-management/configure-manual-risk/configure-custom-risk-rules (moved, read 2026-11-17).",
+          "sources": [
+            {
+              "url": "https://docs.adyen.com/risk-management/configure-manual-risk/configure-custom-risk-rules"
+            }
+          ]
+        },
+        "token_scope": {
+          "code": "YES",
+          "note": "",
+          "detail": "Token scope: ACP delegate_payment allowance (merchant_id, checkout_session_id, max_amount, currency, expires_at, one_time), token \"bound to one merchant account,\" https://docs.adyen.com/online-payments/agentic-commerce/agent-platform/agentic-payments-acp (modified 2026-03-06).",
+          "sources": [
+            {
+              "url": "https://docs.adyen.com/online-payments/agentic-commerce/agent-platform/agentic-payments-acp",
+              "page_date": "2026-03-06"
+            }
+          ]
+        },
+        "refunds": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "Refunds: silent.",
+          "sources": []
+        }
+      },
+      "row_notes": "",
+      "row_sources": []
+    },
+    {
+      "id": "worldpay",
+      "name": "Worldpay",
+      "cells": {
+        "accepts": {
+          "code": "YES",
+          "note": "(ACP live, UCP soon)",
+          "detail": "Accepts: ACP live. Release note 2026-02-18: \"Delegate tokens are now supported. Used as part of the Agentic Commerce Protocol (ACP) flow.\" https://docs.worldpay.com/access/products/releases. \"We are an approved payment partner for OpenAI's Instant Checkout,\" https://docs.worldpay.com/access/products/ai/acp. UCP and agentic tokens: coming soon.",
+          "sources": [
+            {
+              "url": "https://docs.worldpay.com/access/products/releases"
+            },
+            {
+              "url": "https://docs.worldpay.com/access/products/ai/acp"
+            }
+          ]
+        },
+        "api_field": {
+          "code": "PART",
+          "note": "request side, paymentInstrument.type delegate",
+          "detail": "API field: request side, instruction.paymentInstrument.type \"delegate\" with sessionHref, https://docs.worldpay.com/access/products/payments/enable-features/acp-delegate-token (updated 2026-11-10, read 2026-11-19). Delegate token allowance and risk_signals at https://docs.worldpay.com/access/products/sessions/openapi/delegate-payment/delegatepayment.md. Response side: payment response schema has no delegate or agent term.",
+          "sources": [
+            {
+              "url": "https://docs.worldpay.com/access/products/payments/enable-features/acp-delegate-token",
+              "page_date": "2026-11-10"
+            },
+            {
+              "url": "https://docs.worldpay.com/access/products/sessions/openapi/delegate-payment/delegatepayment.md"
+            }
+          ]
+        },
+        "reporting": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "Reporting: query payments page gives no field detail. Silent.",
+          "sources": []
+        },
+        "disputes": {
+          "code": "ASK",
+          "note": "",
+          "detail": "Disputes: disputes doc did not load; ACP pages say nothing. ASK. Re-tried 2026-11-22: https://docs.worldpay.com/apis/disputes and /apis/globaldisputes load as a shell with no fields, the spec files return 403.",
+          "sources": [
+            {
+              "url": "https://docs.worldpay.com/apis/disputes"
+            }
+          ]
+        },
+        "risk_rules": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "Risk rules: fraud assessment page has no agent condition. Delegate flow: \"3DS, SCA exemptions, and Worldpay token creation are not available.\"",
+          "sources": []
+        },
+        "token_scope": {
+          "code": "PART",
+          "note": "",
+          "detail": "Token scope: allowance.merchant_id required, reason one_time; \"We validate the payment allowances specified by OpenAI before processing the payment.\" Merchant sees no scope data in the response.",
+          "sources": []
+        },
+        "refunds": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "Refunds: silent.",
+          "sources": []
+        }
+      },
+      "row_notes": "",
+      "row_sources": []
+    },
+    {
+      "id": "checkout-com",
+      "name": "Checkout.com",
+      "cells": {
+        "accepts": {
+          "code": "YES",
+          "note": "(ACP, UCP; networks press only)",
+          "detail": "Accepts: ACP (press 2025-11-25, https://www.checkout.com/newsroom/checkout-adopts-acp-backed-by-openai-to-power-agentic-commerce-for-enterprise-merchants) and UCP, docs https://www.checkout.com/docs/payments/accept-payments/accept-a-payment-via-agentic-commerce. Visa and Mastercard programs: blog only.",
+          "sources": [
+            {
+              "url": "https://www.checkout.com/newsroom/checkout-adopts-acp-backed-by-openai-to-power-agentic-commerce-for-enterprise-merchants"
+            },
+            {
+              "url": "https://www.checkout.com/docs/payments/accept-payments/accept-a-payment-via-agentic-commerce"
+            }
+          ]
+        },
+        "api_field": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "API field: token arrives with provider \"checkout\", managed_by \"agentic_platform_psp\"; merchant sends source.type token, merchant_initiated false. No agent indicator field, https://www.checkout.com/docs/payments/accept-payments/accept-a-payment-via-agentic-commerce/accept-a-payment-via-chatgpt (updated 2026-09-09).",
+          "sources": [
+            {
+              "url": "https://www.checkout.com/docs/payments/accept-payments/accept-a-payment-via-agentic-commerce/accept-a-payment-via-chatgpt",
+              "page_date": "2026-09-09"
+            }
+          ]
+        },
+        "reporting": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "Reporting, risk rules (https://www.checkout.com/docs/business-operations/prevent-fraud/create-risk-rules-and-lists, 2026-05-13), token scope, refunds: silent.",
+          "sources": [
+            {
+              "url": "https://www.checkout.com/docs/business-operations/prevent-fraud/create-risk-rules-and-lists"
+            }
+          ]
+        },
+        "disputes": {
+          "code": "SILENT",
+          "note": "(blog only)",
+          "detail": "Disputes: silent. The API spec (v1.0.0) was read 2026-11-22: none of its 26 dispute and evidence schemas has an agent field. Dispute carries reason_code, evidence_required_by, is_ce_candidate and payment (acquirer_reference_number, eci). https://api-reference.checkout.com/v1/swagger.json . Blog: \"Checkout.com can provide issuers with the original consent record,\" https://www.checkout.com/blog/how-checkout-is-thinking-about-agentic-commerce (2025-09-02).",
+          "sources": [
+            {
+              "url": "https://api-reference.checkout.com/v1/swagger.json"
+            },
+            {
+              "url": "https://www.checkout.com/blog/how-checkout-is-thinking-about-agentic-commerce",
+              "page_date": "2025-09-02"
+            }
+          ]
+        },
+        "risk_rules": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "Reporting, risk rules (https://www.checkout.com/docs/business-operations/prevent-fraud/create-risk-rules-and-lists, 2026-05-13), token scope, refunds: silent.",
+          "sources": [
+            {
+              "url": "https://www.checkout.com/docs/business-operations/prevent-fraud/create-risk-rules-and-lists"
+            }
+          ]
+        },
+        "token_scope": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "Reporting, risk rules (https://www.checkout.com/docs/business-operations/prevent-fraud/create-risk-rules-and-lists, 2026-05-13), token scope, refunds: silent.",
+          "sources": [
+            {
+              "url": "https://www.checkout.com/docs/business-operations/prevent-fraud/create-risk-rules-and-lists"
+            }
+          ]
+        },
+        "refunds": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "Reporting, risk rules (https://www.checkout.com/docs/business-operations/prevent-fraud/create-risk-rules-and-lists, 2026-05-13), token scope, refunds: silent.",
+          "sources": [
+            {
+              "url": "https://www.checkout.com/docs/business-operations/prevent-fraud/create-risk-rules-and-lists"
+            }
+          ]
+        }
+      },
+      "row_notes": "",
+      "row_sources": []
+    },
+    {
+      "id": "shopify-payments",
+      "name": "Shopify Payments",
+      "cells": {
+        "accepts": {
+          "code": "YES",
+          "note": "(live; UCP, Shop Pay)",
+          "detail": "Accepts: live. \"Starting this week, millions of merchants can sell to ChatGPT users via Agentic Storefronts,\" https://www.shopify.com/news/agentic-commerce-momentum (2026-03-24). UCP spec 2026-08-25, Shop Pay handler.",
+          "sources": [
+            {
+              "url": "https://www.shopify.com/news/agentic-commerce-momentum",
+              "page_date": "2026-03-24"
+            }
+          ]
+        },
+        "api_field": {
+          "code": "SILENT",
+          "note": "(channel attribution, field unnamed)",
+          "detail": "API field: \"Orders from AI channels display in your Shopify admin with channel or referrer attribution so that you know where the order originated from,\" https://help.shopify.com/en/manual/online-sales-channels/agentic-storefronts. No Admin API field named. Staff on https://community.shopify.dev/t/ai-agent-initiated-orders-api/29140 (2026-02-06): agents \"will be treated as unique sales channels,\" no field given.",
+          "sources": [
+            {
+              "url": "https://help.shopify.com/en/manual/online-sales-channels/agentic-storefronts"
+            },
+            {
+              "url": "https://community.shopify.dev/t/ai-agent-initiated-orders-api/29140",
+              "page_date": "2026-02-06"
+            }
+          ]
+        },
+        "reporting": {
+          "code": "PART",
+          "note": "admin channel view",
+          "detail": "Reporting: Agentic Storefronts admin page, https://shopify.dev/changelog/a-new-home-for-agentic-storefronts-in-your-admin (2026-05-11).",
+          "sources": [
+            {
+              "url": "https://shopify.dev/changelog/a-new-home-for-agentic-storefronts-in-your-admin",
+              "page_date": "2026-05-11"
+            }
+          ]
+        },
+        "disputes": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "Disputes: ShopifyPaymentsDispute and ShopifyPaymentsDisputeEvidence (Admin GraphQL 2026-10) were read 2026-11-22: no agent field. Dispute has evidenceDueBy, reasonDetails, type, order; evidence has 24 fields such as accessActivityLog and customerPurchaseIp. https://shopify.dev/docs/api/admin-graphql/latest/objects/ShopifyPaymentsDispute . Supplemental Terms (last updated 2026-10-06, read 2026-11-17) still silent on chargebacks; \"You remain the seller of record,\" https://www.shopify.com/legal/terms-agentic-storefronts (the old address now returns 404).",
+          "sources": [
+            {
+              "url": "https://shopify.dev/docs/api/admin-graphql/latest/objects/ShopifyPaymentsDispute"
+            },
+            {
+              "url": "https://www.shopify.com/legal/terms-agentic-storefronts"
+            }
+          ]
+        },
+        "risk_rules": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "Risk rules: silent.",
+          "sources": []
+        },
+        "token_scope": {
+          "code": "PART",
+          "note": "",
+          "detail": "Token scope: Shop Tokens single use, checkout scoped (Path A) or buyer and platform scoped (Path B), https://shopify.dev/docs/agents/carts-and-checkout/shop-pay-handler. Not scoped to one agent.",
+          "sources": [
+            {
+              "url": "https://shopify.dev/docs/agents/carts-and-checkout/shop-pay-handler"
+            }
+          ]
+        },
+        "refunds": {
+          "code": "PART",
+          "note": "(fee terms only)",
+          "detail": "Refunds: fee terms only (6.1).",
+          "sources": []
+        }
+      },
+      "row_notes": "",
+      "row_sources": []
+    },
+    {
+      "id": "square",
+      "name": "Square",
+      "cells": {
+        "accepts": {
+          "code": "YES",
+          "note": "(live; Order by Cash App, UCP)",
+          "detail": "Accepts: live for US food and beverage sellers with Square Online Ordering. \"Eligible sellers are opted in with no additional work, setup, or fees required,\" https://squareup.com/us/en/press/claude-chatgpt-integrations (2026-07-01). Ask Maps via Order by Cash App, https://squareup.com/us/en/press/ask-maps (2026-08-06).",
+          "sources": [
+            {
+              "url": "https://squareup.com/us/en/press/claude-chatgpt-integrations",
+              "page_date": "2026-07-01"
+            },
+            {
+              "url": "https://squareup.com/us/en/press/ask-maps",
+              "page_date": "2026-08-06"
+            }
+          ]
+        },
+        "api_field": {
+          "code": "SILENT",
+          "note": "(OrderSource.name, value unnamed)",
+          "detail": "API field: OrderSource.name only, no agent value documented, https://developer.squareup.com/reference/square/objects/OrderSource.",
+          "sources": [
+            {
+              "url": "https://developer.squareup.com/reference/square/objects/OrderSource"
+            }
+          ]
+        },
+        "reporting": {
+          "code": "PART",
+          "note": "source visible",
+          "detail": "Reporting: \"The source of the order is visible in Square's reporting\" (press 2026-07-01); orders \"tagged by source,\" Dashboard > Online Channels > AI assistants, https://squareup.com/us/en/ai/agentic-commerce.",
+          "sources": [
+            {
+              "url": "https://squareup.com/us/en/ai/agentic-commerce"
+            }
+          ]
+        },
+        "disputes": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "Disputes: silent. The Dispute object was read 2026-11-22, all 16 fields (id, reason, state, due_at, disputed_payment, card_brand, brand_dispute_id and others): no agent field. https://developer.squareup.com/reference/square/objects/Dispute",
+          "sources": [
+            {
+              "url": "https://developer.squareup.com/reference/square/objects/Dispute"
+            }
+          ]
+        },
+        "risk_rules": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "Risk rules, token scope, refunds: silent. \"Agentic orders are routed through the same Square systems as any online order.\"",
+          "sources": []
+        },
+        "token_scope": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "Risk rules, token scope, refunds: silent. \"Agentic orders are routed through the same Square systems as any online order.\"",
+          "sources": []
+        },
+        "refunds": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "Risk rules, token scope, refunds: silent. \"Agentic orders are routed through the same Square systems as any online order.\"",
+          "sources": []
+        }
+      },
+      "row_notes": "",
+      "row_sources": []
+    },
+    {
+      "id": "paypal",
+      "name": "PayPal (wallet, Orders v2)",
+      "cells": {
+        "accepts": {
+          "code": "YES",
+          "note": "(ACP via Braintree only; UCP via Orders v2)",
+          "detail": "Accepts: ACP guide \"walks you through configuring Braintree as your payment provider,\" https://developer.paypal.com/agent-ready/agentic-commerce-protocol. Orders v2 path is UCP with PayPal (Google Pay credential), https://developer.paypal.com/agent-ready/overview.",
+          "sources": [
+            {
+              "url": "https://developer.paypal.com/agent-ready/agentic-commerce-protocol"
+            },
+            {
+              "url": "https://developer.paypal.com/agent-ready/overview"
+            }
+          ]
+        },
+        "api_field": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "API field: Orders v2 schema has no agentic or facilitator field; stored_credential.payment_initiator is CUSTOMER or MERCHANT only, https://developer.paypal.com/api/orders/v2/schema.json.",
+          "sources": [
+            {
+              "url": "https://developer.paypal.com/api/orders/v2/schema.json"
+            }
+          ]
+        },
+        "reporting": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "Reporting: Payments v2 and Customer Disputes v1 schemas have no agent field.",
+          "sources": []
+        },
+        "disputes": {
+          "code": "SILENT",
+          "note": "(protection covers agentic orders; no signal on the dispute)",
+          "detail": "Disputes: \"Seller and Purchase Protection, fraud tools, chargeback coverage, and identity services now extend to agentic transactions,\" https://paypal.ai/agent-ready. Footnote limits Seller Protection to unauthorized and item not received. Nothing on the indicator reaching the dispute.",
+          "sources": [
+            {
+              "url": "https://paypal.ai/agent-ready"
+            }
+          ]
+        },
+        "risk_rules": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "Risk rules, token scope, refunds: silent.",
+          "sources": []
+        },
+        "token_scope": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "Risk rules, token scope, refunds: silent.",
+          "sources": []
+        },
+        "refunds": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "Risk rules, token scope, refunds: silent.",
+          "sources": []
+        }
+      },
+      "row_notes": "Merchant-set marker (added 2026-11-11, from a GitHub comment on paypal/agent-toolkit 113, checked against the schema): a merchant can put its own agent marker in purchase_units[].custom_id or a capture's invoice_id, and the Disputes v1 dispute object returns disputed_transactions[] as transaction_info with custom (free text, max 2000) and invoice_number (max 127, pattern A-Z a-z 0-9 : - |). Neither field is listed as required, so the schema does not promise they come back. https://developer.paypal.com/api/customer-disputes/v1/schema.json (read 2026-11-11). This is a merchant workaround, not a PayPal agent field, so the SILENT cells stand.",
+      "row_sources": [
+        {
+          "url": "https://developer.paypal.com/api/customer-disputes/v1/schema.json",
+          "page_date": "2026-11-11"
+        }
+      ]
+    },
+    {
+      "id": "cybersource",
+      "name": "Cybersource (Visa)",
+      "cells": {
+        "accepts": {
+          "code": "YES",
+          "note": "pilot, agent side only",
+          "detail": "Accepts: Intelligent Commerce REST guide, pilot (revision 25.09.01). Agent side API: /acp/v1/tokens, /instructions, /credentials, /confirmations. https://developer.cas.cybersource.com/docs/cybs/en-us/visa-agentic-platform/developer/all/rest/intelligent-commerce.html. Not a merchant side flag on the Payments API.",
+          "sources": [
+            {
+              "url": "https://developer.cas.cybersource.com/docs/cybs/en-us/visa-agentic-platform/developer/all/rest/intelligent-commerce.html"
+            }
+          ]
+        },
+        "api_field": {
+          "code": "SILENT",
+          "note": "(no merchant indicator)",
+          "detail": "API field: nearest are assuranceData[].verificationType and paymentOptions.dynamicDataType (\"TAVV\"). No agent identity field. Payments API field index and release notes 2026-07-02 to 2026-08-28: no agent field.",
+          "sources": []
+        },
+        "reporting": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "Reporting, risk rules (agent side mandates[].declineThreshold only), token scope, refunds: silent.",
+          "sources": []
+        },
+        "disputes": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "Disputes: silent, from reports only. No public dispute API object was found; the agent side has only an undefined products[].policies.disputePolicy. The Chargeback and Retrieval report fields were read 2026-11-22 (CaseIdentifier, ChargebackReasonCode, RespondByDate, NatureOfDispute): no agent field. https://developer.cybersource.com/library/documentation/dev_guides/reporting_and_reconciliation/Reporting_User/html/oxy_ex-1/topics/c_Fields_in_the_Chargeback_Report.html",
+          "sources": [
+            {
+              "url": "https://developer.cybersource.com/library/documentation/dev_guides/reporting_and_reconciliation/Reporting_User/html/oxy_ex-1/topics/c_Fields_in_the_Chargeback_Report.html"
+            }
+          ]
+        },
+        "risk_rules": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "Reporting, risk rules (agent side mandates[].declineThreshold only), token scope, refunds: silent.",
+          "sources": []
+        },
+        "token_scope": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "Reporting, risk rules (agent side mandates[].declineThreshold only), token scope, refunds: silent.",
+          "sources": []
+        },
+        "refunds": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "Reporting, risk rules (agent side mandates[].declineThreshold only), token scope, refunds: silent.",
+          "sources": []
+        }
+      },
+      "row_notes": "",
+      "row_sources": []
+    },
+    {
+      "id": "nuvei",
+      "name": "Nuvei",
+      "cells": {
+        "accepts": {
+          "code": "ANN",
+          "note": "(TAP pilot, H2 2026 target)",
+          "detail": "Accepts: announced. TAP support and Agent Enabler pilot (2025-10-14); live proof of concept with Visa, \"targeting initial availability in the second half of 2026,\" https://www.nuvei.com/posts/nuvei-completes-first-party-in-agent-payment-with-visa-unveils-merchant-led-agentic-payments-strategy (2026-07-02).",
+          "sources": [
+            {
+              "url": "https://www.nuvei.com/posts/nuvei-completes-first-party-in-agent-payment-with-visa-unveils-merchant-led-agentic-payments-strategy",
+              "page_date": "2026-07-02"
+            }
+          ]
+        },
+        "api_field": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "API field: REST reference and release notes through 26.S10 (2026-10-13) have no agent entry, https://docs.nuvei.com/api/main/indexMain_v1_0.html.",
+          "sources": [
+            {
+              "url": "https://docs.nuvei.com/api/main/indexMain_v1_0.html"
+            }
+          ]
+        },
+        "reporting": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "",
+          "sources": []
+        },
+        "disputes": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "Disputes: silent. The dispute management doc was read 2026-11-22 (last modified 2026-09-03): the dispute object (id, verdict, transaction.arn, lastDisputeEvent.disputeReason, initiatedBy) and the representment request (notes, files) have no agent field. https://docs.nuvei.com/documentation/_temp_/dispute-management/",
+          "sources": [
+            {
+              "url": "https://docs.nuvei.com/documentation/_temp_/dispute-management/"
+            }
+          ]
+        },
+        "risk_rules": {
+          "code": "ANN",
+          "note": "(KYA scoring)",
+          "detail": "Risk rules: \"the KYA registry and agent risk scoring\" announced for H2 2026. Everything else silent.",
+          "sources": []
+        },
+        "token_scope": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "",
+          "sources": []
+        },
+        "refunds": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "",
+          "sources": []
+        }
+      },
+      "row_notes": "",
+      "row_sources": []
+    },
+    {
+      "id": "fiserv",
+      "name": "Fiserv (Commerce Hub, Clover, CardPointe)",
+      "cells": {
+        "accepts": {
+          "code": "ANN",
+          "note": "(TAP, Agent Pay, early adopter program)",
+          "detail": "Accepts: announced. Fiserv and Visa \"are working together to deploy Trusted Agent Protocol\" (Business Wire 2025-12-22, https://www.businesswire.com/news/home/20251222678227/en), and Fiserv takes up the Mastercard Agent Pay Acceptance Framework (Business Wire 2025-12-22, https://www.businesswire.com/news/home/20251222291522/en/). Sales sheet lists ACP, AP2, TAP, Agent Pay and an early adopter program. No live date.",
+          "sources": [
+            {
+              "url": "https://www.businesswire.com/news/home/20251222678227/en"
+            },
+            {
+              "url": "https://www.businesswire.com/news/home/20251222291522/en/"
+            }
+          ]
+        },
+        "api_field": {
+          "code": "ASK",
+          "note": "",
+          "detail": "API field: developer.fiserv.com and developer.cardpointe.com searches found nothing; Commerce Hub docs did not render. ASK.",
+          "sources": []
+        },
+        "reporting": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "Reporting: \"Use existing merchant accounts for consolidated settlement and reporting, just as you are used to\" (sales sheet). Everything else silent.",
+          "sources": []
+        },
+        "disputes": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "Disputes: Disputes API v1.3.0 on the EMEA developer portal, dispute and evidence fields read 2026-11-21, no agent field, https://docs.fiserv.dev/public/docs/disputes. No public dispute docs found for the US platforms (Clover, CardPointe).",
+          "sources": [
+            {
+              "url": "https://docs.fiserv.dev/public/docs/disputes"
+            }
+          ]
+        },
+        "risk_rules": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "",
+          "sources": []
+        },
+        "token_scope": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "",
+          "sources": []
+        },
+        "refunds": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "",
+          "sources": []
+        }
+      },
+      "row_notes": "",
+      "row_sources": []
+    },
+    {
+      "id": "global-payments",
+      "name": "Global Payments (Heartland, Genius)",
+      "cells": {
+        "accepts": {
+          "code": "ANN",
+          "note": "(building ACP, UCP)",
+          "detail": "Accepts: \"We're building support for emerging standards, including OpenAI's ACP and Google's UCP,\" https://www.globalpayments.com/agentic-commerce. Worldpay (acquired 2026-01-12) is the only GP platform with agentic docs. Nothing for Heartland.",
+          "sources": [
+            {
+              "url": "https://www.globalpayments.com/agentic-commerce"
+            }
+          ]
+        },
+        "api_field": {
+          "code": "ASK",
+          "note": "",
+          "detail": "",
+          "sources": []
+        },
+        "reporting": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "Reporting: \"See who, or what, is behind every transaction, with visibility into agent identity, permissions and bot activity\" (same page, no screen or field named). Everything else silent or ASK.",
+          "sources": []
+        },
+        "disputes": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "Disputes: GP API dispute object and challenge documents read 2026-11-21, no agent field; the only evidence document type is SALES_RECEIPT, https://developer.globalpayments.com/docs/operations/disputes-management-guide.",
+          "sources": [
+            {
+              "url": "https://developer.globalpayments.com/docs/operations/disputes-management-guide"
+            }
+          ]
+        },
+        "risk_rules": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "",
+          "sources": []
+        },
+        "token_scope": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "",
+          "sources": []
+        },
+        "refunds": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "",
+          "sources": []
+        }
+      },
+      "row_notes": "",
+      "row_sources": []
+    },
+    {
+      "id": "nmi",
+      "name": "NMI",
+      "cells": {
+        "accepts": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "",
+          "sources": []
+        },
+        "api_field": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "",
+          "sources": []
+        },
+        "reporting": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "",
+          "sources": []
+        },
+        "disputes": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "Disputes: silent. The chargeback webhook chargeback.batch.complete was read 2026-11-22: each item has id, date, customer_name, cc_number, amount, reason, and no agent field. https://docs.nmi.com/reference/chargeback-events (modified 2026-10-15)",
+          "sources": [
+            {
+              "url": "https://docs.nmi.com/reference/chargeback-events",
+              "page_date": "2026-10-15"
+            }
+          ]
+        },
+        "risk_rules": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "",
+          "sources": []
+        },
+        "token_scope": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "",
+          "sources": []
+        },
+        "refunds": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "",
+          "sources": []
+        }
+      },
+      "row_notes": "No doc says NMI accepts agent placed orders or names a protocol. Blogs only: https://www.nmi.com/blog/human-not-present-agentic-commerce-network-tokens-and-payments/ (2026-07-15), https://www.nmi.com/blog/prediction-network-tokens-will-take-center-stage-while-agentic-commerce-tests-the-industry/ (2026-07-14). The only agent named item is the optional NMI_AGENT_ID variable on NMI's own MCP server (\"Fixed name for the calling assistant\"), https://docs.nmi.com/docs/mcp-api (undated, read 2026-11-17). All seven cells silent. NMI is the gateway that published the five questions every merchant should ask on its own blog (2026-09-28, link not pinned here); it has not answered them for itself.",
+      "row_sources": [
+        {
+          "url": "https://www.nmi.com/blog/human-not-present-agentic-commerce-network-tokens-and-payments/",
+          "page_date": "2026-07-15"
+        },
+        {
+          "url": "https://www.nmi.com/blog/prediction-network-tokens-will-take-center-stage-while-agentic-commerce-tests-the-industry/",
+          "page_date": "2026-07-14"
+        },
+        {
+          "url": "https://docs.nmi.com/docs/mcp-api"
+        }
+      ]
+    },
+    {
+      "id": "authorize-net",
+      "name": "Authorize.net (Visa)",
+      "cells": {
+        "accepts": {
+          "code": "ASK",
+          "note": "",
+          "detail": "",
+          "sources": []
+        },
+        "api_field": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "",
+          "sources": []
+        },
+        "reporting": {
+          "code": "ASK",
+          "note": "",
+          "detail": "",
+          "sources": []
+        },
+        "disputes": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "Disputes: \"Authorize.net does not handle credit card chargebacks\"; the merchant goes to its processor, https://support.authorize.net/knowledgebase/article/000001216/en-us (read 2026-11-21).",
+          "sources": [
+            {
+              "url": "https://support.authorize.net/knowledgebase/article/000001216/en-us",
+              "page_date": "2026-11-21"
+            }
+          ]
+        },
+        "risk_rules": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "",
+          "sources": []
+        },
+        "token_scope": {
+          "code": "ASK",
+          "note": "",
+          "detail": "",
+          "sources": []
+        },
+        "refunds": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "",
+          "sources": []
+        }
+      },
+      "row_notes": "No page says it accepts agent placed orders. API reference has no agent field (nearest: authorizationIndicator, deprecated authenticationIndicator), https://developer.authorize.net/api/reference/index.html. API change log last entry 2019-09-03. Visa's 2026-04-08 Intelligent Commerce Connect release does not name Authorize.net.",
+      "row_sources": [
+        {
+          "url": "https://developer.authorize.net/api/reference/index.html"
+        }
+      ]
+    },
+    {
+      "id": "elavon",
+      "name": "Elavon",
+      "cells": {
+        "accepts": {
+          "code": "ASK",
+          "note": "",
+          "detail": "",
+          "sources": []
+        },
+        "api_field": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "",
+          "sources": []
+        },
+        "reporting": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "",
+          "sources": []
+        },
+        "disputes": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "Disputes: silent, partly read. Dispute Management API v2: the dispute transaction page (acquirerReferenceNumber, posEntryMode, token, gatewayDetail) and the response page (disputePhaseName, documents, responseNote) were read 2026-11-22, no agent field. The get dispute page shows no response body, so the dispute object itself was not read. https://developer.elavon.com/readmes/get-service-dispute-management-v2-disputes-disputeid-transaction.md",
+          "sources": [
+            {
+              "url": "https://developer.elavon.com/readmes/get-service-dispute-management-v2-disputes-disputeid-transaction.md"
+            }
+          ]
+        },
+        "risk_rules": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "",
+          "sources": []
+        },
+        "token_scope": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "",
+          "sources": []
+        },
+        "refunds": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "",
+          "sources": []
+        }
+      },
+      "row_notes": "No announcement in 30 company news items (2022 to 2026-09-29). Elavon Payment Gateway OpenAPI spec (version 2026-07-21): zero hits for agentic, Agent Pay, Intelligent Commerce, Trusted Agent; credential on file enums are subscription, unscheduledCardholderInitiated, unscheduledMerchantInitiated. https://developer.elavon.com/products/elavon-payment-gateway/v1/api-reference.",
+      "row_sources": [
+        {
+          "url": "https://developer.elavon.com/products/elavon-payment-gateway/v1/api-reference"
+        }
+      ]
+    },
+    {
+      "id": "helcim",
+      "name": "Helcim",
+      "cells": {
+        "accepts": {
+          "code": "ASK",
+          "note": "",
+          "detail": "",
+          "sources": []
+        },
+        "api_field": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "",
+          "sources": []
+        },
+        "reporting": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "",
+          "sources": []
+        },
+        "disputes": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "Disputes: no dispute object in the API. The devdocs index (2026-11-22) has no dispute or chargeback page and webhooks are cardTransaction and terminalCancel only; chargebacks are a dashboard help topic. https://devdocs.helcim.com/docs/webhooks.md",
+          "sources": [
+            {
+              "url": "https://devdocs.helcim.com/docs/webhooks.md"
+            }
+          ]
+        },
+        "risk_rules": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "",
+          "sources": []
+        },
+        "token_scope": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "",
+          "sources": []
+        },
+        "refunds": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "",
+          "sources": []
+        }
+      },
+      "row_notes": "No announcement (2025 and 2026 list, latest 2026-09-08). 150 devdocs pages read; purchase endpoint (updated 2026-04-20) has no agent, channel or initiator field, https://devdocs.helcim.com/reference/purchase. Changelog latest 2026-07-30.",
+      "row_sources": [
+        {
+          "url": "https://devdocs.helcim.com/reference/purchase"
+        }
+      ]
+    },
+    {
+      "id": "airwallex",
+      "name": "Airwallex",
+      "cells": {
+        "accepts": {
+          "code": "PART",
+          "note": "(API fields documented; suite on waitlist)",
+          "detail": "Accepts: The Agentic Commerce Suite product page names ACP and UCP and says the firm takes payments from agent interfaces. The only call to action is \"Join waitlist\" and no live or pilot status is stated. Visa Intelligent Commerce, Trusted Agent Protocol, AP2 and Mastercard Agent Pay are not named on that page. The API reference does document agentic token payments (see API field), so the plumbing is documented but the product status is not. \"Accept payments from any agentic interface across major protocols, including ACP, UCP, and more\" https://www.airwallex.com/en-us/payments/agentic-commerce (undated, read 2026-11-21).",
+          "sources": [
+            {
+              "url": "https://www.airwallex.com/en-us/payments/agentic-commerce"
+            }
+          ]
+        },
+        "api_field": {
+          "code": "YES",
+          "note": "agentic_payment_data on the attempt, names no agent",
+          "detail": "API field: Retrieve a Payment Intent returns latest_payment_attempt.agentic_payment_data, described as the fulfillment outcome recorded for agent-initiated payments. Confirm a Payment Intent takes a request object agentic_payment_data (with checkout_session_id and fulfillment) and payment_method.card.agentic_token. Create a Payment Intent shows the same response object. No field names the agent itself (no agent id, name or platform). \"Present only on payment attempts initiated via an agentic checkout flow.\" https://www.airwallex.com/docs/api/payments/payment_intents/retrieve.md (undated, API version 2026-08-21, read 2026-11-21).",
+          "sources": [
+            {
+              "url": "https://www.airwallex.com/docs/api/payments/payment_intents/retrieve.md"
+            }
+          ]
+        },
+        "reporting": {
+          "code": "ANN",
+          "note": "(product page claim only)",
+          "detail": "Reporting: The reporting doc and the webhook events doc were read and do not mention agents. The product page claims merchants can track sales by agent, with no doc behind it. ANN. https://www.airwallex.com/docs/payments/payment-operations/reporting.md and https://www.airwallex.com/en-us/payments/agentic-commerce",
+          "sources": [
+            {
+              "url": "https://www.airwallex.com/docs/payments/payment-operations/reporting.md"
+            },
+            {
+              "url": "https://www.airwallex.com/en-us/payments/agentic-commerce"
+            }
+          ]
+        },
+        "disputes": {
+          "code": "ANN",
+          "note": "(product page claim; dispute object has none)",
+          "detail": "Disputes: Retrieve a Payment Dispute and List Payment Disputes were read. The dispute object has no agent field. It carries payment_attempt_id and payment_intent_id, so a merchant can look up the attempt by hand. The product page claims agent identity, intent and action are documented for disputes, with no doc behind it. ANN. https://www.airwallex.com/docs/api/payments/payment_disputes/retrieve.md and https://www.airwallex.com/docs/payments/payment-operations/disputes.md",
+          "sources": [
+            {
+              "url": "https://www.airwallex.com/docs/api/payments/payment_disputes/retrieve.md"
+            },
+            {
+              "url": "https://www.airwallex.com/docs/payments/payment-operations/disputes.md"
+            }
+          ]
+        },
+        "risk_rules": {
+          "code": "ANN",
+          "note": "(product page claim only)",
+          "detail": "Risk rules: The fraud prevention overview and the Create watchlist API were read. No agent attribute in the rule layers or watchlist attributes. The product page names an Agent Trust and Risk SDK, with no doc found. ANN. https://www.airwallex.com/docs/payments/payment-operations/fraud-prevention-overview.md",
+          "sources": [
+            {
+              "url": "https://www.airwallex.com/docs/payments/payment-operations/fraud-prevention-overview.md"
+            }
+          ]
+        },
+        "token_scope": {
+          "code": "PART",
+          "note": "bound to the agent session",
+          "detail": "Token scope: Confirm a Payment Intent says the agentic token is tied to one agent checkout session and that checkout_session_id must match the restriction set at tokenization. No doc read states an amount cap, an expiry or a merchant binding, and no doc for creating the token was found. \"The agent session ID the agentic payment token is bound to.\" https://www.airwallex.com/docs/api/payments/payment_intents/confirm.md (undated, API version 2026-08-21, read 2026-11-21).",
+          "sources": [
+            {
+              "url": "https://www.airwallex.com/docs/api/payments/payment_intents/confirm.md"
+            }
+          ]
+        },
+        "refunds": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "Refunds: silent, https://www.airwallex.com/docs/payments/payment-operations/manage-payments/refunds.md and https://www.airwallex.com/docs/api/payments/refunds/create.md",
+          "sources": [
+            {
+              "url": "https://www.airwallex.com/docs/payments/payment-operations/manage-payments/refunds.md"
+            },
+            {
+              "url": "https://www.airwallex.com/docs/api/payments/refunds/create.md"
+            }
+          ]
+        }
+      },
+      "row_notes": "Visa Agentic Ready release (2026-11-17), press says: Visa says Airwallex is working with it so global merchants can take agent orders across markets and currencies, alongside its Agentic Commerce Suite, and is working to embed Trusted Agent Protocol. Docs show: The Payment Intent API reference documents an agentic token and an agentic_payment_data object on the payment attempt, but the dispute, refund, risk and reporting docs say nothing about agents and the suite itself sits behind a waitlist.",
+      "row_sources": []
+    },
+    {
+      "id": "getnet",
+      "name": "Getnet",
+      "cells": {
+        "accepts": {
+          "code": "PART",
+          "note": "(Visa and Mastercard flows; sandbox preview)",
+          "detail": "Accepts: The MCP AI Toolkit overview says the toolkit takes payments started by AI agents and plugs into Mastercard Agent Pay and Visa Intelligent Commerce. The Remote Server page labels it Developer Preview with two core tools, list_cards and process_card_payment. The tools page says the agent checkout tools work in Sandbox only and cannot be used for production transactions. Shopping Agent, Managing Agent and MCP Inventory are marked In Roadmap. \"It enables the capture of transactions initiated by AI agents\" https://docs.globalgetnet.com/en/products/agentic-commerce/mcp-ai-toolkit (2026-02-23, read 2026-11-21).",
+          "sources": [
+            {
+              "url": "https://docs.globalgetnet.com/en/products/agentic-commerce/mcp-ai-toolkit",
+              "page_date": "2026-02-23"
+            }
+          ]
+        },
+        "api_field": {
+          "code": "YES",
+          "note": "agentic_protocol, sandbox preview",
+          "detail": "API field: The card_checkouts tool and the REST call POST /v1/card-checkouts return a field named agentic_protocol. Values are NONE, MAP (Mastercard Agent Pay) or CSIC (the Visa flow). The response also echoes flow_id. The plain path POST /v1/card-payments returns the same payment fields without flow_id or agentic_protocol. The field sits on the toolkit API, not on the Global API payment docs, and it is preview. \"Agentic protocol used\" https://docs.globalgetnet.com/en/global/products/agentic-commerce/mcp-ai-toolkit?doc=mcp-ai-toolkit-available-tools (2026-09-23, read 2026-11-21).",
+          "sources": [
+            {
+              "url": "https://docs.globalgetnet.com/en/global/products/agentic-commerce/mcp-ai-toolkit?doc=mcp-ai-toolkit-available-tools",
+              "page_date": "2026-09-23"
+            }
+          ]
+        },
+        "reporting": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "Reporting: silent. The Merchant Reporting (OneGMR) overview and the Global API webhooks and notifications page were read, neither names agentic_protocol or any agent marker. https://docs.globalgetnet.com/en/global/products/business-operations/global-merchant-reports and https://docs.globalgetnet.com/en/global/products/online-payments/regional-api?doc=api-ref-webhooks-and-notifications (read 2026-11-21).",
+          "sources": [
+            {
+              "url": "https://docs.globalgetnet.com/en/global/products/business-operations/global-merchant-reports"
+            },
+            {
+              "url": "https://docs.globalgetnet.com/en/global/products/online-payments/regional-api?doc=api-ref-webhooks-and-notifications",
+              "page_date": "2026-11-21"
+            }
+          ]
+        },
+        "disputes": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "Disputes: silent. The Chargeback API functional page was read in full. It covers list, detail, history, contest or accept, and evidence upload. It has no agent field and no agent evidence type. https://docs.globalgetnet.com/en/global/products/business-operations/chargeback (2026-03-10, read 2026-11-21).",
+          "sources": [
+            {
+              "url": "https://docs.globalgetnet.com/en/global/products/business-operations/chargeback",
+              "page_date": "2026-03-10"
+            }
+          ]
+        },
+        "risk_rules": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "Risk rules: silent. The Global API antifraud concept page was read, no agent attribute. The agentic overview says an agent check called Know your Agent will appear at purchase, with no rule or field behind it. https://docs.globalgetnet.com/en/global/products/online-payments/regional-api?doc=api-ref-antifraud (read 2026-11-21).",
+          "sources": [
+            {
+              "url": "https://docs.globalgetnet.com/en/global/products/online-payments/regional-api?doc=api-ref-antifraud",
+              "page_date": "2026-11-21"
+            }
+          ]
+        },
+        "token_scope": {
+          "code": "PART",
+          "note": "per purchase session",
+          "detail": "Token scope: The Visa REST tutorial ties each purchase to a new Visa session, a new flow_id and an instruction_id from POST /v1/intentions, and says amount and currency must match across the calls. The Mastercard tutorial shows an authentication expires_at. No doc states a merchant binding, a spend cap or an expiry on the agent token itself. \"Use a fresh VTS session for each purchase.\" https://docs.globalgetnet.com/en/global/products/agentic-commerce/mcp-ai-toolkit?doc=vic-tutorial-rest-api (2026-10-20, read 2026-11-21).",
+          "sources": [
+            {
+              "url": "https://docs.globalgetnet.com/en/global/products/agentic-commerce/mcp-ai-toolkit?doc=vic-tutorial-rest-api",
+              "page_date": "2026-10-20"
+            }
+          ]
+        },
+        "refunds": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "Refunds: silent. The tools page lists list_cards, authentications_options, authentications_initiate, authentications_validation, authentications_transaction, intentions, card_checkouts and card_payments. There is no refund or cancel tool and no refund guidance for agent orders. https://docs.globalgetnet.com/en/global/products/agentic-commerce/mcp-ai-toolkit?doc=mcp-ai-toolkit-available-tools (read 2026-11-21).",
+          "sources": [
+            {
+              "url": "https://docs.globalgetnet.com/en/global/products/agentic-commerce/mcp-ai-toolkit?doc=mcp-ai-toolkit-available-tools",
+              "page_date": "2026-11-21"
+            }
+          ]
+        }
+      },
+      "row_notes": "Visa Agentic Ready release (2026-11-17), press says: Visa says Getnet is working with it across Europe and Latin America to build the tokenization and agent identity needed to accept agentic network tokens at scale. Docs show: A Developer Preview MCP AI Toolkit with Visa and Mastercard agent checkout flows, sandbox only, whose checkout response carries an agentic_protocol field, while the chargeback, report, webhook and antifraud docs say nothing about agents.",
+      "row_sources": []
+    },
+    {
+      "id": "worldline",
+      "name": "Worldline",
+      "cells": {
+        "accepts": {
+          "code": "PART",
+          "note": "(UCP handler beta)",
+          "detail": "Accepts: The ConnectAI docs cover UCP, ACP, AP2 and an MCP server. For UCP a merchant can take Google Pay on Gemini and AI Mode with Worldline as gateway, or declare the Worldline Global Collect payment handler (com.worldline.globalcollect, version 2026-04-08), which the docs mark as beta. The ACP and AP2 pages explain the protocols and send the reader to OpenAI and Google for the spec; the AP2 page says Worldline is co-developing and testing it. The MCP servers are marked beta. Worldline's own agentic commerce page says the live transactions with ING, Credit Agricole, Visa and Mastercard are proof points and not broad commercial availability. No doc names Visa Intelligent Commerce or Mastercard Agent Pay as a merchant integration. \"Accept payments in your own Universal Commerce Protocol implementation (In Beta)\" https://docs.connect.worldline-solutions.com/documentation/ConnectAI/universal-commerce-protocol (undated, read 2026-11-21).",
+          "sources": [
+            {
+              "url": "https://docs.connect.worldline-solutions.com/documentation/ConnectAI/universal-commerce-protocol"
+            }
+          ]
+        },
+        "api_field": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "API field: silent. The Create Payment and Get Payment API reference pages were downloaded and searched. The only agent words are userAgent, the airline agentNumericCode and the funding value agentCashOut. The UCP handler maps the agent's credential to the normal CardPaymentMethodSpecificInput (networkTokenData), and its response config is empty. The AP2 page says a Payment Mandate tells the network an agent was involved, but shows no Worldline field for it. https://apireference.connect.worldline-solutions.com/s2sapi/v1/en_US/json/payments/create.html?paymentPlatform=ALL (undated, read 2026-11-21).",
+          "sources": [
+            {
+              "url": "https://apireference.connect.worldline-solutions.com/s2sapi/v1/en_US/json/payments/create.html?paymentPlatform=ALL"
+            }
+          ]
+        },
+        "reporting": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "Reporting: silent. The webhook event types page and the payment inquiries reporting page were read, no agent marker. https://docs.connect.worldline-solutions.com/documentation/webhooks/event-types and https://docs.connect.worldline-solutions.com/reporting/Insights/payment-inquiries (read 2026-11-21).",
+          "sources": [
+            {
+              "url": "https://docs.connect.worldline-solutions.com/documentation/webhooks/event-types"
+            },
+            {
+              "url": "https://docs.connect.worldline-solutions.com/reporting/Insights/payment-inquiries",
+              "page_date": "2026-11-21"
+            }
+          ]
+        },
+        "disputes": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "Disputes: silent. The dispute guide and the Get Dispute, Get Disputes and Submit Dispute reference pages were read, no agent field and no agent evidence type. The MCP operations server exposes CreateDispute, GetDispute and SubmitDispute, which lets an agent work a dispute but does not mark the order. Worldline's own FAQ page says agent payments use the usual dispute process and may need extra evidence of the agent's role, with no doc behind it. https://docs.connect.worldline-solutions.com/after-the-payment/chargeback-handling/dispute (read 2026-11-21).",
+          "sources": [
+            {
+              "url": "https://docs.connect.worldline-solutions.com/after-the-payment/chargeback-handling/dispute",
+              "page_date": "2026-11-21"
+            }
+          ]
+        },
+        "risk_rules": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "Risk rules: silent. The fraud risk triggers page was read, no agent attribute. The AP2 page only advises merchants to audit CVV, AVS and risk thresholds and to plan with the processor for AP2 mandate signals in fraud models. https://docs.connect.worldline-solutions.com/accepting-payments/fraud-management/fraud-risk-triggers and https://docs.connect.worldline-solutions.com/documentation/ConnectAI/agent-payments-protocol-ap2 (read 2026-11-21).",
+          "sources": [
+            {
+              "url": "https://docs.connect.worldline-solutions.com/accepting-payments/fraud-management/fraud-risk-triggers"
+            },
+            {
+              "url": "https://docs.connect.worldline-solutions.com/documentation/ConnectAI/agent-payments-protocol-ap2",
+              "page_date": "2026-11-21"
+            }
+          ]
+        },
+        "token_scope": {
+          "code": "YES",
+          "note": "single use, merchant and checkout bound",
+          "detail": "Token scope: The UCP handler spec requires a binding object on the credential that carries checkout_id and identity, says the merchant must verify it, and says network tokens are scoped to the merchant's merchant_id. No amount cap is stated in the handler. The ACP page describes a single use token with a maximum amount and validity period, but as OpenAI's spec, not a Worldline API. \"Network tokens and wallet tokens are single-use for a given checkout.\" https://docs.connect.worldline-solutions.com/documentation/ConnectAI/worldline-globalcollect-payment-handler (version 2026-04-08, read 2026-11-21).",
+          "sources": [
+            {
+              "url": "https://docs.connect.worldline-solutions.com/documentation/ConnectAI/worldline-globalcollect-payment-handler",
+              "page_date": "2026-04-08"
+            }
+          ]
+        },
+        "refunds": {
+          "code": "PART",
+          "note": "(FAQ line only)",
+          "detail": "Refunds: The refunds doc and the Create Refund reference say nothing about agent orders. The MCP operations server can call CreateRefund. The only guidance is an FAQ on Worldline's own agentic commerce page: refunds work as in standard payments and should be tied to the purchase, merchant and amount the customer approved. \"A partial capture or refund should map back to the original verified intent\" https://worldline.com/en/home/top-navigation/about-worldline/innovation/agentic-commerce (undated, read 2026-11-21).",
+          "sources": [
+            {
+              "url": "https://worldline.com/en/home/top-navigation/about-worldline/innovation/agentic-commerce"
+            }
+          ]
+        }
+      },
+      "row_notes": "Visa Agentic Ready release (2026-11-17), press says: Visa says Worldline, after running live end to end agent payments in several European markets last summer, is partnering with it to help merchants move to agent driven commerce. Docs show: The Connect docs give a beta UCP payment handler with checkout bound, merchant scoped network tokens plus a beta MCP server, but the payment, webhook, dispute and fraud references carry no field that marks an order as agent placed.",
+      "row_sources": []
+    },
+    {
+      "id": "spreedly",
+      "name": "Spreedly",
+      "cells": {
+        "accepts": {
+          "code": "PART",
+          "note": "(ACP, UCP alpha; no Visa doc)",
+          "detail": "Accepts: The developer guide \"Agentic commerce\" was read in full. It covers OpenAI ACP delegated payment and UCP with AP2 mandates, and is labeled a private preview. It does not name Visa Intelligent Commerce, Trusted Agent Protocol or Mastercard Agent Pay. The marketing page https://www.spreedly.com/products/agentic names Visa TAP / VIC and Mastercard Agent Pay as early access, with no doc behind it, so the Visa part is ANN level only. \"currently in Alpha with select merchant partners\" https://developer.spreedly.com/docs/agentic-commerce (2026-03-25, read 2026-11-21).",
+          "sources": [
+            {
+              "url": "https://www.spreedly.com/products/agentic"
+            },
+            {
+              "url": "https://developer.spreedly.com/docs/agentic-commerce",
+              "page_date": "2026-03-25"
+            }
+          ]
+        },
+        "api_field": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "API field: The purchase reference and the show transaction reference were read and searched for agent, agentic, initiator, mandate and allowance. The only hits are user_agent, stored_credential_initiator (cardholder or merchant) and an AGENT value of customer_account_type that is a protection provider account type, not an AI agent flag. No field marks a transaction as agent placed. The agentic guide says the merchant backend gets what looks like a standard vaulted token. Silent, https://developer.spreedly.com/reference/purchase (2026-06-12, read 2026-11-21) and https://developer.spreedly.com/reference/show-transactions (2026-06-12, read 2026-11-21).",
+          "sources": [
+            {
+              "url": "https://developer.spreedly.com/reference/purchase",
+              "page_date": "2026-06-12"
+            },
+            {
+              "url": "https://developer.spreedly.com/reference/show-transactions",
+              "page_date": "2026-06-12"
+            }
+          ]
+        },
+        "reporting": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "Reporting: silent, https://developer.spreedly.com/docs/recent-transactions (2026-10-21, read 2026-11-21). The Recent Transactions report page lists filters, columns and downloads and has no agent column or filter. The docs index https://developer.spreedly.com/llms.txt lists no agentic reporting or webhook page.",
+          "sources": [
+            {
+              "url": "https://developer.spreedly.com/docs/recent-transactions",
+              "page_date": "2026-10-21"
+            },
+            {
+              "url": "https://developer.spreedly.com/llms.txt"
+            }
+          ]
+        },
+        "disputes": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "Disputes: silent, https://developer.spreedly.com/reference/forward-claim (2026-06-12, read 2026-11-21). The claim object (forwarded to a protection provider) has case_id, charge_id, reason_code, reason_type, issue_date, due_date, amount, status. No agent field. Spreedly has no other dispute or chargeback object in the docs index.",
+          "sources": [
+            {
+              "url": "https://developer.spreedly.com/reference/forward-claim",
+              "page_date": "2026-06-12"
+            }
+          ]
+        },
+        "risk_rules": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "Risk rules: silent, https://developer.spreedly.com/docs/composer-fraud-risk (2026-09-23, read 2026-11-21) and https://developer.spreedly.com/docs/decision-editor (2026-11-04, read 2026-11-21). Fraud runs as a Composer step with Sift, Socure, Veriff or Forter. No agent attribute is named.",
+          "sources": [
+            {
+              "url": "https://developer.spreedly.com/docs/composer-fraud-risk",
+              "page_date": "2026-09-23"
+            },
+            {
+              "url": "https://developer.spreedly.com/docs/decision-editor",
+              "page_date": "2026-11-04"
+            }
+          ]
+        },
+        "token_scope": {
+          "code": "YES",
+          "note": "amount, expiry, merchant (alpha)",
+          "detail": "Token scope: The agentic guide has a mandate validation table. Spreedly checks reason (one_time), max_amount, currency, checkout_session_id, merchant_id / environment_key and expires_at before the gateway sees the request, and rejects the transaction if a check fails. This is ACP and UCP/AP2 only and Alpha. The firm's own product roundup repeats the claim. \"Set limits through the API and checkout SDKs\" https://www.spreedly.com/blog/spreedly-product-roundup-summer-2026 (2026-10-01, read 2026-11-21). Doc behind it: https://developer.spreedly.com/docs/agentic-commerce (2026-03-25, read 2026-11-21).",
+          "sources": [
+            {
+              "url": "https://www.spreedly.com/blog/spreedly-product-roundup-summer-2026",
+              "page_date": "2026-10-01"
+            },
+            {
+              "url": "https://developer.spreedly.com/docs/agentic-commerce",
+              "page_date": "2026-03-25"
+            }
+          ]
+        },
+        "refunds": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "Refunds: silent, https://developer.spreedly.com/reference/credit-transaction (2026-06-12, read 2026-11-21). The refund reference and the agentic guide say nothing on refunds for agent placed orders. The guide only says the allowance reason must be one_time.",
+          "sources": [
+            {
+              "url": "https://developer.spreedly.com/reference/credit-transaction",
+              "page_date": "2026-06-12"
+            }
+          ]
+        }
+      },
+      "row_notes": "Visa Agentic Ready release (2026-11-17), press says: Visa lists Spreedly under acquirers and financial institutions and says it is helping merchants take trusted agent-initiated payments under Visa Intelligent Commerce through the payment stack they already run. Docs show: One developer guide, marked Alpha for select merchants, covers ChatGPT (ACP) and UCP orders with an amount, expiry and merchant bound token; the purchase, claim and reporting docs carry no agent marker and no doc names Visa Intelligent Commerce.",
+      "row_sources": []
+    },
+    {
+      "id": "moneris",
+      "name": "Moneris",
+      "cells": {
+        "accepts": {
+          "code": "SILENT",
+          "note": "(MCP preview is the merchant's own agent)",
+          "detail": "Accepts: silent on shopper agents. The only agent doc is an MCP server for the merchant's own AI agent, which is not an agent placed shopper order, so the cell is SILENT. The MCP guide shows an AI agent creating a payment through the tool create_payment with a stored payment method ID made outside the agent. It names sandbox and production MCP hosts. It does not name Visa Intelligent Commerce, Trusted Agent Protocol, Mastercard Agent Pay, ACP, UCP or AP2, and says nothing on agentic network tokens. \"Moneris MCP Server is in preview and is subject to change.\" https://developer.moneris.com/moneris-api/docs/model-context-protocol-mcp (2026-06-23, read 2026-11-21). The Moneris blog (2026-07-17) and media room release (2026-06-18) on the MCP server add no doc detail, and neither names a card network agent program.",
+          "sources": [
+            {
+              "url": "https://developer.moneris.com/moneris-api/docs/model-context-protocol-mcp",
+              "page_date": "2026-06-23"
+            }
+          ]
+        },
+        "api_field": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "API field: silent. The Create Payment and Retrieve Payment reference pages were read in full as markdown. No field marks an order as agent placed. The nearest field is cardholderInitiatingChannel with values DESKTOP_WEB, MOBILE_WEB, MOBILE_APP, and the CUSTOMER_INITIATED / MERCHANT_INITIATED enums. https://developer.moneris.com/moneris-api/reference/createpayments-1 (2026-11-13, read 2026-11-21) and https://developer.moneris.com/moneris-api/reference/getpayment-1 (read 2026-11-21).",
+          "sources": [
+            {
+              "url": "https://developer.moneris.com/moneris-api/reference/createpayments-1",
+              "page_date": "2026-11-13"
+            },
+            {
+              "url": "https://developer.moneris.com/moneris-api/reference/getpayment-1",
+              "page_date": "2026-11-21"
+            }
+          ]
+        },
+        "reporting": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "Reporting: silent. The Retrieve Payment response, the docs index (llms.txt) and the changelog page were searched for agent and agentic, no marker found. https://developer.moneris.com/moneris-api/page/changelogs (latest entry 2026-11-11, read 2026-11-21). Merchant portal help pages were not read.",
+          "sources": [
+            {
+              "url": "https://developer.moneris.com/moneris-api/page/changelogs",
+              "page_date": "2026-11-11"
+            }
+          ]
+        },
+        "disputes": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "Disputes: silent. The Dispute Details reference was read, it has no agent field. The Disputes API lets a merchant accept a case, read details and upload images. https://developer.moneris.com/moneris-api/reference/getdisputebycaseidandrecordnumber-1 (2026-11-13, read 2026-11-21).",
+          "sources": [
+            {
+              "url": "https://developer.moneris.com/moneris-api/reference/getdisputebycaseidandrecordnumber-1",
+              "page_date": "2026-11-13"
+            }
+          ]
+        },
+        "risk_rules": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "Risk rules: silent. The Kount risk inquiry guide and the Create Kount Inquiry reference were read. The only agent words are deviceUserAgent and the Kount \"Agent Web Console\", which is a human reviewer console. https://developer.moneris.com/moneris-api/docs/risk-inquiry-kount (2026-05-07, read 2026-11-21).",
+          "sources": [
+            {
+              "url": "https://developer.moneris.com/moneris-api/docs/risk-inquiry-kount",
+              "page_date": "2026-05-07"
+            }
+          ]
+        },
+        "token_scope": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "Token scope: silent. The MCP guide tells the merchant to use Moneris stored payment method IDs and never pass raw card data to an agent. It gives no amount, expiry or merchant binding for an agent token. https://developer.moneris.com/moneris-api/docs/model-context-protocol-mcp (read 2026-11-21).",
+          "sources": [
+            {
+              "url": "https://developer.moneris.com/moneris-api/docs/model-context-protocol-mcp",
+              "page_date": "2026-11-21"
+            }
+          ]
+        },
+        "refunds": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "Refunds: silent. The MCP tool list has retrieve_refund and list_refunds only, no create refund tool. The Create Refund reference has no agent text. https://developer.moneris.com/moneris-api/reference/createrefund-1 (2026-11-13, read 2026-11-21).",
+          "sources": [
+            {
+              "url": "https://developer.moneris.com/moneris-api/reference/createrefund-1",
+              "page_date": "2026-11-13"
+            }
+          ]
+        }
+      },
+      "row_notes": "Visa Agentic Ready release (2026-11-17), press says: Visa says Moneris joined Agentic Ready and is testing with Visa how agent transactions can be recognized, accepted and processed for Canadian merchants. Docs show: A preview MCP server lets a merchant's own AI agent call the Moneris API with a stored payment method, but no payment, dispute, risk or refund doc names an agent field or a Visa or Mastercard agent protocol.",
+      "row_sources": []
+    },
+    {
+      "id": "dlocal",
+      "name": "dLocal",
+      "cells": {
+        "accepts": {
+          "code": "ANN",
+          "note": "(AP2 blog 2025, no doc)",
+          "detail": "Accepts: The only dLocal page found on agent payments is a blog post from 2025-09-16 saying dLocal is working with Google on AP2 and will work with select merchants and partners on early agent payment experiences. No product, no doc, no Visa program named. The docs index (llms.txt) has no page with agent or agentic in the title or summary. ANN. https://www.dlocal.com/blog/dlocal-viewpoint/dlocal-joins-forces-with-google-to-help-define-agent-payments-protocol-ap2-the-open-standard-for-aiagent-payments/ (2025-09-16, read 2026-11-21).",
+          "sources": [
+            {
+              "url": "https://www.dlocal.com/blog/dlocal-viewpoint/dlocal-joins-forces-with-google-to-help-define-agent-payments-protocol-ap2-the-open-standard-for-aiagent-payments/",
+              "page_date": "2025-09-16"
+            }
+          ]
+        },
+        "api_field": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "API field: silent, https://docs.dlocal.com/reference/create-payment.md (the only agent strings are the User-Agent header and the browser user_agent field) and https://docs.dlocal.com/reference/the-card-object.md",
+          "sources": [
+            {
+              "url": "https://docs.dlocal.com/reference/create-payment.md"
+            },
+            {
+              "url": "https://docs.dlocal.com/reference/the-card-object.md"
+            }
+          ]
+        },
+        "reporting": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "Reporting: silent, https://docs.dlocal.com/llms.txt (full docs index, no agent page) and https://docs.dlocal.com/reference/chargeback-asynchronous-notification.md. The payment notification guide (receive-notifications) was not opened.",
+          "sources": [
+            {
+              "url": "https://docs.dlocal.com/llms.txt"
+            },
+            {
+              "url": "https://docs.dlocal.com/reference/chargeback-asynchronous-notification.md"
+            }
+          ]
+        },
+        "disputes": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "Disputes: silent, https://docs.dlocal.com/reference/retrieve-a-chargeback.md , https://docs.dlocal.com/reference/chargeback-asynchronous-notification.md and https://docs.dlocal.com/docs/chargebacks.md",
+          "sources": [
+            {
+              "url": "https://docs.dlocal.com/reference/retrieve-a-chargeback.md"
+            },
+            {
+              "url": "https://docs.dlocal.com/reference/chargeback-asynchronous-notification.md"
+            },
+            {
+              "url": "https://docs.dlocal.com/docs/chargebacks.md"
+            }
+          ]
+        },
+        "risk_rules": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "Risk rules: silent, https://docs.dlocal.com/docs/risk-data-documentation.md and https://docs.dlocal.com/docs/fraud-prevention.md",
+          "sources": [
+            {
+              "url": "https://docs.dlocal.com/docs/risk-data-documentation.md"
+            },
+            {
+              "url": "https://docs.dlocal.com/docs/fraud-prevention.md"
+            }
+          ]
+        },
+        "token_scope": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "Token scope: silent, https://docs.dlocal.com/docs/card-network-tokens.md (network tokens covered, no agent token).",
+          "sources": [
+            {
+              "url": "https://docs.dlocal.com/docs/card-network-tokens.md"
+            }
+          ]
+        },
+        "refunds": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "Refunds: silent, https://docs.dlocal.com/docs/refunds.md",
+          "sources": [
+            {
+              "url": "https://docs.dlocal.com/docs/refunds.md"
+            }
+          ]
+        }
+      },
+      "row_notes": "Visa Agentic Ready release (2026-11-17), press says: Visa says dLocal is working with it to explore how agent orders can be enabled safely across local payment systems in emerging markets. Docs show: The dLocal docs give a merchant nothing agent specific today; the payment, chargeback, refund, risk and network token docs do not mention agent placed orders.",
+      "row_sources": []
+    },
+    {
+      "id": "antom",
+      "name": "Antom",
+      "cells": {
+        "accepts": {
+          "code": "ANN",
+          "note": "(2025 press, card pilot)",
+          "detail": "Accepts: Antom's own news post of 2025-09-04 announces an agentic payment solution, says it covers wallets and cards, and says Antom is among the first partners of Mastercard and Visa to pilot card payments for AI agents. The docs index (llms.txt) has no page on it. No protocol name and no go-live for cards is given. ANN. \"The Antom agentic payment solution is now open-sourced on GitHub\" https://www.antom.com/news/ant-internationals-antom-debuts-agentic-payment-solution-pioneering-apm-checkout-solution-and-trusted-ai-for-secure-transactions (2025-09-04, read 2026-11-21). A second news post dated 2026-04-27 repeats that Ant International is working on agent protocols with AI platforms and networks, again with no doc: https://www.antom.com/news/global-merchants-partner-with-ant-international-to-scale-internationally-amid-rise-of-agentic-commerce",
+          "sources": [
+            {
+              "url": "https://www.antom.com/news/ant-internationals-antom-debuts-agentic-payment-solution-pioneering-apm-checkout-solution-and-trusted-ai-for-secure-transactions",
+              "page_date": "2025-09-04"
+            },
+            {
+              "url": "https://www.antom.com/news/global-merchants-partner-with-ant-international-to-scale-internationally-amid-rise-of-agentic-commerce"
+            }
+          ]
+        },
+        "api_field": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "API field: silent, https://docs.antom.com/ac/ams/payment_cashier.md (pay, One-time Payments). The only agent strings there are agentCode and agentName, which are the IATA travel agency fields. The agent-token request header in https://docs.antom.com/ac/ams/api_fund.md is a token for an ISV calling the API, not a shopper agent marker.",
+          "sources": [
+            {
+              "url": "https://docs.antom.com/ac/ams/payment_cashier.md"
+            },
+            {
+              "url": "https://docs.antom.com/ac/ams/api_fund.md"
+            }
+          ]
+        },
+        "reporting": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "Reporting: silent, https://docs.antom.com/ac/ams/paymentrn_online.md (payment notification), https://docs.antom.com/ac/apo/transaction_details.md and https://docs.antom.com/ac/cashierpay/reconcile.md",
+          "sources": [
+            {
+              "url": "https://docs.antom.com/ac/ams/paymentrn_online.md"
+            },
+            {
+              "url": "https://docs.antom.com/ac/apo/transaction_details.md"
+            },
+            {
+              "url": "https://docs.antom.com/ac/cashierpay/reconcile.md"
+            }
+          ]
+        },
+        "disputes": {
+          "code": "ANN",
+          "note": "(press line only)",
+          "detail": "Disputes: notifyDispute, supplyDefenseDocument and the dispute overview were read and have no agent field or agent evidence type. The 2025-09-04 news post says agent disputes can be resolved through credential queries, with no doc behind it. ANN. https://docs.antom.com/ac/ams/notify_dispute.md , https://docs.antom.com/ac/ams/supply_evidence.md , https://docs.antom.com/ac/dispute/overview.md",
+          "sources": [
+            {
+              "url": "https://docs.antom.com/ac/ams/notify_dispute.md"
+            },
+            {
+              "url": "https://docs.antom.com/ac/ams/supply_evidence.md"
+            },
+            {
+              "url": "https://docs.antom.com/ac/dispute/overview.md"
+            }
+          ]
+        },
+        "risk_rules": {
+          "code": "ANN",
+          "note": "(press line only)",
+          "detail": "Risk rules: The independent risk control doc and the risk methods doc (AVS, CVV) were read and have no agent attribute. The 2025-09-04 news post claims risk management technologies for AI agents, with no doc. ANN. https://docs.antom.com/ac/apo/risk_control.md and https://docs.antom.com/ac/ref/risk_methods.md",
+          "sources": [
+            {
+              "url": "https://docs.antom.com/ac/apo/risk_control.md"
+            },
+            {
+              "url": "https://docs.antom.com/ac/ref/risk_methods.md"
+            }
+          ]
+        },
+        "token_scope": {
+          "code": "ANN",
+          "note": "(press line only)",
+          "detail": "Token scope: The tokenization doc covers network tokens only and has no agent token. The 2025-09-04 news post describes a payment mandate model and purchases inside a set spending limit, with no doc and no mention of merchant binding or expiry. ANN. https://docs.antom.com/ac/pm/tokenization.md",
+          "sources": [
+            {
+              "url": "https://docs.antom.com/ac/pm/tokenization.md"
+            }
+          ]
+        },
+        "refunds": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "Refunds: silent, https://docs.antom.com/ac/ams/refund_online.md",
+          "sources": [
+            {
+              "url": "https://docs.antom.com/ac/ams/refund_online.md"
+            }
+          ]
+        }
+      },
+      "row_notes": "Visa Agentic Ready release (2026-11-17), press says: Visa says Antom is working with it to explore how merchants can take part in agent commerce, including shared agent identity standards and ways to do it safely. Docs show: The Antom docs give a merchant nothing agent specific today; the pay API, dispute notice, evidence, refund, risk and token docs do not mention agent placed orders, and the agentic payment solution exists only in Antom's own press.",
+      "row_sources": []
+    },
+    {
+      "id": "vgs",
+      "name": "VGS",
+      "cells": {
+        "accepts": {
+          "code": "PART",
+          "note": "(agent side tokens; Visa, Mastercard, Amex)",
+          "detail": "Accepts: Read the Agentic Commerce guide and the Agentic Tokens API reference (doc version 0.12.0, API version 2.1.0). It enrolls a stored card with Visa (VIC), Mastercard or American Express and returns network token credentials for an agent platform. The spec lists a sandbox and a live server and no beta label, but a tenant must be enabled (tenant_not_enabled error). VGS is a vault, not the merchant's processor, so this is the agent side, not merchant acceptance. The overview page names no protocol. \"Enrolls a stored card for agentic payments.\" https://docs.verygoodsecurity.com/agentic-commerce/developer-resources/api-reference/agentic-tokens/agentic-tokens (undated, read 2026-11-21).",
+          "sources": [
+            {
+              "url": "https://docs.verygoodsecurity.com/agentic-commerce/developer-resources/api-reference/agentic-tokens/agentic-tokens"
+            }
+          ]
+        },
+        "api_field": {
+          "code": "PART",
+          "note": "beta agentic_properties on the stored card",
+          "detail": "API field: in part. VGS has no payment or transaction object. A beta adds enriched_attributes.agentic_properties to the card object a merchant gets back from POST /cards and GET /cards/{card_id}. Fields: agentic (true or false), minter (agent platform), platform, tsp. It marks the stored card, not the order, and the page is under \"Card on File Matching (beta)\". \"learn at once whether it is an agentic token\" https://docs.verygoodsecurity.com/agentic-commerce/developer-resources/api-reference/card-on-file-matching-beta/card-attributes-agentic-properties (undated, read 2026-11-21).",
+          "sources": [
+            {
+              "url": "https://docs.verygoodsecurity.com/agentic-commerce/developer-resources/api-reference/card-on-file-matching-beta/card-attributes-agentic-properties"
+            }
+          ]
+        },
+        "reporting": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "Reporting: silent, https://docs.verygoodsecurity.com/enterprise-platform/developer-resources/webhook-notifications (undated, read 2026-11-21) and https://docs.verygoodsecurity.com/enterprise-platform/core-platform/reports/usage-reports/interaction-types (undated, read 2026-11-21). Neither names an agentic event or report field. The agentic guide mentions only network token update webhooks.",
+          "sources": [
+            {
+              "url": "https://docs.verygoodsecurity.com/enterprise-platform/developer-resources/webhook-notifications"
+            },
+            {
+              "url": "https://docs.verygoodsecurity.com/enterprise-platform/core-platform/reports/usage-reports/interaction-types"
+            }
+          ]
+        },
+        "disputes": {
+          "code": "SILENT",
+          "note": "(no dispute object)",
+          "detail": "Disputes: silent, https://docs.verygoodsecurity.com/llms.txt (undated, read 2026-11-21). The docs index has no dispute or chargeback page. The Cryptograms reference has an optional dispute_policy text field inside the purchase data the agent platform sends to Visa; that is not a dispute record (https://docs.verygoodsecurity.com/agentic-commerce/developer-resources/api-reference/agentic-tokens/cryptograms, undated, read 2026-11-21).",
+          "sources": [
+            {
+              "url": "https://docs.verygoodsecurity.com/llms.txt"
+            },
+            {
+              "url": "https://docs.verygoodsecurity.com/agentic-commerce/developer-resources/api-reference/agentic-tokens/cryptograms"
+            }
+          ]
+        },
+        "risk_rules": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "Risk rules: silent, https://docs.verygoodsecurity.com/agentic-commerce/developer-resources/api-reference/agentic-tokens/agentic-tokens (undated, read 2026-11-21). Enrollment takes risk fields (risk.account, risk.device) that American Express requires, and country restrictions can block enrollment. No rule engine with an agent attribute is documented.",
+          "sources": [
+            {
+              "url": "https://docs.verygoodsecurity.com/agentic-commerce/developer-resources/api-reference/agentic-tokens/agentic-tokens"
+            }
+          ]
+        },
+        "token_scope": {
+          "code": "YES",
+          "note": "Visa mandates: limit, merchant, expiry",
+          "detail": "Token scope: for Visa. A purchase intent carries mandates with decline_threshold (amount, currency_code), effective_until, preferred_merchant_name, merchant_category and quantity. The Card On File Match page adds that a credential is bound at issue to the merchant the agent means to pay, checked against the caller's verified domains. Intents are Visa only; Mastercard and American Express credentials are requested without an intent. \"Mandates describe the spending limits, merchant restrictions, and expiry times\" https://docs.verygoodsecurity.com/agentic-commerce/developer-resources/api-reference/agentic-tokens/intents (undated, read 2026-11-21). Also read: https://docs.verygoodsecurity.com/agentic-commerce/developer-resources/api-reference/card-on-file-matching-beta/card-on-file-match (undated, read 2026-11-21).",
+          "sources": [
+            {
+              "url": "https://docs.verygoodsecurity.com/agentic-commerce/developer-resources/api-reference/agentic-tokens/intents"
+            },
+            {
+              "url": "https://docs.verygoodsecurity.com/agentic-commerce/developer-resources/api-reference/card-on-file-matching-beta/card-on-file-match"
+            }
+          ]
+        },
+        "refunds": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "Refunds: silent, https://docs.verygoodsecurity.com/agentic-commerce/developer-resources/api-reference/agentic-tokens/cryptograms (undated, read 2026-11-21). There is an optional refund_policy text field and an is_refundable flag in the purchase data. The Intents page says the confirmation call does not refund or reverse a payment. No guidance on how to refund an agent placed order.",
+          "sources": [
+            {
+              "url": "https://docs.verygoodsecurity.com/agentic-commerce/developer-resources/api-reference/agentic-tokens/cryptograms"
+            }
+          ]
+        }
+      },
+      "row_notes": "Visa Agentic Ready release (2026-11-17), press says: Visa lists VGS under payment service providers and quotes its head of partnerships calling it a leader in digital and agentic commerce infrastructure that supports AI platforms, merchants and fintechs. Docs show: The docs give an agent platform an Agentic Tokens API (Visa, Mastercard, American Express) with Visa mandates for limit, merchant and expiry, and give a merchant a beta agentic_properties block on a stored card that says the card is an agent token; there is no dispute, report or refund doc for agent orders.",
+      "row_sources": []
+    },
+    {
+      "id": "basis-theory",
+      "name": "Basis Theory",
+      "cells": {
+        "accepts": {
+          "code": "PART",
+          "note": "(agent side; VIC and Agent Pay rails)",
+          "detail": "Accepts: Read the Agentic Payments overview, setup, implementation and the payment methods API reference. The rails table maps provider vic to Visa Intelligent Commerce, agentpay to Mastercard Agent Pay and stripe to Shared Payment Tokens. This is the agent (buyer) side: it issues the credential the agent presents. Basis Theory is a vault and proxy, not the merchant's processor. The setup guide says it is an Enterprise feature and production needs onboarding; test tenants run on mocks. A separate guide lets a merchant accept UCP orders with Basis Theory as tokenizer (https://developers.basistheory.com/docs/guides/ucp-payments). \"a Visa card provisions `vic`, a Mastercard card provisions `agentpay`\" https://developers.basistheory.com/docs/api/agentic-commerce/payment-methods (undated, read 2026-11-21).",
+          "sources": [
+            {
+              "url": "https://developers.basistheory.com/docs/guides/ucp-payments"
+            },
+            {
+              "url": "https://developers.basistheory.com/docs/api/agentic-commerce/payment-methods"
+            }
+          ]
+        },
+        "api_field": {
+          "code": "NO",
+          "note": "(no transaction object)",
+          "detail": "API field: none. Basis Theory has no payment or transaction object for the merchant. The overview says minting is the last event it sees and a credential status stays created and never becomes approved, declined or settled. The credential handed to the agent has number, expiry, cvc, or network token with eci and cryptogram; none of these is documented as an agent marker for the merchant. The Charge a Card guide was searched and has no agent field. \"Network-supplied electronic commerce indicator, returned as given.\" https://developers.basistheory.com/docs/api/agentic-commerce/payment-credentials (undated, read 2026-11-21). Also read: https://developers.basistheory.com/docs/card-payments/charge-card (undated, read 2026-11-21).",
+          "sources": [
+            {
+              "url": "https://developers.basistheory.com/docs/api/agentic-commerce/payment-credentials"
+            },
+            {
+              "url": "https://developers.basistheory.com/docs/card-payments/charge-card"
+            }
+          ]
+        },
+        "reporting": {
+          "code": "SILENT",
+          "note": "(webhooks go to the agent platform)",
+          "detail": "Reporting: silent for the merchant. Webhook events exist for agentic.payment-method, agentic.allowance and agentic.payment-credential.created (credential_id, allowance_id, rail, provider, format). They go to the Basis Theory customer that minted the credential, which is the agent platform. Nothing is documented for the merchant that takes the order. \"a natural hook for ledger reconciliation\" https://developers.basistheory.com/docs/api/events/event-types (undated, read 2026-11-21).",
+          "sources": [
+            {
+              "url": "https://developers.basistheory.com/docs/api/events/event-types"
+            }
+          ]
+        },
+        "disputes": {
+          "code": "NO",
+          "note": "(disputes are off its rails)",
+          "detail": "Disputes: no dispute object exists. The overview says these happen after the mint and outside its view. \"refunds, and disputes all happen afterwards on rails Basis Theory is not part of\" https://developers.basistheory.com/docs/guides/agentic/overview (undated, read 2026-11-21). The deprecated Instructions API has a confirmation call whose transaction_type list includes chargeback and fraud, but that is the agent platform reporting to the network, not a dispute record (https://developers.basistheory.com/docs/api/agentic-commerce/instructions, undated, read 2026-11-21).",
+          "sources": [
+            {
+              "url": "https://developers.basistheory.com/docs/guides/agentic/overview"
+            },
+            {
+              "url": "https://developers.basistheory.com/docs/api/agentic-commerce/instructions"
+            }
+          ]
+        },
+        "risk_rules": {
+          "code": "SILENT",
+          "note": "",
+          "detail": "Risk rules: silent, https://developers.basistheory.com/docs/features/anti-fraud (undated, read 2026-11-21). The page covers 3DS and general anti-fraud. No agent attribute and no rule engine with one.",
+          "sources": [
+            {
+              "url": "https://developers.basistheory.com/docs/features/anti-fraud"
+            }
+          ]
+        },
+        "token_scope": {
+          "code": "YES",
+          "note": "allowance: merchant, amount, expiry",
+          "detail": "Token scope: An allowance holds an amount, an expires_at and an optional merchant object (name, url, country_code, category_code). A credential is minted from it for one purchase. An open allowance has no merchant and each credential names one. Visa and Mastercard rails need cardholder verification by passkey or one-time code. \"The merchant cannot be added, changed, or removed after creation.\" https://developers.basistheory.com/docs/api/agentic-commerce/allowances (undated, read 2026-11-21).",
+          "sources": [
+            {
+              "url": "https://developers.basistheory.com/docs/api/agentic-commerce/allowances"
+            }
+          ]
+        },
+        "refunds": {
+          "code": "PART",
+          "note": "(allowance balance only)",
+          "detail": "Refunds: The only refund guidance is about the allowance balance: a minted amount is spent for good, even if the merchant refunds or never charges. No guidance on the merchant refund itself. \"there is no void, release, or refund-to-allowance operation\" https://developers.basistheory.com/docs/api/agentic-commerce/errors-spm (undated, read 2026-11-21).",
+          "sources": [
+            {
+              "url": "https://developers.basistheory.com/docs/api/agentic-commerce/errors-spm"
+            }
+          ]
+        }
+      },
+      "row_notes": "Visa Agentic Ready release (2026-11-17), press says: Visa lists Basis Theory under payment service providers and quotes its CTO calling it the enablement layer for all agentic credentials, serving more than 300 merchants and platforms. Docs show: The docs give an agent platform an API to mint one-purchase credentials on Visa Intelligent Commerce, Mastercard Agent Pay and Stripe rails under a merchant, amount and expiry allowance, plus a UCP tokenizer guide for merchants; they say Basis Theory sees nothing after the mint, so the merchant gets no agent marker from it.",
+      "row_sources": []
+    }
+  ],
+  "source_gaps": [
+    "braintree.reporting",
+    "braintree.token_scope",
+    "worldpay.token_scope",
+    "shopify-payments.refunds"
+  ]
+}
