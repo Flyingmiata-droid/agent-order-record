@@ -32,6 +32,25 @@ Node 22.18 or newer. No install step and no packages.
 
 The example takes AEP's own test vector b, checks the chain, and prints the Stripe evidence fields a merchant would end up with. The product name in that vector has accents and a long dash on purpose. It is AEP's text encoding test.
 
+## Use it from the command line or from an AI agent
+
+One command line tool wraps the scorecard and the checks. It reads and prints. Nothing is sent.
+
+    node bin/aor.ts gateways
+    node bin/aor.ts find disputes YES
+    node bin/aor.ts gateway stripe api_field
+    node bin/aor.ts verify test/fixtures/aep/b-chain.json
+
+The second line asks which gateways document an agent field on the dispute. Today it prints 0 of 25.
+
+The same six operations run as an MCP server, so an agent can look a gateway up while it works. It talks over stdio, needs no packages, and marks every tool read only. Point your client at it with your own path:
+
+    { "mcpServers": { "agent-order-record": { "command": "node", "args": ["/path/to/agent-order-record/bin/aor.ts", "mcp"] } } }
+
+The tools are list_gateways, get_gateway, find_gateways, verify_aep_chain, render_stripe_evidence and check_ce3. On 2026-11-21 the server was run against the official MCP TypeScript client, SDK 1.32.2: connect, list, call, a bad argument and an unknown tool. It is not on npm. Node refuses to run TypeScript from inside node_modules, so clone the repo.
+
+skills/agent-order-record/SKILL.md is a short skill file that tells a coding agent when to use these commands.
+
 ## Does the agent signal reach the card network?
 
 Only Stripe documents it. No gateway documents it reaching the dispute.
@@ -116,7 +135,7 @@ AEP Appendix C gives one text limit for Stripe, about 150,000 characters combine
 
 Every scorecard cell comes from a vendor's own docs, API reference, changelog, terms or press release. A SILENT cell means the pages named say nothing. It does not mean the vendor has nothing.
 
-The first pass over the rows was done with AI help, and so was much of the code. The tests are the claim: 60 of them, run against AEP's conformance vectors and Stripe's published field list. The UCP order receipts were also run through a verifier this repo did not write; see conformance/ucp-order-receipts.
+The first pass over the rows was done with AI help, and so was much of the code. The tests are the claim: 70 of them, run against AEP's conformance vectors and Stripe's published field list. The UCP order receipts were also run through a verifier this repo did not write; see conformance/ucp-order-receipts.
 
 The scorecard is a month old outside Stripe and Braintree. A re-check on 2026-11-14 flagged about a third of the source pages as changed since the 2026-11-09 snapshot, and a few as unreachable. The count moves from run to run because some sites rate limit. Those cells have not been re-read yet.
 
