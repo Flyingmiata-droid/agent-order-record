@@ -231,8 +231,18 @@
         "disputes": {
           "code": "SILENT",
           "note": "",
-          "detail": "Disputes: silent on every page read. UCP PAN_ONLY: \"Liability shift is not available.\"",
-          "sources": []
+          "detail": "Disputes: silent. Disputes API v30 (OpenAPI spec, every field listed) and the dispute notifications page were read 2026-11-22: no agent field. Fields include disputePspReference, defenseReasonCode, defenseDocumentTypeCode; webhook additionalData has chargebackReasonCode and disputeStatus. https://docs.adyen.com/risk-management/disputes-api/disputes-api-reference , https://docs.adyen.com/risk-management/disputes-api/dispute-notifications , https://raw.githubusercontent.com/Adyen/adyen-openapi/main/json/DisputeService-v30.json . UCP PAN_ONLY: \"Liability shift is not available.\"",
+          "sources": [
+            {
+              "url": "https://docs.adyen.com/risk-management/disputes-api/disputes-api-reference"
+            },
+            {
+              "url": "https://docs.adyen.com/risk-management/disputes-api/dispute-notifications"
+            },
+            {
+              "url": "https://raw.githubusercontent.com/Adyen/adyen-openapi/main/json/DisputeService-v30.json"
+            }
+          ]
         },
         "risk_rules": {
           "code": "SILENT",
@@ -305,8 +315,12 @@
         "disputes": {
           "code": "ASK",
           "note": "",
-          "detail": "Disputes: disputes doc did not load; ACP pages say nothing. ASK.",
-          "sources": []
+          "detail": "Disputes: disputes doc did not load; ACP pages say nothing. ASK. Re-tried 2026-11-22: https://docs.worldpay.com/apis/disputes and /apis/globaldisputes load as a shell with no fields, the spec files return 403.",
+          "sources": [
+            {
+              "url": "https://docs.worldpay.com/apis/disputes"
+            }
+          ]
         },
         "risk_rules": {
           "code": "SILENT",
@@ -371,8 +385,11 @@
         "disputes": {
           "code": "SILENT",
           "note": "(blog only)",
-          "detail": "Disputes: blog only, \"Checkout.com can provide issuers with the original consent record,\" https://www.checkout.com/blog/how-checkout-is-thinking-about-agentic-commerce (2025-09-02). Nothing in docs.",
+          "detail": "Disputes: silent. The API spec (v1.0.0) was read 2026-11-22: none of its 26 dispute and evidence schemas has an agent field. Dispute carries reason_code, evidence_required_by, is_ce_candidate and payment (acquirer_reference_number, eci). https://api-reference.checkout.com/v1/swagger.json . Blog: \"Checkout.com can provide issuers with the original consent record,\" https://www.checkout.com/blog/how-checkout-is-thinking-about-agentic-commerce (2025-09-02).",
           "sources": [
+            {
+              "url": "https://api-reference.checkout.com/v1/swagger.json"
+            },
             {
               "url": "https://www.checkout.com/blog/how-checkout-is-thinking-about-agentic-commerce",
               "page_date": "2025-09-02"
@@ -456,8 +473,11 @@
         "disputes": {
           "code": "SILENT",
           "note": "",
-          "detail": "Disputes: Supplemental Terms (last updated 2026-10-06, read 2026-11-17) still silent on chargebacks; \"You remain the seller of record,\" https://www.shopify.com/legal/terms-agentic-storefronts (the old address now returns 404).",
+          "detail": "Disputes: ShopifyPaymentsDispute and ShopifyPaymentsDisputeEvidence (Admin GraphQL 2026-10) were read 2026-11-22: no agent field. Dispute has evidenceDueBy, reasonDetails, type, order; evidence has 24 fields such as accessActivityLog and customerPurchaseIp. https://shopify.dev/docs/api/admin-graphql/latest/objects/ShopifyPaymentsDispute . Supplemental Terms (last updated 2026-10-06, read 2026-11-17) still silent on chargebacks; \"You remain the seller of record,\" https://www.shopify.com/legal/terms-agentic-storefronts (the old address now returns 404).",
           "sources": [
+            {
+              "url": "https://shopify.dev/docs/api/admin-graphql/latest/objects/ShopifyPaymentsDispute"
+            },
             {
               "url": "https://www.shopify.com/legal/terms-agentic-storefronts"
             }
@@ -531,25 +551,29 @@
         "disputes": {
           "code": "SILENT",
           "note": "",
-          "detail": "Disputes, risk rules, token scope, refunds: silent. \"Agentic orders are routed through the same Square systems as any online order.\"",
-          "sources": []
+          "detail": "Disputes: silent. The Dispute object was read 2026-11-22, all 16 fields (id, reason, state, due_at, disputed_payment, card_brand, brand_dispute_id and others): no agent field. https://developer.squareup.com/reference/square/objects/Dispute",
+          "sources": [
+            {
+              "url": "https://developer.squareup.com/reference/square/objects/Dispute"
+            }
+          ]
         },
         "risk_rules": {
           "code": "SILENT",
           "note": "",
-          "detail": "Disputes, risk rules, token scope, refunds: silent. \"Agentic orders are routed through the same Square systems as any online order.\"",
+          "detail": "Risk rules, token scope, refunds: silent. \"Agentic orders are routed through the same Square systems as any online order.\"",
           "sources": []
         },
         "token_scope": {
           "code": "SILENT",
           "note": "",
-          "detail": "Disputes, risk rules, token scope, refunds: silent. \"Agentic orders are routed through the same Square systems as any online order.\"",
+          "detail": "Risk rules, token scope, refunds: silent. \"Agentic orders are routed through the same Square systems as any online order.\"",
           "sources": []
         },
         "refunds": {
           "code": "SILENT",
           "note": "",
-          "detail": "Disputes, risk rules, token scope, refunds: silent. \"Agentic orders are routed through the same Square systems as any online order.\"",
+          "detail": "Risk rules, token scope, refunds: silent. \"Agentic orders are routed through the same Square systems as any online order.\"",
           "sources": []
         }
       },
@@ -649,31 +673,35 @@
         "reporting": {
           "code": "SILENT",
           "note": "",
-          "detail": "Reporting, disputes (only an undefined products[].policies.disputePolicy), risk rules (agent side mandates[].declineThreshold only), token scope, refunds: silent.",
+          "detail": "Reporting, risk rules (agent side mandates[].declineThreshold only), token scope, refunds: silent.",
           "sources": []
         },
         "disputes": {
           "code": "SILENT",
           "note": "",
-          "detail": "Reporting, disputes (only an undefined products[].policies.disputePolicy), risk rules (agent side mandates[].declineThreshold only), token scope, refunds: silent.",
-          "sources": []
+          "detail": "Disputes: silent, from reports only. No public dispute API object was found; the agent side has only an undefined products[].policies.disputePolicy. The Chargeback and Retrieval report fields were read 2026-11-22 (CaseIdentifier, ChargebackReasonCode, RespondByDate, NatureOfDispute): no agent field. https://developer.cybersource.com/library/documentation/dev_guides/reporting_and_reconciliation/Reporting_User/html/oxy_ex-1/topics/c_Fields_in_the_Chargeback_Report.html",
+          "sources": [
+            {
+              "url": "https://developer.cybersource.com/library/documentation/dev_guides/reporting_and_reconciliation/Reporting_User/html/oxy_ex-1/topics/c_Fields_in_the_Chargeback_Report.html"
+            }
+          ]
         },
         "risk_rules": {
           "code": "SILENT",
           "note": "",
-          "detail": "Reporting, disputes (only an undefined products[].policies.disputePolicy), risk rules (agent side mandates[].declineThreshold only), token scope, refunds: silent.",
+          "detail": "Reporting, risk rules (agent side mandates[].declineThreshold only), token scope, refunds: silent.",
           "sources": []
         },
         "token_scope": {
           "code": "SILENT",
           "note": "",
-          "detail": "Reporting, disputes (only an undefined products[].policies.disputePolicy), risk rules (agent side mandates[].declineThreshold only), token scope, refunds: silent.",
+          "detail": "Reporting, risk rules (agent side mandates[].declineThreshold only), token scope, refunds: silent.",
           "sources": []
         },
         "refunds": {
           "code": "SILENT",
           "note": "",
-          "detail": "Reporting, disputes (only an undefined products[].policies.disputePolicy), risk rules (agent side mandates[].declineThreshold only), token scope, refunds: silent.",
+          "detail": "Reporting, risk rules (agent side mandates[].declineThreshold only), token scope, refunds: silent.",
           "sources": []
         }
       },
@@ -714,8 +742,12 @@
         "disputes": {
           "code": "SILENT",
           "note": "",
-          "detail": "",
-          "sources": []
+          "detail": "Disputes: silent. The dispute management doc was read 2026-11-22 (last modified 2026-09-03): the dispute object (id, verdict, transaction.arn, lastDisputeEvent.disputeReason, initiatedBy) and the representment request (notes, files) have no agent field. https://docs.nuvei.com/documentation/_temp_/dispute-management/",
+          "sources": [
+            {
+              "url": "https://docs.nuvei.com/documentation/_temp_/dispute-management/"
+            }
+          ]
         },
         "risk_rules": {
           "code": "ANN",
@@ -746,8 +778,15 @@
         "accepts": {
           "code": "ANN",
           "note": "(TAP, Agent Pay, early adopter program)",
-          "detail": "Accepts: announced. \"Fiserv will deploy Visa's Trusted Agent Protocol\" and Mastercard Agent Pay Acceptance Framework (Business Wire 2025-12-22). Sales sheet lists ACP, AP2, TAP, Agent Pay and an early adopter program. No live date.",
-          "sources": []
+          "detail": "Accepts: announced. Fiserv and Visa \"are working together to deploy Trusted Agent Protocol\" (Business Wire 2025-12-22, https://www.businesswire.com/news/home/20251222678227/en), and Fiserv takes up the Mastercard Agent Pay Acceptance Framework (Business Wire 2025-12-22, https://www.businesswire.com/news/home/20251222291522/en/). Sales sheet lists ACP, AP2, TAP, Agent Pay and an early adopter program. No live date.",
+          "sources": [
+            {
+              "url": "https://www.businesswire.com/news/home/20251222678227/en"
+            },
+            {
+              "url": "https://www.businesswire.com/news/home/20251222291522/en/"
+            }
+          ]
         },
         "api_field": {
           "code": "ASK",
@@ -876,8 +915,13 @@
         "disputes": {
           "code": "SILENT",
           "note": "",
-          "detail": "",
-          "sources": []
+          "detail": "Disputes: silent. The chargeback webhook chargeback.batch.complete was read 2026-11-22: each item has id, date, customer_name, cc_number, amount, reason, and no agent field. https://docs.nmi.com/reference/chargeback-events (modified 2026-10-15)",
+          "sources": [
+            {
+              "url": "https://docs.nmi.com/reference/chargeback-events",
+              "page_date": "2026-10-15"
+            }
+          ]
         },
         "risk_rules": {
           "code": "SILENT",
@@ -997,8 +1041,12 @@
         "disputes": {
           "code": "SILENT",
           "note": "",
-          "detail": "",
-          "sources": []
+          "detail": "Disputes: silent, partly read. Dispute Management API v2: the dispute transaction page (acquirerReferenceNumber, posEntryMode, token, gatewayDetail) and the response page (disputePhaseName, documents, responseNote) were read 2026-11-22, no agent field. The get dispute page shows no response body, so the dispute object itself was not read. https://developer.elavon.com/readmes/get-service-dispute-management-v2-disputes-disputeid-transaction.md",
+          "sources": [
+            {
+              "url": "https://developer.elavon.com/readmes/get-service-dispute-management-v2-disputes-disputeid-transaction.md"
+            }
+          ]
         },
         "risk_rules": {
           "code": "SILENT",
@@ -1051,8 +1099,12 @@
         "disputes": {
           "code": "SILENT",
           "note": "",
-          "detail": "",
-          "sources": []
+          "detail": "Disputes: no dispute object in the API. The devdocs index (2026-11-22) has no dispute or chargeback page and webhooks are cardTransaction and terminalCancel only; chargebacks are a dashboard help topic. https://devdocs.helcim.com/docs/webhooks.md",
+          "sources": [
+            {
+              "url": "https://devdocs.helcim.com/docs/webhooks.md"
+            }
+          ]
         },
         "risk_rules": {
           "code": "SILENT",

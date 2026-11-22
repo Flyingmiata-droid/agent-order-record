@@ -38,7 +38,7 @@ Cell codes: YES = documented, field or sentence quoted below. PART = documented 
 
 ## What the card says
 
-Nobody passes the agent signal to the dispute. Twenty-five rows, 22 with a dispute object read: none has an agent field on the dispute object, the chargeback notice or the evidence form. Stripe's Dispute object, Braintree's Dispute object and PayPal's Customer Disputes schema were each read field by field: no agent field. On 2026-11-21 the Fiserv and Global Payments dispute APIs were read field by field too, with the same result, and Authorize.net turned out to have no dispute product of its own. Worldpay's dispute docs could not be read (ASK), so of the first 16 that is 15 checked and 1 unknown. Of the nine rows added 2026-11-21, seven have a dispute, chargeback or claim object that was read (Airwallex, Getnet, Worldline, Spreedly, Moneris, dLocal, Antom) and none has an agent field. VGS has no dispute object, and Basis Theory says disputes happen on rails it is not part of. That is the gap this repo works on.
+No row shows the agent signal reaching the dispute. Twenty-five rows. For 18 of them a dispute, chargeback or claim object was read field by field, and none has an agent field on the dispute object, the chargeback notice or the evidence form: Stripe's Dispute object, Braintree's Dispute object, PayPal's Customer Disputes schema, the Fiserv and Global Payments dispute APIs (read 2026-11-21), Adyen, Square, Nuvei, NMI, Checkout.com and Shopify Payments (read 2026-11-22), and seven of the nine rows added 2026-11-21 (Airwallex, Getnet, Worldline, Spreedly, Moneris, dLocal, Antom). Cybersource was read from its chargeback report fields only and Elavon in part, both with no agent field. Authorize.net and Helcim have no dispute object in their APIs. Worldpay's dispute docs could not be read (ASK). VGS has no dispute object, and Basis Theory says disputes happen on rails it is not part of. That is the gap this repo works on.
 
 Four rows give the merchant a named field, and only two of them name the agent. Stripe (PaymentIntent.agent_details, private preview) and Braintree (transaction.facilitator_details, response only). Both also tag it in the dashboard. Airwallex marks the payment attempt as agentic (agentic_payment_data) and names no agent. Getnet returns agentic_protocol on its agent checkout call, in a preview its own docs call sandbox only. VGS, coded PART and not one of the four, flags a stored card as an agent token (beta), which marks the card and not the order. Everything else is a request side hint the merchant has to store itself (Adyen shoppingPlatform, Worldpay paymentInstrument.type delegate) or a channel label with no documented value (Shopify, Square).
 
@@ -114,7 +114,7 @@ API field: Agentic Cart API shoppingPlatform ("Agent platform identifier, for ex
 
 Reporting: AUTHORISATION webhook carries sessionId and shoppingPlatform in additionalData; additionalData.agentic.sessionId. https://docs.adyen.com/online-payments/agentic-commerce/merchant/agentic-cart-api-integration (Finalize session section, re-read 2026-11-21: the two keys are named in one sentence and no example webhook is printed). Customer Area and reports: silent.
 
-Disputes: silent on every page read. UCP PAN_ONLY: "Liability shift is not available."
+Disputes: silent. Disputes API v30 (OpenAPI spec, every field listed) and the dispute notifications page were read 2026-11-22: no agent field. Fields include disputePspReference, defenseReasonCode, defenseDocumentTypeCode; webhook additionalData has chargebackReasonCode and disputeStatus. https://docs.adyen.com/risk-management/disputes-api/disputes-api-reference , https://docs.adyen.com/risk-management/disputes-api/dispute-notifications , https://raw.githubusercontent.com/Adyen/adyen-openapi/main/json/DisputeService-v30.json . UCP PAN_ONLY: "Liability shift is not available."
 
 Risk rules: no Adyen agent field; merchant can pass its own additionalData.riskdata.<name> into custom rules, https://docs.adyen.com/risk-management/configure-manual-risk/configure-custom-risk-rules (moved, read 2026-11-17).
 
@@ -130,7 +130,7 @@ API field: request side, instruction.paymentInstrument.type "delegate" with sess
 
 Reporting: query payments page gives no field detail. Silent.
 
-Disputes: disputes doc did not load; ACP pages say nothing. ASK.
+Disputes: disputes doc did not load; ACP pages say nothing. ASK. Re-tried 2026-11-22: https://docs.worldpay.com/apis/disputes and /apis/globaldisputes load as a shell with no fields, the spec files return 403.
 
 Risk rules: fraud assessment page has no agent condition. Delegate flow: "3DS, SCA exemptions, and Worldpay token creation are not available."
 
@@ -146,7 +146,7 @@ API field: token arrives with provider "checkout", managed_by "agentic_platform_
 
 Reporting, risk rules (https://www.checkout.com/docs/business-operations/prevent-fraud/create-risk-rules-and-lists, 2026-05-13), token scope, refunds: silent.
 
-Disputes: blog only, "Checkout.com can provide issuers with the original consent record," https://www.checkout.com/blog/how-checkout-is-thinking-about-agentic-commerce (2025-09-02). Nothing in docs.
+Disputes: silent. The API spec (v1.0.0) was read 2026-11-22: none of its 26 dispute and evidence schemas has an agent field. Dispute carries reason_code, evidence_required_by, is_ce_candidate and payment (acquirer_reference_number, eci). https://api-reference.checkout.com/v1/swagger.json . Blog: "Checkout.com can provide issuers with the original consent record," https://www.checkout.com/blog/how-checkout-is-thinking-about-agentic-commerce (2025-09-02).
 
 ### Shopify Payments
 
@@ -156,7 +156,7 @@ API field: "Orders from AI channels display in your Shopify admin with channel o
 
 Reporting: Agentic Storefronts admin page, https://shopify.dev/changelog/a-new-home-for-agentic-storefronts-in-your-admin (2026-05-11).
 
-Disputes: Supplemental Terms (last updated 2026-10-06, read 2026-11-17) still silent on chargebacks; "You remain the seller of record," https://www.shopify.com/legal/terms-agentic-storefronts (the old address now returns 404).
+Disputes: ShopifyPaymentsDispute and ShopifyPaymentsDisputeEvidence (Admin GraphQL 2026-10) were read 2026-11-22: no agent field. Dispute has evidenceDueBy, reasonDetails, type, order; evidence has 24 fields such as accessActivityLog and customerPurchaseIp. https://shopify.dev/docs/api/admin-graphql/latest/objects/ShopifyPaymentsDispute . Supplemental Terms (last updated 2026-10-06, read 2026-11-17) still silent on chargebacks; "You remain the seller of record," https://www.shopify.com/legal/terms-agentic-storefronts (the old address now returns 404).
 
 Risk rules: silent.
 
@@ -172,7 +172,9 @@ API field: OrderSource.name only, no agent value documented, https://developer.s
 
 Reporting: "The source of the order is visible in Square's reporting" (press 2026-07-01); orders "tagged by source," Dashboard > Online Channels > AI assistants, https://squareup.com/us/en/ai/agentic-commerce.
 
-Disputes, risk rules, token scope, refunds: silent. "Agentic orders are routed through the same Square systems as any online order."
+Disputes: silent. The Dispute object was read 2026-11-22, all 16 fields (id, reason, state, due_at, disputed_payment, card_brand, brand_dispute_id and others): no agent field. https://developer.squareup.com/reference/square/objects/Dispute
+
+Risk rules, token scope, refunds: silent. "Agentic orders are routed through the same Square systems as any online order."
 
 ### PayPal (wallet and Orders v2, not Braintree)
 
@@ -194,7 +196,9 @@ Accepts: Intelligent Commerce REST guide, pilot (revision 25.09.01). Agent side 
 
 API field: nearest are assuranceData[].verificationType and paymentOptions.dynamicDataType ("TAVV"). No agent identity field. Payments API field index and release notes 2026-07-02 to 2026-08-28: no agent field.
 
-Reporting, disputes (only an undefined products[].policies.disputePolicy), risk rules (agent side mandates[].declineThreshold only), token scope, refunds: silent.
+Reporting, risk rules (agent side mandates[].declineThreshold only), token scope, refunds: silent.
+
+Disputes: silent, from reports only. No public dispute API object was found; the agent side has only an undefined products[].policies.disputePolicy. The Chargeback and Retrieval report fields were read 2026-11-22 (CaseIdentifier, ChargebackReasonCode, RespondByDate, NatureOfDispute): no agent field. https://developer.cybersource.com/library/documentation/dev_guides/reporting_and_reconciliation/Reporting_User/html/oxy_ex-1/topics/c_Fields_in_the_Chargeback_Report.html
 
 ### Nuvei
 
@@ -204,9 +208,11 @@ API field: REST reference and release notes through 26.S10 (2026-10-13) have no 
 
 Risk rules: "the KYA registry and agent risk scoring" announced for H2 2026. Everything else silent.
 
+Disputes: silent. The dispute management doc was read 2026-11-22 (last modified 2026-09-03): the dispute object (id, verdict, transaction.arn, lastDisputeEvent.disputeReason, initiatedBy) and the representment request (notes, files) have no agent field. https://docs.nuvei.com/documentation/_temp_/dispute-management/
+
 ### Fiserv (Commerce Hub, Clover, CardPointe)
 
-Accepts: announced. "Fiserv will deploy Visa's Trusted Agent Protocol" and Mastercard Agent Pay Acceptance Framework (Business Wire 2025-12-22). Sales sheet lists ACP, AP2, TAP, Agent Pay and an early adopter program. No live date.
+Accepts: announced. Fiserv and Visa "are working together to deploy Trusted Agent Protocol" (Business Wire 2025-12-22, https://www.businesswire.com/news/home/20251222678227/en), and Fiserv takes up the Mastercard Agent Pay Acceptance Framework (Business Wire 2025-12-22, https://www.businesswire.com/news/home/20251222291522/en/). Sales sheet lists ACP, AP2, TAP, Agent Pay and an early adopter program. No live date.
 
 API field: developer.fiserv.com and developer.cardpointe.com searches found nothing; Commerce Hub docs did not render. ASK.
 
@@ -226,6 +232,8 @@ Disputes: GP API dispute object and challenge documents read 2026-11-21, no agen
 
 No doc says NMI accepts agent placed orders or names a protocol. Blogs only: https://www.nmi.com/blog/human-not-present-agentic-commerce-network-tokens-and-payments/ (2026-07-15), https://www.nmi.com/blog/prediction-network-tokens-will-take-center-stage-while-agentic-commerce-tests-the-industry/ (2026-07-14). The only agent named item is the optional NMI_AGENT_ID variable on NMI's own MCP server ("Fixed name for the calling assistant"), https://docs.nmi.com/docs/mcp-api (undated, read 2026-11-17). All seven cells silent. NMI is the gateway that published the five questions every merchant should ask on its own blog (2026-09-28, link not pinned here); it has not answered them for itself.
 
+Disputes: silent. The chargeback webhook chargeback.batch.complete was read 2026-11-22: each item has id, date, customer_name, cc_number, amount, reason, and no agent field. https://docs.nmi.com/reference/chargeback-events (modified 2026-10-15)
+
 ### Authorize.net (Visa)
 
 No page says it accepts agent placed orders. API reference has no agent field (nearest: authorizationIndicator, deprecated authenticationIndicator), https://developer.authorize.net/api/reference/index.html. API change log last entry 2019-09-03. Visa's 2026-04-08 Intelligent Commerce Connect release does not name Authorize.net.
@@ -236,9 +244,13 @@ Disputes: "Authorize.net does not handle credit card chargebacks"; the merchant 
 
 No announcement in 30 company news items (2022 to 2026-09-29). Elavon Payment Gateway OpenAPI spec (version 2026-07-21): zero hits for agentic, Agent Pay, Intelligent Commerce, Trusted Agent; credential on file enums are subscription, unscheduledCardholderInitiated, unscheduledMerchantInitiated. https://developer.elavon.com/products/elavon-payment-gateway/v1/api-reference.
 
+Disputes: silent, partly read. Dispute Management API v2: the dispute transaction page (acquirerReferenceNumber, posEntryMode, token, gatewayDetail) and the response page (disputePhaseName, documents, responseNote) were read 2026-11-22, no agent field. The get dispute page shows no response body, so the dispute object itself was not read. https://developer.elavon.com/readmes/get-service-dispute-management-v2-disputes-disputeid-transaction.md
+
 ### Helcim
 
 No announcement (2025 and 2026 list, latest 2026-09-08). 150 devdocs pages read; purchase endpoint (updated 2026-04-20) has no agent, channel or initiator field, https://devdocs.helcim.com/reference/purchase. Changelog latest 2026-07-30.
+
+Disputes: no dispute object in the API. The devdocs index (2026-11-22) has no dispute or chargeback page and webhooks are cardTransaction and terminalCancel only; chargebacks are a dashboard help topic. https://devdocs.helcim.com/docs/webhooks.md
 
 ### Airwallex
 

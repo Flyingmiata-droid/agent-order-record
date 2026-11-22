@@ -91,7 +91,7 @@ Stripe is the one YES in the network column. Its shared payment token page says 
 
 The networks don't define a flag either. Visa's Trusted Agent Protocol and Mastercard's Web Bot Auth sign the agent's web requests to the merchant's site; their specs say nothing about the authorization message. Visa Intelligent Commerce and Mastercard Agent Pay carry the agent inside the token. EMVCo's draft agentic framework from September 2026 lists "Agentic Transaction Indicators" as later work. None of the network docs read adds a dispute reason code for agent orders.
 
-Even Stripe's signal is gone by the dispute. When a shared payment token payment is confirmed, Stripe clones the card's payment method, and its docs say refunds and reporting then behave as if the merchant had supplied that payment method directly. The Dispute object has no agent field. Across all 16, 15 were checked for an agent field in disputes, and none has one. Authorize.net has no dispute product of its own: its support page says it does not handle card chargebacks and sends the merchant to its processor. Worldpay's dispute docs could not be read. One fraud rule engine reads an agent signal, Stripe Radar's is_agent_initiated, and that is Stripe's own detection, which does not reach the dispute either.
+Even Stripe's signal is gone by the dispute. When a shared payment token payment is confirmed, Stripe clones the card's payment method, and its docs say refunds and reporting then behave as if the merchant had supplied that payment method directly. The Dispute object has no agent field. Of the first 16, the dispute objects of 11 were read field by field (Stripe, Braintree, PayPal, Fiserv, Global Payments, Adyen, Square, Nuvei, NMI, Checkout.com, Shopify Payments), and none has an agent field. Cybersource was read from its chargeback reports and Elavon in part, also with none. Authorize.net has no dispute product of its own: its support page says it does not handle card chargebacks and sends the merchant to its processor. Worldpay's dispute docs could not be read. One fraud rule engine reads an agent signal, Stripe Radar's is_agent_initiated, and that is Stripe's own detection, which does not reach the dispute either.
 
 Nine rows were added on 2026-11-21 for firms named in Visa's Agentic Ready release, and they do not change that. Airwallex marks the payment attempt as agentic and names no agent. Getnet returns agentic_protocol in a sandbox only preview. Seven of the nine have a dispute or chargeback object and none carries an agent field. SCORECARD.md also sets what Visa's release says about each named firm next to what that firm's own docs show.
 
@@ -108,7 +108,8 @@ Network column sources:
 - Checkout.com: https://www.checkout.com/agentic-commerce
 - PayPal: https://www.mastercard.com/us/en/news-and-trends/press/2025/october/Mastercard-and-PayPal-join-forces.html
 - Nuvei: https://www.nuvei.com/posts/nuvei-completes-first-party-in-agent-payment-with-visa-unveils-merchant-led-agentic-payments-strategy
-- Fiserv: https://www.businesswire.com/news/home/20251222291522/en/
+- Fiserv (Mastercard): https://www.businesswire.com/news/home/20251222291522/en/
+- Fiserv (Visa): https://www.businesswire.com/news/home/20251222678227/en
 - Visa Trusted Agent Protocol: https://developer.visa.com/docs/trusted-agent-protocol/trusted-agent-protocol-specifications
 - Visa Intelligent Commerce: https://developer.visa.com/docs/visa-intelligent-commerce/concepts
 - Mastercard Agent Pay Acceptance Framework: https://www.mastercard.com/us/en/news-and-trends/stories/2025/agentic-commerce-framework.html
