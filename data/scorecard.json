@@ -616,10 +616,13 @@
         "disputes": {
           "code": "SILENT",
           "note": "(protection covers agentic orders; no signal on the dispute)",
-          "detail": "Disputes: \"Seller and Purchase Protection, fraud tools, chargeback coverage, and identity services now extend to agentic transactions,\" https://paypal.ai/agent-ready. Footnote limits Seller Protection to unauthorized and item not received. Nothing on the indicator reaching the dispute.",
+          "detail": "Disputes: \"Seller and Purchase Protection, fraud tools, chargeback coverage, and identity services now extend to agentic transactions,\" https://paypal.ai/agent-ready. Footnote limits Seller Protection to unauthorized and item not received. Nothing on the indicator reaching the dispute. The Disputes v1 dispute_info object was read 2026-11-22, 13 top properties (dispute_id, reason, status, dispute_state, dispute_amount, dispute_life_cycle_stage, dispute_channel and others): no agent field. https://developer.paypal.com/api/customer-disputes/v1/definitions/dispute_info",
           "sources": [
             {
               "url": "https://paypal.ai/agent-ready"
+            },
+            {
+              "url": "https://developer.paypal.com/api/customer-disputes/v1/definitions/dispute_info"
             }
           ]
         },

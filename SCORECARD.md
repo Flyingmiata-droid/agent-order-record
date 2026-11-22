@@ -184,7 +184,7 @@ API field: Orders v2 schema has no agentic or facilitator field; stored_credenti
 
 Reporting: Payments v2 and Customer Disputes v1 schemas have no agent field.
 
-Disputes: "Seller and Purchase Protection, fraud tools, chargeback coverage, and identity services now extend to agentic transactions," https://paypal.ai/agent-ready. Footnote limits Seller Protection to unauthorized and item not received. Nothing on the indicator reaching the dispute.
+Disputes: "Seller and Purchase Protection, fraud tools, chargeback coverage, and identity services now extend to agentic transactions," https://paypal.ai/agent-ready. Footnote limits Seller Protection to unauthorized and item not received. Nothing on the indicator reaching the dispute. The Disputes v1 dispute_info object was read 2026-11-22, 13 top properties (dispute_id, reason, status, dispute_state, dispute_amount, dispute_life_cycle_stage, dispute_channel and others): no agent field. https://developer.paypal.com/api/customer-disputes/v1/definitions/dispute_info
 
 Merchant-set marker (added 2026-11-11, from a GitHub comment on paypal/agent-toolkit 113, checked against the schema): a merchant can put its own agent marker in purchase_units[].custom_id or a capture's invoice_id, and the Disputes v1 dispute object returns disputed_transactions[] as transaction_info with custom (free text, max 2000) and invoice_number (max 127, pattern A-Z a-z 0-9 : - |). Neither field is listed as required, so the schema does not promise they come back. https://developer.paypal.com/api/customer-disputes/v1/schema.json (read 2026-11-11). This is a merchant workaround, not a PayPal agent field, so the SILENT cells stand.
 
