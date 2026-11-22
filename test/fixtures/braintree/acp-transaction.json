@@ -1,0 +1,15 @@
+{
+  "id": "bt9x4k2m",
+  "status": "submitted_for_settlement",
+  "amount": "129.00",
+  "currency_iso_code": "USD",
+  "merchant_account_id": "example_usd",
+  "order_id": "order-10441",
+  "created_at": "2026-11-20T15:04:05Z",
+  "payment_instrument_type": "credit_card",
+  "network_transaction_id": "020260112345678",
+  "facilitator_details": {
+    "oauth_application_client_id": "oauth_client_abc123",
+    "oauth_application_name": "ChatGPT"
+  }
+}

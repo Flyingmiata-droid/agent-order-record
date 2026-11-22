@@ -4,7 +4,7 @@
 import { readFileSync } from 'node:fs';
 import { COLUMNS } from '../src/scorecard.ts';
 import { serve } from '../src/mcp.ts';
-import { BadInput, ce3, findGateways, getGateway, listGateways, stripeEvidence, verifyAepChain } from '../src/tools.ts';
+import { BadInput, braintreeRead, ce3, findGateways, getGateway, listGateways, stripeEvidence, verifyAepChain } from '../src/tools.ts';
 
 const HELP = `agent-order-record, prototype. Read only: nothing is sent anywhere.
 
@@ -14,6 +14,7 @@ const HELP = `agent-order-record, prototype. Read only: nothing is sent anywhere
   node bin/aor.ts verify <file.json>           check an AEP artifact chain (vector file or DisputeBundle)
   node bin/aor.ts stripe-evidence <bundle.json> [--raw raw.json] [--key base64] [--no-reverify]
   node bin/aor.ts ce3 <input.json>             Visa CE 3.0 check
+  node bin/aor.ts braintree <transaction.json> read facilitator_details off a Braintree transaction
   node bin/aor.ts mcp                          MCP server on stdin and stdout
 
 Columns: ${COLUMNS.join(', ')}
@@ -79,6 +80,11 @@ function main(argv: string[]): number {
       const out = ce3({ input: readJson(rest[0]) });
       print(out);
       return out.qualifies ? 0 : 1;
+    }
+    case 'braintree': {
+      const out = braintreeRead({ transaction: readJson(rest[0]) });
+      print(out);
+      return out.refused || out.marker !== 'present' ? 1 : 0;
     }
     case 'mcp': serve(); return -1;
     default: throw new BadInput('unknown command "' + cmd + '". Run: node bin/aor.ts help');

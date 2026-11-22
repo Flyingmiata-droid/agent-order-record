@@ -3,6 +3,7 @@
 import { readFileSync } from 'node:fs';
 import type { ArtifactRecord, DisputeBundle } from './aep.ts';
 import { verifyChain } from './aep.ts';
+import { readBraintreeTransaction, ReadRefused } from './braintree.ts';
 import type { Ce3Input } from './ce3.ts';
 import { checkCe3 } from './ce3.ts';
 import type { Code, Column, Gateway, Scorecard } from './scorecard.ts';
@@ -120,4 +121,16 @@ export function ce3(args: { input?: unknown }) {
   try {
     return { ...checkCe3(i as unknown as Ce3Input), note: 'Device and IP values count only when they belong to the cardholder. That is this repo\'s reading, not a Visa or Stripe rule.' };
   } catch (e) { throw new BadInput('could not read the input: ' + (e as Error).message); }
+}
+
+// Takes a Braintree transaction (or a result that holds one under "transaction")
+// and says whether it carries the third party marker, and what to keep.
+export function braintreeRead(args: { transaction?: unknown }) {
+  if (!isRecord(args.transaction)) throw new BadInput('transaction must be a Braintree transaction object, as your own API call returned it');
+  try {
+    return { refused: false as const, ...readBraintreeTransaction(args.transaction), note: 'Prototype. Nothing was sent to Braintree. Field names were read from Braintree\'s pages on the date shown; the reader has not been run on a live agent order.' };
+  } catch (e) {
+    if (e instanceof ReadRefused) return { refused: true as const, reason: e.message };
+    throw new BadInput('could not read the transaction: ' + (e as Error).message);
+  }
 }

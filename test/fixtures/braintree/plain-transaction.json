@@ -1,0 +1,10 @@
+{
+  "id": "bt7h3q9z",
+  "status": "settled",
+  "amount": "42.50",
+  "currency_iso_code": "USD",
+  "merchant_account_id": "example_usd",
+  "order_id": "order-10442",
+  "created_at": "2026-11-20T16:10:00Z",
+  "payment_instrument_type": "credit_card"
+}
