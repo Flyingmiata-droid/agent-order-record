@@ -590,8 +590,8 @@
           "sources": []
         },
         "disputes": {
-          "code": "PART",
-          "note": "(Seller Protection sentence)",
+          "code": "SILENT",
+          "note": "(protection covers agentic orders; no signal on the dispute)",
           "detail": "Disputes: \"Seller and Purchase Protection, fraud tools, chargeback coverage, and identity services now extend to agentic transactions,\" https://paypal.ai/agent-ready. Footnote limits Seller Protection to unauthorized and item not received. Nothing on the indicator reaching the dispute.",
           "sources": [
             {

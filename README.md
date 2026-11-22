@@ -4,7 +4,7 @@ Mostly nothing a card dispute form can take. The evidence formats for agent orde
 
 It does not define a new evidence format. It reads an AEP DisputeBundle.
 
-This is a prototype. It has not been run against a Stripe account, live or test. Nothing here sends, submits or decides a dispute.
+This is a prototype. It has run against a Stripe sandbox account (six payment flows captured 2026-11-21), never a live one. Nothing here sends, submits or decides a dispute.
 
 ## What this is not
 
@@ -75,7 +75,7 @@ When an AI agent places a card order, the fact that an agent did it can live in 
 | Checkout.com | YES | SILENT | ANN (marketing page only) | SILENT |
 | Shopify Payments | YES | SILENT | SILENT | SILENT |
 | Square | YES | SILENT | SILENT | SILENT |
-| PayPal (wallet) | YES | SILENT | ANN (Mastercard Agent Pay pilot) | PART |
+| PayPal (wallet) | YES | SILENT | ANN (Mastercard Agent Pay pilot) | SILENT |
 | Cybersource (Visa) | YES (pilot) | SILENT | PART (pilot, token and cryptogram only) | SILENT |
 | Nuvei | ANN | SILENT | ANN | SILENT |
 | Fiserv | ANN | ASK | ANN | SILENT |
@@ -126,7 +126,7 @@ If a cell is wrong or out of date, open an issue with the link and the date you 
 
 No PDF output. The three file fields come out as text and you make the PDF.
 
-No call to Stripe.
+The evidence renderer makes no call to Stripe. scripts/ucp-capture.ts reads test mode events from a Stripe sandbox, nothing live.
 
 The Stripe renderer does not fill the Visa CE 3.0 block yet. The check exists, but the renderer does not call it.
 
@@ -144,9 +144,9 @@ AEP Appendix C gives one text limit for Stripe, about 150,000 characters combine
 
 Every scorecard cell comes from a vendor's own docs, API reference, changelog, terms or press release. A SILENT cell means the pages named say nothing. It does not mean the vendor has nothing.
 
-The first pass over the rows was done with AI help, and so was much of the code. The tests are the claim: 98 of them, run against AEP's conformance vectors and Stripe's published field list. The UCP order receipts were also run through a verifier this repo did not write; see conformance/ucp-order-receipts.
+The first pass over the rows was done with AI help, and so was much of the code. The tests are the claim: 101 of them (98 run, 3 skipped where the sandbox refused the flow), against AEP's conformance vectors, Stripe's published field list, the CE 3.0 rules, UCP receipts, the gateway readers and the scorecard data. The UCP order receipts were also run through a verifier this repo did not write; see conformance/ucp-order-receipts.
 
-The scorecard is a month old outside Stripe and Braintree. A re-check on 2026-11-14 flagged about a third of the source pages as changed since the 2026-11-09 snapshot, and a few as unreachable. The count moves from run to run because some sites rate limit. Those cells have not been re-read yet.
+The first 16 rows were read 2026-10-15, with later re-reads dated in each cell; the nine rows added 2026-11-21 are current. A re-check on 2026-11-14 flagged about a third of the source pages as changed since the 2026-11-09 snapshot, and a few as unreachable. The count moves from run to run because some sites rate limit. Those cells have not been re-read yet.
 
 No data from any employer or customer is in here. Test values are made up or come from the public vectors.
 
