@@ -5,10 +5,11 @@ import { execFileSync, spawnSync } from 'node:child_process';
 import { readStripePaymentIntent, STRIPE_READER_SOURCES, StripeReadRefused } from '../src/stripe-reader.ts';
 import { handle, TOOLS } from '../src/mcp.ts';
 import { loadScorecard } from '../src/tools.ts';
+import { fileURLToPath } from 'node:url';
 
-const path = (name: string) => new URL('./fixtures/stripe-intents/' + name, import.meta.url).pathname;
+const path = (name: string) => fileURLToPath(new URL('./fixtures/stripe-intents/' + name, import.meta.url));
 const fx = (name: string) => JSON.parse(readFileSync(path(name), 'utf8'));
-const bin = new URL('../bin/aor.ts', import.meta.url).pathname;
+const bin = fileURLToPath(new URL('../bin/aor.ts', import.meta.url));
 
 test('stripe reader: a PaymentIntent with agent_details reads as marker present', () => {
   const r = readStripePaymentIntent(fx('agent-payment-intent.json'));

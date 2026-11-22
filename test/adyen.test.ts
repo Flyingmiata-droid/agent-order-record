@@ -6,10 +6,11 @@ import { ADYEN_SOURCES, readAdyenObject } from '../src/adyen.ts';
 import { ReadRefused } from '../src/braintree.ts';
 import { handle, TOOLS } from '../src/mcp.ts';
 import { loadScorecard } from '../src/tools.ts';
+import { fileURLToPath } from 'node:url';
 
-const path = (name: string) => new URL('./fixtures/adyen/' + name, import.meta.url).pathname;
+const path = (name: string) => fileURLToPath(new URL('./fixtures/adyen/' + name, import.meta.url));
 const fx = (name: string) => JSON.parse(readFileSync(path(name), 'utf8'));
-const bin = new URL('../bin/aor.ts', import.meta.url).pathname;
+const bin = fileURLToPath(new URL('../bin/aor.ts', import.meta.url));
 
 test('adyen: an AUTHORISATION webhook reads as marker present, said by Adyen', () => {
   const r = readAdyenObject(fx('authorisation-webhook.json'));

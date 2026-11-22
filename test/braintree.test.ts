@@ -5,9 +5,10 @@ import { execFileSync, spawnSync } from 'node:child_process';
 import { BRAINTREE_SOURCES, ReadRefused, readBraintreeTransaction } from '../src/braintree.ts';
 import { handle, TOOLS } from '../src/mcp.ts';
 import { loadScorecard } from '../src/tools.ts';
+import { fileURLToPath } from 'node:url';
 
 const fx = (name: string) => JSON.parse(readFileSync(new URL('./fixtures/braintree/' + name, import.meta.url), 'utf8'));
-const bin = new URL('../bin/aor.ts', import.meta.url).pathname;
+const bin = fileURLToPath(new URL('../bin/aor.ts', import.meta.url));
 
 test('braintree: an ACP transaction reads as marker present with the application named', () => {
   const r = readBraintreeTransaction(fx('acp-transaction.json'));
@@ -81,9 +82,9 @@ test('braintree: the MCP tool and the command line give the same read', () => {
   assert.equal(r.result.isError, false);
   const viaMcp = JSON.parse(r.result.content[0].text);
   assert.equal(viaMcp.marker, 'present');
-  const viaCli = JSON.parse(execFileSync(process.execPath, [bin, 'braintree', new URL('./fixtures/braintree/acp-transaction.json', import.meta.url).pathname], { encoding: 'utf8' }));
+  const viaCli = JSON.parse(execFileSync(process.execPath, [bin, 'braintree', fileURLToPath(new URL('./fixtures/braintree/acp-transaction.json', import.meta.url))], { encoding: 'utf8' }));
   assert.deepEqual(viaCli, viaMcp);
-  const plain = spawnSync(process.execPath, [bin, 'braintree', new URL('./fixtures/braintree/plain-transaction.json', import.meta.url).pathname], { encoding: 'utf8' });
+  const plain = spawnSync(process.execPath, [bin, 'braintree', fileURLToPath(new URL('./fixtures/braintree/plain-transaction.json', import.meta.url))], { encoding: 'utf8' });
   assert.equal(plain.status, 1);
   const bad = handle({ jsonrpc: '2.0', id: 2, method: 'tools/call', params: { name: 'read_braintree_transaction', arguments: { transaction: 'x' } } }) as any;
   assert.equal(bad.result.isError, true);
