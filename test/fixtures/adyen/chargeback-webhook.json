@@ -1,0 +1,18 @@
+{
+  "live": "false",
+  "notificationItems": [
+    {
+      "NotificationRequestItem": {
+        "eventCode": "NOTIFICATION_OF_CHARGEBACK",
+        "success": "true",
+        "eventDate": "2026-12-18T09:30:00+00:00",
+        "merchantAccountCode": "ExampleShopUS",
+        "merchantReference": "order-10441",
+        "pspReference": "M7J3K2L9P4R6T8V2",
+        "originalReference": "QFQTPCQ8HXSKGK82",
+        "amount": { "value": 12900, "currency": "USD" },
+        "additionalData": { "chargebackReasonCode": "10.4" }
+      }
+    }
+  ]
+}

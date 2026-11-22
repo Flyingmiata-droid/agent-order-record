@@ -1,0 +1,8 @@
+{
+  "currency": "USD",
+  "shoppingPlatform": "openai",
+  "reference": "order-10441",
+  "lineItems": [
+    { "id": "sku-204", "quantity": 1 }
+  ]
+}

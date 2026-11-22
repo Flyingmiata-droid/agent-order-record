@@ -1,0 +1,22 @@
+{
+  "live": "false",
+  "notificationItems": [
+    {
+      "NotificationRequestItem": {
+        "eventCode": "AUTHORISATION",
+        "success": "true",
+        "eventDate": "2026-11-20T15:04:05+00:00",
+        "merchantAccountCode": "ExampleShopUS",
+        "merchantReference": "order-10441",
+        "pspReference": "QFQTPCQ8HXSKGK82",
+        "paymentMethod": "visa",
+        "amount": { "value": 12900, "currency": "USD" },
+        "additionalData": {
+          "cardSummary": "1111",
+          "sessionId": "sess_example_7f3a",
+          "shoppingPlatform": "openai"
+        }
+      }
+    }
+  ]
+}

@@ -4,6 +4,7 @@ import { readFileSync } from 'node:fs';
 import type { ArtifactRecord, DisputeBundle } from './aep.ts';
 import { verifyChain } from './aep.ts';
 import { readBraintreeTransaction, ReadRefused } from './braintree.ts';
+import { readAdyenObject } from './adyen.ts';
 import type { Ce3Input } from './ce3.ts';
 import { checkCe3 } from './ce3.ts';
 import type { Code, Column, Gateway, Scorecard } from './scorecard.ts';
@@ -144,6 +145,18 @@ export function stripeIntentRead(args: { object?: unknown }) {
     return { refused: false as const, ...readStripePaymentIntent(args.object), note: 'Prototype. Nothing was sent to Stripe. Field names were read from Stripe\'s preview API reference on the date shown; the reader has not been run on a live agent order.' };
   } catch (e) {
     if (e instanceof StripeReadRefused) return { refused: true as const, reason: e.message };
+    throw new BadInput('could not read the object: ' + (e as Error).message);
+  }
+}
+
+// Takes an Adyen webhook, an Agentic Cart API session request or the merchant's
+// own /payments request and says whether it names an agent platform, and who said so.
+export function adyenRead(args: { object?: unknown }) {
+  if (!isRecord(args.object)) throw new BadInput('object must be an Adyen webhook, a cart session request or your own /payments request');
+  try {
+    return { refused: false as const, ...readAdyenObject(args.object), note: 'Prototype. Nothing was sent to Adyen. Field names were read from Adyen\'s pages on the date shown; the reader has not been run on a live agent order.' };
+  } catch (e) {
+    if (e instanceof ReadRefused) return { refused: true as const, reason: e.message };
     throw new BadInput('could not read the object: ' + (e as Error).message);
   }
 }

@@ -3,7 +3,7 @@
 // line. No packages. Every tool is read only: nothing is sent or written.
 import { createInterface } from 'node:readline';
 import { CODES, COLUMNS } from './scorecard.ts';
-import { BadInput, braintreeRead, ce3, findGateways, getGateway, listGateways, stripeEvidence, stripeIntentRead, verifyAepChain } from './tools.ts';
+import { adyenRead, BadInput, braintreeRead, ce3, findGateways, getGateway, listGateways, stripeEvidence, stripeIntentRead, verifyAepChain } from './tools.ts';
 
 // Newest first. The server answers with the client's version when it is in
 // this list and with the newest one otherwise (MCP lifecycle, version negotiation).
@@ -82,6 +82,12 @@ export const TOOLS: Tool[] = [
     inputSchema: { type: 'object', required: ['object'], additionalProperties: false, properties: { object: { type: 'object', description: 'A PaymentIntent, a Checkout Session, or an event with one in data.object.' } } },
     run: (a) => stripeIntentRead(a),
   },
+  {
+    name: 'read_adyen_object', title: 'Read the agent marker off an Adyen webhook or request',
+    description: 'Takes an Adyen object the merchant already holds: an AUTHORISATION webhook (sessionId and shoppingPlatform in additionalData), an Agentic Cart API session request (shoppingPlatform), or the merchant\'s own /payments request (metadata.agentPlatform, agentSessionId, agentProtocol). Reports the platform named, whether Adyen or the merchant said it, and which fields to keep because Adyen documents no agent field for disputes. Prototype: it does not call Adyen.',
+    inputSchema: { type: 'object', required: ['object'], additionalProperties: false, properties: { object: { type: 'object', description: 'The webhook body or one notification item, the session request body, or the /payments request body.' } } },
+    run: (a) => adyenRead(a),
+  },
 ];
 
 const err = (id: unknown, code: number, message: string) => ({ jsonrpc: '2.0', id: id ?? null, error: { code, message } });
@@ -101,7 +107,7 @@ export function handle(msg: unknown): Json | null {
       const version = typeof asked === 'string' && PROTOCOL_VERSIONS.includes(asked) ? asked : PROTOCOL_VERSIONS[0];
       return ok(m.id, {
         protocolVersion: version, capabilities: { tools: { listChanged: false } }, serverInfo: SERVER_INFO,
-        instructions: 'Read only. Scorecard of what each payment gateway carries for card orders placed by AI agents, plus checks for AEP evidence chains, Stripe dispute fields and Visa CE 3.0, and readers for the marker on a Braintree transaction and a Stripe PaymentIntent. Prototype: cells are dated readings of vendor pages, so quote the source and date with any answer.',
+        instructions: 'Read only. Scorecard of what each payment gateway carries for card orders placed by AI agents, plus checks for AEP evidence chains, Stripe dispute fields and Visa CE 3.0, and readers for the agent marker on a Braintree transaction, a Stripe PaymentIntent, and Adyen webhooks and requests. Prototype: cells are dated readings of vendor pages, so quote the source and date with any answer.',
       });
     }
     case 'ping': return ok(m.id, {});

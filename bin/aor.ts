@@ -4,7 +4,7 @@
 import { readFileSync } from 'node:fs';
 import { COLUMNS } from '../src/scorecard.ts';
 import { serve } from '../src/mcp.ts';
-import { BadInput, braintreeRead, ce3, findGateways, getGateway, listGateways, stripeEvidence, stripeIntentRead, verifyAepChain } from '../src/tools.ts';
+import { adyenRead, BadInput, braintreeRead, ce3, findGateways, getGateway, listGateways, stripeEvidence, stripeIntentRead, verifyAepChain } from '../src/tools.ts';
 
 const HELP = `agent-order-record, prototype. Read only: nothing is sent anywhere.
 
@@ -16,6 +16,7 @@ const HELP = `agent-order-record, prototype. Read only: nothing is sent anywhere
   node bin/aor.ts ce3 <input.json>             Visa CE 3.0 check
   node bin/aor.ts braintree <transaction.json> read facilitator_details off a Braintree transaction
   node bin/aor.ts stripe-intent <object.json>  read agent_details off a Stripe PaymentIntent, session or event
+  node bin/aor.ts adyen <object.json>          read the agent marker off an Adyen webhook or request
   node bin/aor.ts mcp                          MCP server on stdin and stdout
 
 Columns: ${COLUMNS.join(', ')}
@@ -89,6 +90,11 @@ function main(argv: string[]): number {
     }
     case 'stripe-intent': {
       const out = stripeIntentRead({ object: readJson(rest[0]) });
+      print(out);
+      return out.refused || out.marker !== 'present' ? 1 : 0;
+    }
+    case 'adyen': {
+      const out = adyenRead({ object: readJson(rest[0]) });
       print(out);
       return out.refused || out.marker !== 'present' ? 1 : 0;
     }

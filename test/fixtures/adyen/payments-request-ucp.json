@@ -1,0 +1,11 @@
+{
+  "merchantAccount": "ExampleShopUS",
+  "reference": "order-10442",
+  "amount": { "value": 4500, "currency": "USD" },
+  "paymentMethod": { "type": "googlepay" },
+  "metadata": {
+    "agentProtocol": "UCP",
+    "agentSessionId": "ucp_session_example_19c",
+    "agentPlatform": "Google"
+  }
+}
