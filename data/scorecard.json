@@ -133,7 +133,7 @@
         "api_field": {
           "code": "YES",
           "note": "response only, facilitator_details",
-          "detail": "API field: transaction.facilitator_details.oauth_application_name (\"ChatGPT\") and oauth_application_client_id in the transaction response. https://developer.paypal.com/agent-ready/agentic-commerce-protocol (re-read by hand 2026-10-15). Reference: https://developer.paypal.com/braintree/docs/reference/response/transaction. UCP path: no agent field documented.",
+          "detail": "API field: transaction.facilitator_details.oauth_application_name (\"ChatGPT\") and oauth_application_client_id in the transaction response. https://developer.paypal.com/agent-ready/agentic-commerce-protocol (re-read by hand 2026-10-15). Reference: https://developer.paypal.com/braintree/docs/reference/response/transaction. The reference describes facilitator_details as third party payment information in general (it names the Grant API, Shared Vault and Google Pay) and does not mention AI agents, so the field is not agent specific and the application name is what says who ordered (read 2026-11-21). UCP path: no agent field documented.",
           "sources": [
             {
               "url": "https://developer.paypal.com/agent-ready/agentic-commerce-protocol"
@@ -221,8 +221,12 @@
         "reporting": {
           "code": "PART",
           "note": "webhooks only",
-          "detail": "Reporting: AUTHORISATION webhook carries sessionId and shoppingPlatform in additionalData; additionalData.agentic.sessionId. Customer Area and reports: silent.",
-          "sources": []
+          "detail": "Reporting: AUTHORISATION webhook carries sessionId and shoppingPlatform in additionalData; additionalData.agentic.sessionId. https://docs.adyen.com/online-payments/agentic-commerce/merchant/agentic-cart-api-integration (Finalize session section, re-read 2026-11-21: the two keys are named in one sentence and no example webhook is printed). Customer Area and reports: silent.",
+          "sources": [
+            {
+              "url": "https://docs.adyen.com/online-payments/agentic-commerce/merchant/agentic-cart-api-integration"
+            }
+          ]
         },
         "disputes": {
           "code": "SILENT",
@@ -1903,7 +1907,6 @@
   "source_gaps": [
     "braintree.reporting",
     "braintree.token_scope",
-    "adyen.reporting",
     "worldpay.token_scope",
     "shopify-payments.refunds"
   ]
