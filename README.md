@@ -64,7 +64,7 @@ skills/agent-order-record/SKILL.md is a short skill file that tells a coding age
 
 Only Stripe documents it. No gateway documents it reaching the dispute.
 
-When an AI agent places a card order, the fact that an agent did it can live in three places: the gateway's API, the card network's authorization message, and the dispute the merchant answers a month later. The table follows that signal through all three for 16 gateways.
+When an AI agent places a card order, the fact that an agent did it can live in three places: the gateway's API, the card network's authorization message, and the dispute the merchant answers a month later. The table follows that signal through all three for the first 16 of the 25 rows in SCORECARD.md.
 
 | Gateway | Accepts agent orders | Agent field for the merchant | Signal to the network | Reaches the dispute |
 |---|---|---|---|---|
