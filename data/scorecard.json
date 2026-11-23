@@ -221,7 +221,7 @@
         "reporting": {
           "code": "PART",
           "note": "webhooks only",
-          "detail": "Reporting: AUTHORISATION webhook carries sessionId and shoppingPlatform in additionalData; additionalData.agentic.sessionId. https://docs.adyen.com/online-payments/agentic-commerce/merchant/agentic-cart-api-integration (Finalize session section, re-read 2026-11-21: the two keys are named in one sentence and no example webhook is printed). Customer Area and reports: silent.",
+          "detail": "Reporting: AUTHORISATION webhook carries sessionId and shoppingPlatform in additionalData (re-read 2026-11-23: no agentic.* key is named on the page). https://docs.adyen.com/online-payments/agentic-commerce/merchant/agentic-cart-api-integration (Finalize session section, re-read 2026-11-21: the two keys are named in one sentence and no example webhook is printed). Customer Area and reports: silent.",
           "sources": [
             {
               "url": "https://docs.adyen.com/online-payments/agentic-commerce/merchant/agentic-cart-api-integration"
