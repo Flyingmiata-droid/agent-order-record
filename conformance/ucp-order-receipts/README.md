@@ -39,7 +39,7 @@ Nothing from Stripe maps to `capture_reversal`. On cards, Stripe reports an undo
 
 Overcapture and a refund that fails after it succeeded had no receipt event at fc59727, so the adapter stopped the chain on both. After this repo raised them on PR 1109, 0110eac added both to Edge Cases: overcapture gets an `authorization_adjustment` for the gap first, and a returned refund gets a `refund_reversal` with the same `event.ref`, which lowers `refunded`. The adapter does both by default now. `overcapture: 'hold'` keeps the old stop-the-chain behavior for anyone who wants it.
 
-The conformance verifier at 1b94f82 predates `refund_reversal`, so it reads that one scenario as malformed: 18 of 19 files clean. With `refund_reversal` added to its event list, running totals, per-seller totals and rule 8 reconciliation (13 lines), all 19 are clean.
+The conformance verifier at 1b94f82 predated `refund_reversal` and read that one scenario as malformed. The PR 136 branch now handles it. Rerun on 2026-11-23 at 714f50b, which follows ucp PR 1109 at c21cdc3 and adds the check that `captured` stays at or below `authorized`: 19 of 19 files clean.
 
 Disputes are reported in `unmapped` too, without stopping the chain. The spec puts them out of scope.
 
