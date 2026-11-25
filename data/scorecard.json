@@ -615,34 +615,42 @@
         },
         "disputes": {
           "code": "SILENT",
-          "note": "(protection covers agentic orders; no signal on the dispute)",
-          "detail": "Disputes: \"Seller and Purchase Protection, fraud tools, chargeback coverage, and identity services now extend to agentic transactions,\" https://paypal.ai/agent-ready. Footnote limits Seller Protection to unauthorized and item not received. Nothing on the indicator reaching the dispute. The Disputes v1 dispute_info object was read 2026-11-22, 13 top properties (dispute_id, reason, status, dispute_state, dispute_amount, dispute_life_cycle_stage, dispute_channel and others): no agent field. https://developer.paypal.com/api/customer-disputes/v1/definitions/dispute_info",
+          "note": "(wallet protection covers agentic orders, Agentic VC does not; no signal on the dispute)",
+          "detail": "Disputes: \"Seller and Purchase Protection, fraud tools, chargeback coverage, and identity services now extend to agentic transactions,\" https://paypal.ai/agent-ready. Footnote limits Seller Protection to unauthorized and item not received. Nothing on the indicator reaching the dispute. The Disputes v1 dispute_info object was read 2026-11-22, 13 top properties (dispute_id, reason, status, dispute_state, dispute_amount, dispute_life_cycle_stage, dispute_channel and others): no agent field. https://developer.paypal.com/api/customer-disputes/v1/definitions/dispute_info Agentic VC terms (last updated 2026-11-23): disputes on an Agentic VC order run through the card network chargeback process, PayPal may start the chargeback, and those orders \"are not eligible transactions\" under Seller Protection. https://www.paypalobjects.com/marketing/ua/OA/agentic-commerce-merchant-vc-tnc/en-US-112326.pdf",
           "sources": [
             {
               "url": "https://paypal.ai/agent-ready"
             },
             {
               "url": "https://developer.paypal.com/api/customer-disputes/v1/definitions/dispute_info"
+            },
+            {
+              "url": "https://www.paypalobjects.com/marketing/ua/OA/agentic-commerce-merchant-vc-tnc/en-US-112326.pdf"
             }
           ]
         },
         "risk_rules": {
           "code": "SILENT",
           "note": "",
-          "detail": "Risk rules, token scope, refunds: silent.",
+          "detail": "Risk rules, token scope: silent.",
           "sources": []
         },
         "token_scope": {
           "code": "SILENT",
           "note": "",
-          "detail": "Risk rules, token scope, refunds: silent.",
+          "detail": "Risk rules, token scope: silent.",
           "sources": []
         },
         "refunds": {
-          "code": "SILENT",
-          "note": "",
-          "detail": "Risk rules, token scope, refunds: silent.",
-          "sources": []
+          "code": "YES",
+          "note": "(Agentic VC: same card, original processor)",
+          "detail": "Refunds: Agentic VC terms say any refund goes \"as a credit to the same Agentic VC, through the card processor that processed the original transaction,\" never cash, check, store credit or another method. https://www.paypalobjects.com/marketing/ua/OA/agentic-commerce-merchant-vc-tnc/en-US-112326.pdf (read 2026-11-25).",
+          "sources": [
+            {
+              "url": "https://www.paypalobjects.com/marketing/ua/OA/agentic-commerce-merchant-vc-tnc/en-US-112326.pdf",
+              "page_date": "2026-11-25"
+            }
+          ]
         }
       },
       "row_notes": "Merchant-set marker (added 2026-11-11, from a GitHub comment on paypal/agent-toolkit 113, checked against the schema): a merchant can put its own agent marker in purchase_units[].custom_id or a capture's invoice_id, and the Disputes v1 dispute object returns disputed_transactions[] as transaction_info with custom (free text, max 2000) and invoice_number (max 127, pattern A-Z a-z 0-9 : - |). Neither field is listed as required, so the schema does not promise they come back. https://developer.paypal.com/api/customer-disputes/v1/schema.json (read 2026-11-11). This is a merchant workaround, not a PayPal agent field, so the SILENT cells stand.",

@@ -17,7 +17,7 @@ Cell codes: YES = documented, field or sentence quoted below. PART = documented 
 | Checkout.com | YES (ACP, UCP; networks press only) | SILENT | SILENT | SILENT (blog only) | SILENT | SILENT | SILENT |
 | Shopify Payments | YES (live; UCP, Shop Pay) | SILENT (channel attribution, field unnamed) | PART admin channel view | SILENT | SILENT | PART | PART (fee terms only) |
 | Square | YES (live; Order by Cash App, UCP) | SILENT (OrderSource.name, value unnamed) | PART source visible | SILENT | SILENT | SILENT | SILENT |
-| PayPal (wallet, Orders v2) | YES (ACP via Braintree only; UCP via Orders v2) | SILENT | SILENT | SILENT (protection covers agentic orders; no signal on the dispute) | SILENT | SILENT | SILENT |
+| PayPal (wallet, Orders v2) | YES (ACP via Braintree only; UCP via Orders v2) | SILENT | SILENT | SILENT (wallet protection covers agentic orders, Agentic VC does not; no signal on the dispute) | SILENT | SILENT | YES (Agentic VC: same card, original processor) |
 | Cybersource (Visa) | YES pilot, agent side only | SILENT (no merchant indicator) | SILENT | SILENT | SILENT | SILENT | SILENT |
 | Nuvei | ANN (TAP pilot, H2 2026 target) | SILENT | SILENT | SILENT | ANN (KYA scoring) | SILENT | SILENT |
 | Fiserv (Commerce Hub, Clover, CardPointe) | ANN (TAP, Agent Pay, early adopter program) | ASK | SILENT | SILENT | SILENT | SILENT | SILENT |
@@ -184,11 +184,13 @@ API field: Orders v2 schema has no agentic or facilitator field; stored_credenti
 
 Reporting: Payments v2 and Customer Disputes v1 schemas have no agent field.
 
-Disputes: "Seller and Purchase Protection, fraud tools, chargeback coverage, and identity services now extend to agentic transactions," https://paypal.ai/agent-ready. Footnote limits Seller Protection to unauthorized and item not received. Nothing on the indicator reaching the dispute. The Disputes v1 dispute_info object was read 2026-11-22, 13 top properties (dispute_id, reason, status, dispute_state, dispute_amount, dispute_life_cycle_stage, dispute_channel and others): no agent field. https://developer.paypal.com/api/customer-disputes/v1/definitions/dispute_info
+Disputes: "Seller and Purchase Protection, fraud tools, chargeback coverage, and identity services now extend to agentic transactions," https://paypal.ai/agent-ready. Footnote limits Seller Protection to unauthorized and item not received. Nothing on the indicator reaching the dispute. The Disputes v1 dispute_info object was read 2026-11-22, 13 top properties (dispute_id, reason, status, dispute_state, dispute_amount, dispute_life_cycle_stage, dispute_channel and others): no agent field. https://developer.paypal.com/api/customer-disputes/v1/definitions/dispute_info Agentic VC terms (last updated 2026-11-23): disputes on an Agentic VC order run through the card network chargeback process, PayPal may start the chargeback, and those orders "are not eligible transactions" under Seller Protection. https://www.paypalobjects.com/marketing/ua/OA/agentic-commerce-merchant-vc-tnc/en-US-112326.pdf
 
 Merchant-set marker (added 2026-11-11, from a GitHub comment on paypal/agent-toolkit 113, checked against the schema): a merchant can put its own agent marker in purchase_units[].custom_id or a capture's invoice_id, and the Disputes v1 dispute object returns disputed_transactions[] as transaction_info with custom (free text, max 2000) and invoice_number (max 127, pattern A-Z a-z 0-9 : - |). Neither field is listed as required, so the schema does not promise they come back. https://developer.paypal.com/api/customer-disputes/v1/schema.json (read 2026-11-11). This is a merchant workaround, not a PayPal agent field, so the SILENT cells stand.
 
-Risk rules, token scope, refunds: silent.
+Risk rules, token scope: silent.
+
+Refunds: Agentic VC terms say any refund goes "as a credit to the same Agentic VC, through the card processor that processed the original transaction," never cash, check, store credit or another method. https://www.paypalobjects.com/marketing/ua/OA/agentic-commerce-merchant-vc-tnc/en-US-112326.pdf (read 2026-11-25).
 
 ### Cybersource (Visa Acceptance)
 
