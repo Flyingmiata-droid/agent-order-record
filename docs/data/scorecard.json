@@ -471,10 +471,14 @@
           ]
         },
         "disputes": {
-          "code": "SILENT",
-          "note": "",
-          "detail": "Disputes: ShopifyPaymentsDispute and ShopifyPaymentsDisputeEvidence (Admin GraphQL 2026-10) were read 2026-11-22: no agent field. Dispute has evidenceDueBy, reasonDetails, type, order; evidence has 24 fields such as accessActivityLog and customerPurchaseIp. https://shopify.dev/docs/api/admin-graphql/latest/objects/ShopifyPaymentsDispute . Supplemental Terms (last updated 2026-10-06, read 2026-11-17) still silent on chargebacks; \"You remain the seller of record,\" https://www.shopify.com/legal/terms-agentic-storefronts (the old address now returns 404).",
+          "code": "PART",
+          "note": "(evidence only, added by Shopify; no API field)",
+          "detail": "Disputes: since 2026-11-25 Shopify adds its own checkout data to the chargeback response on agent orders: \"a Payment authorization record with the spending limit that the customer set for the assistant,\" plus the payment approval recorded at checkout and the assistant's name when known, https://changelog.shopify.com/posts/get-more-evidence-for-chargebacks-on-agentic-orders (read 2026-11-27). The post says it is added automatically and the written defense uses it. That is evidence Shopify sends, not a field the merchant can read: ShopifyPaymentsDispute and ShopifyPaymentsDisputeEvidence (Admin GraphQL 2026-10) were read 2026-11-22: no agent field. Dispute has evidenceDueBy, reasonDetails, type, order; evidence has 24 fields such as accessActivityLog and customerPurchaseIp. https://shopify.dev/docs/api/admin-graphql/latest/objects/ShopifyPaymentsDispute . Supplemental Terms (last updated 2026-10-06, read 2026-11-17) still silent on chargebacks; \"You remain the seller of record,\" https://www.shopify.com/legal/terms-agentic-storefronts (the old address now returns 404).",
           "sources": [
+            {
+              "url": "https://changelog.shopify.com/posts/get-more-evidence-for-chargebacks-on-agentic-orders",
+              "page_date": "2026-11-27"
+            },
             {
               "url": "https://shopify.dev/docs/api/admin-graphql/latest/objects/ShopifyPaymentsDispute"
             },
