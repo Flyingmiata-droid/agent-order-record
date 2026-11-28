@@ -14,7 +14,7 @@ Cell codes: YES = documented, field or sentence quoted below. PART = documented 
 | Braintree (PayPal) | YES (ACP, UCP) | YES response only, facilitator_details | YES Control Panel filter | SILENT | SILENT | YES | SILENT |
 | Adyen | YES (limited, enterprise US; UCP, AP2, ACP) | PART request side, shoppingPlatform and metadata | PART webhooks only | SILENT | SILENT (custom fields possible) | YES | SILENT |
 | Worldpay | YES (ACP live, UCP soon) | PART request side, paymentInstrument.type delegate | SILENT | ASK | SILENT | PART | SILENT |
-| Checkout.com | YES (ACP, UCP; networks press only) | SILENT | SILENT | SILENT (blog only) | SILENT | SILENT | SILENT |
+| Checkout.com | YES (ACP, UCP; networks press only) | SILENT | SILENT | ANN (product page claim; dispute object has none) | SILENT | SILENT | SILENT |
 | Shopify Payments | YES (live; UCP, Shop Pay) | SILENT (channel attribution, field unnamed) | PART admin channel view | PART (evidence only, added by Shopify; no API field) | SILENT | PART | PART (fee terms only) |
 | Square | YES (live; Order by Cash App, UCP) | SILENT (OrderSource.name, value unnamed) | PART source visible | SILENT | SILENT | SILENT | SILENT |
 | PayPal (wallet, Orders v2) | YES (ACP via Braintree only; UCP via Orders v2) | SILENT | SILENT | SILENT (wallet protection covers agentic orders, Agentic VC does not; no signal on the dispute) | SILENT | SILENT | YES (Agentic VC: same card, original processor) |
@@ -146,7 +146,7 @@ API field: token arrives with provider "checkout", managed_by "agentic_platform_
 
 Reporting, risk rules (https://www.checkout.com/docs/business-operations/prevent-fraud/create-risk-rules-and-lists, 2026-05-13), token scope, refunds: silent.
 
-Disputes: silent. The API spec (v1.0.0) was read 2026-11-22: none of its 26 dispute and evidence schemas has an agent field. Dispute carries reason_code, evidence_required_by, is_ce_candidate and payment (acquirer_reference_number, eci). https://api-reference.checkout.com/v1/swagger.json . Blog: "Checkout.com can provide issuers with the original consent record," https://www.checkout.com/blog/how-checkout-is-thinking-about-agentic-commerce (2025-09-02).
+Disputes: ANN. The agentic commerce product page (waitlist) says proof of consumer intent is captured at the point of transaction, "so you'll have evidence before chargebacks arrive," https://www.checkout.com/agentic-commerce (undated, read 2026-11-28). No doc or API field behind it. The API spec (v1.0.0) was read 2026-11-22: none of its 26 dispute and evidence schemas has an agent field. Dispute carries reason_code, evidence_required_by, is_ce_candidate and payment (acquirer_reference_number, eci). https://api-reference.checkout.com/v1/swagger.json . Blog: "Checkout.com can provide issuers with the original consent record," https://www.checkout.com/blog/how-checkout-is-thinking-about-agentic-commerce (2025-09-02).
 
 ### Shopify Payments
 

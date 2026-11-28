@@ -383,10 +383,13 @@
           ]
         },
         "disputes": {
-          "code": "SILENT",
-          "note": "(blog only)",
-          "detail": "Disputes: silent. The API spec (v1.0.0) was read 2026-11-22: none of its 26 dispute and evidence schemas has an agent field. Dispute carries reason_code, evidence_required_by, is_ce_candidate and payment (acquirer_reference_number, eci). https://api-reference.checkout.com/v1/swagger.json . Blog: \"Checkout.com can provide issuers with the original consent record,\" https://www.checkout.com/blog/how-checkout-is-thinking-about-agentic-commerce (2025-09-02).",
+          "code": "ANN",
+          "note": "(product page claim; dispute object has none)",
+          "detail": "Disputes: ANN. The agentic commerce product page (waitlist) says proof of consumer intent is captured at the point of transaction, \"so you'll have evidence before chargebacks arrive,\" https://www.checkout.com/agentic-commerce (undated, read 2026-11-28). No doc or API field behind it. The API spec (v1.0.0) was read 2026-11-22: none of its 26 dispute and evidence schemas has an agent field. Dispute carries reason_code, evidence_required_by, is_ce_candidate and payment (acquirer_reference_number, eci). https://api-reference.checkout.com/v1/swagger.json . Blog: \"Checkout.com can provide issuers with the original consent record,\" https://www.checkout.com/blog/how-checkout-is-thinking-about-agentic-commerce (2025-09-02).",
           "sources": [
+            {
+              "url": "https://www.checkout.com/agentic-commerce"
+            },
             {
               "url": "https://api-reference.checkout.com/v1/swagger.json"
             },
